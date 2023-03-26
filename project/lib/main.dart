@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'dart:async';
 
 void main() {
   runApp(const MyApp());
@@ -27,13 +32,15 @@ class MailScene extends StatelessWidget {
     debugPrint("mail class");
 
     var items = [Mail("tempSender",
-        "tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_tempTitle_",
-        "tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_tempSubtitle_",
-        "tempMessage", "tempTime", false),
+        "tempTitle",
+          "tempSubtitle",
+          "tempMessage", "tempTime", false),
       Mail("tempSender",
           "tempTitle",
           "tempSubtitle",
           "tempMessage", "tempTime", false)];
+
+    JsonParsing().saveData(items);
 
     return MaterialApp(
         title: 'Flutter Demo',
@@ -46,6 +53,10 @@ class MailScene extends StatelessWidget {
               return InkWell(
                 onTap: () {
                   debugPrint("mailScene$index");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MailInnerScene())
+                  );
                 },
                 child: ListTile(
                   leading: const FlutterLogo(size: 50.0),
@@ -125,7 +136,7 @@ class MailScene extends StatelessWidget {
                   child: const SizedBox(
                     height: 200,
                     width: 100,
-                    child: Icon(Icons.chat),
+                    child: Icon(Icons.messenger_outline),
                   ),
                 ),
                 InkWell(
@@ -144,6 +155,178 @@ class MailScene extends StatelessWidget {
         )
     );
   }
+}
+
+class MailInnerScene extends StatelessWidget {
+  const MailInnerScene({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var isStar = false;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final textWidth = screenWidth * 0.8;
+
+    return MaterialApp(
+        title: 'Flutter Demo',
+        home: Scaffold(
+          appBar: AppBar( title: IconButton(onPressed: () { Navigator.pop(context); }, icon: const Icon(Icons.backspace)),
+            actions: [
+              IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.cancel)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.mail)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.menu_open))
+            ],
+
+          ),
+          body: Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    width: textWidth,
+                    child: Column(
+                      children: const [
+                        Text("title", style: TextStyle(fontSize: 30)),
+                        Text("받은편지함"),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: screenWidth - textWidth,
+                    child: StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isStar = !isStar;
+                            });
+                          },
+                          child: isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                              : const Icon(Icons.star, color: Colors.grey),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              ListTile(
+                  leading: const FlutterLogo(size: 50.0),
+                  title: Row(children: const [
+                    Text("sender", maxLines: 1, overflow: TextOverflow.ellipsis),
+                    Text("time"),
+                  ]),
+                  subtitle: Row(
+                    children: const [
+                      Text("receiver"),
+                      Text("name")
+                    ],
+                  ),
+                  trailing: const Icon(Icons.backspace)
+              ),
+              const Text("message"),
+            ],
+          ),
+          bottomSheet: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                onTap: () {
+
+                },
+                child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.reply),
+                        Text("답장")
+                      ],
+                    )
+                ),
+              ),
+              InkWell(
+                onTap: () {
+
+                },
+                child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.reply_all),
+                        Text("전체답장")
+                      ],
+                    )
+                ),
+              ),
+              InkWell(
+                onTap: () {
+
+                },
+                child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.shortcut),
+                        Text("전달")
+                      ],
+                    )
+                ),
+              ),
+            ],
+          ),
+          bottomNavigationBar: SizedBox(
+            height: 100,
+            width: 200,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InkWell(  //GestureDetector
+                  onTap: () {
+                    Navigator.pop;
+                  },
+                  child: const SizedBox(
+                    height: 200,
+                    width: 100,
+                    child: Icon(Icons.mail),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ChatScene())
+                    );
+
+                    //Navigator.pop(context);
+                  },
+                  child: const SizedBox(
+                    height: 200,
+                    width: 100,
+                    child: Icon(Icons.messenger_outline),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                  },
+                  child: const SizedBox(
+                    height: 200,
+                    width: 100,
+                    child: Icon(Icons.person_3),
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+        )
+    );
+  }
+
 }
 
 class ChatScene extends StatelessWidget {
@@ -248,7 +431,7 @@ class ChatScene extends StatelessWidget {
                   child: const SizedBox(
                     height: 200,
                     width: 100,
-                    child: Icon(Icons.chat),
+                    child: Icon(Icons.messenger_outline),
                   ),
                 ),
                 InkWell(
@@ -269,7 +452,59 @@ class ChatScene extends StatelessWidget {
   }
 }
 
+class JsonParsing {
+  Future<void> saveData(List<Mail> data) async {
+    debugPrint("origin : $data");
+    debugPrint("origin : ${data[0].title}");
 
+    String jsonData = jsonEncode(data.map((item) => item.toJson()).toList());
+
+    debugPrint("jsonData : $jsonData");
+
+    //await saveJsonToFile(jsonData);
+    /*
+    var file = File('$_localPath/mail.json');
+    file.writeAsStringSync(jsonData);
+    debugPrint("file : $file");
+     */
+    //getData(jsonData);  //working well
+  }
+  List<Mail> getData(String jsonData) {
+    List<dynamic> myList = json.decode(jsonData);
+    List<Mail> mailObj = <Mail>[];
+
+    for(int i = 0 ; i < myList.length ; i++) {
+      var sender = myList[0]["sender"].toString();
+      var title = myList[0]["title"].toString();
+      var subTitle = myList[0]["subTitle"].toString();
+      var message = myList[0]["message"].toString();
+      var time = myList[0]["time"].toString();
+      var isStar = myList[0]["isStar"] as bool;
+
+      var temp = Mail(sender, title, subTitle, message, time, isStar);
+
+      mailObj.add(temp);
+    }
+
+    //debugPrint("obj : ${mailObj[0].title}");
+    return mailObj;
+  }
+  Future<void> saveJsonToFile(String jsonData) async {
+    var fileName = 'mail.json';
+    //const directory = "/data/user/0/project/app_flutter/";
+    var directory = await getApplicationDocumentsDirectory();
+    debugPrint("directory : $directory");
+    var filePath = path.join(directory.path, fileName);
+    var file = File(filePath);
+
+    var sink = file.openWrite();
+
+    sink.write(jsonData);
+
+    await sink.flush();
+    await sink.close();
+  }
+}
 
 
 class MyDrawer extends StatelessWidget {
@@ -516,4 +751,15 @@ class Mail {
   var isStar = false;
 
   Mail(this.sender, this.title, this.subTitle, this.message, this.time, this.isStar);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'sender': sender,
+      'title': title,
+      'subtitle': subTitle,
+      'message': message,
+      'time': time,
+      'isStar': isStar,
+    };
+  }
 }
