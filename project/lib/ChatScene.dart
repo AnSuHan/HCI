@@ -15,11 +15,11 @@ class ChatScene extends StatelessWidget {
     var items = [Mail("tempSender",
         "tempTitle",
         "tempSubtitle",
-        "tempMessage", "tempTime", false),
+        "tempMessage", "tempTime", false, "받은편지함"),
       Mail("tempSender",
           "tempTitle",
           "tempSubtitle",
-          "tempMessage", "tempTime", false)];
+          "tempMessage", "tempTime", false, "받은편지함")];
 
     return MaterialApp(
         title: 'Flutter Demo',

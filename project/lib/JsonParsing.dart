@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Mail.dart';
 
@@ -23,8 +24,11 @@ class JsonParsing {
        */
     //getData(jsonData);  //working well
   }
-  List<Mail> getData(String jsonData) {
-    List<dynamic> myList = json.decode(jsonData);
+  Future<List<Mail>> getData(List<Mail> ret) async {
+    var sp = await SharedPreferences.getInstance();
+    var jsonData = sp.getString('mails');
+
+    List<dynamic> myList = json.decode(jsonData!);
     List<Mail> mailObj = <Mail>[];
 
     for(int i = 0 ; i < myList.length ; i++) {
@@ -34,12 +38,15 @@ class JsonParsing {
       var message = myList[0]["message"].toString();
       var time = myList[0]["time"].toString();
       var isStar = myList[0]["isStar"] as bool;
+      var label = myList[0]["label"].toString();
 
-      var temp = Mail(sender, title, subTitle, message, time, isStar);
+      var temp = Mail(sender, title, subTitle, message, time, isStar, label);
 
       mailObj.add(temp);
     }
 
+    ret = mailObj;
+    debugPrint("ret : $ret");
     //debugPrint("obj : ${mailObj[0].title}");
     return mailObj;
   }
@@ -48,6 +55,15 @@ class JsonParsing {
     //const directory = "/data/user/0/project/app_flutter/";
     //var directory = await getApplicationDocumentsDirectory();
     //debugPrint("directory : $directory");
+
+    var sp = await SharedPreferences.getInstance();
+    await sp.setString('mails', jsonData);
+    debugPrint("save sp");
+
+    /*
+    var appDocDir = await getApplicationDocumentsDirectory();
+    var appDocPath = appDocDir.path;
+    debugPrint("doc : $appDocPath");
 
     var path = 'assets/mail/$fileName';
 
@@ -76,6 +92,7 @@ class JsonParsing {
 
     await sink.flush();
     await sink.close();
+  */
 
   }
 }

@@ -19,31 +19,39 @@ class MailWrite extends StatelessWidget {
           ],
         ),
         body: ListView(
-          children: const [
-            ListTile(
+          children: [
+            const ListTile(
               leading: Text("보낸사람"),
               title: Text("temp@gmail.com"),
               trailing: Icon(Icons.arrow_drop_down),
             ),
-            ListTile(
+            const ListTile(
               leading: Text("받는사람"),
               title: TextField(
 
               ),
               trailing: Icon(Icons.arrow_drop_down),
             ),
-            TextField(
-              maxLines: 1,
-              decoration: InputDecoration(
-                hintText: '제목',
+            ListTile(
+              title: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  TextField(
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      hintText: '제목',
+                    ),
+                  ),
+                  TextField(
+                    maxLines: 20,
+                    decoration: InputDecoration(
+                      hintText: '이메일 작성',
+                    ),
+                  ),
+                ],
               ),
-            ),
-            TextField(
-              maxLines: 20,
-              decoration: InputDecoration(
-                hintText: '이메일 작성',
-              ),
-            ),
+            )
+
           ],
         ),
       )

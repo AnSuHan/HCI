@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'Temp.dart';
+
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
 
@@ -150,6 +152,9 @@ class MyDrawer extends StatelessWidget {
               title: const Text('별표편지함', style: TextStyle(fontSize: 20)),
               onTap: () {
                 debugPrint("drawer 별표편지함");
+                Navigator.pop(context);
+                Temp().nowLabel = "별표편지함";
+                thisLabel = "별표편지함";
               }
           ),
           ListTile(

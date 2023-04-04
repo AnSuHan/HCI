@@ -7,10 +7,11 @@ import 'JsonParsing.dart';
 import 'Mail.dart';
 import 'MailInnerScene.dart';
 import 'MailWrite.dart';
+import 'Temp.dart';
 
 
 class MailScene extends StatelessWidget {
-  const MailScene({super.key});
+  const MailScene({super.key, this.bridge});
 
   // This widget is the root of your application.
   @override
@@ -23,13 +24,32 @@ class MailScene extends StatelessWidget {
     var items = [Mail("tempSender",
         "tempTitle",
         "tempSubtitle",
-        "tempMessage", "tempTime", false),
+        "tempMessage", "tempTime", false, "받은편지함"),
       Mail("tempSender",
           "tempTitle",
           "tempSubtitle",
-          "tempMessage", "tempTime", false)];
+          "tempMessage", "tempTime", false, "받은편지함")];
 
     JsonParsing().saveData(items);
+
+    List<Mail> item = [];
+    JsonParsing().getData(item);
+    debugPrint("item from param : $item");
+
+    /*
+    var temp = JsonParsing().getData();
+    debugPrint("temp : $temp");
+    setItems(temp);
+    debugPrint("bridge : $bridge");
+     */
+
+    //라벨 선택
+    var nowLabel = thisLabel;
+    debugPrint("nowLabel : $nowLabel");
+    items = setLabel("받은편지함", items);
+
+
+
 
     return MaterialApp(
         title: 'Flutter Demo',
@@ -186,4 +206,29 @@ class MailScene extends StatelessWidget {
         )
     );
   }
+  final bridge;
+
+  List<Mail> setLabel(String targetLabel, List<Mail> item) {
+    List<Mail> all = [];
+
+    for(int i = 0 ; i < item.length ; i++) {
+      if(item[i].label == targetLabel) {
+        debugPrint("add");
+        all.add(item[i]);
+      }
+    }
+
+    return all;
+  }
+  /*
+  void setItems(Future<List<Mail>> mails) async {
+    var temp = JsonParsing().getData();
+    var item = await temp;
+
+    //값 접근 가능
+    debugPrint("item in set : ${item[0].title}");
+    bridge.addAll(item);
+    //ret = item;
+  }
+   */
 }
