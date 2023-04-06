@@ -5,8 +5,9 @@ class Mail {
   var message = "";
   var time = "";
   var isStar = false;
+  var label = "";
 
-  Mail(this.sender, this.title, this.subTitle, this.message, this.time, this.isStar);
+  Mail(this.sender, this.title, this.subTitle, this.message, this.time, this.isStar, this.label);
 
   Map<String, dynamic> toJson() {
     return {
@@ -16,6 +17,7 @@ class Mail {
       'message': message,
       'time': time,
       'isStar': isStar,
+      'label' : label
     };
   }
 }

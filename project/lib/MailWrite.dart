@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/MailScene.dart';
 
-class MailWrite extends StatelessWidget {
-  const MailWrite({super.key});
+import 'Mail.dart';
+import 'MailWriteStateful.dart';
+
+class MailWrite extends State<MailWriteStateful> {
+  final _titleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -14,36 +18,53 @@ class MailWrite extends StatelessWidget {
         ),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.file_present_outlined)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.send_outlined)),
+            IconButton(onPressed: () {
+              var newobj = Mail("temp@gmail.com", _titleController.toString(), "", "", "", false, "");
+              //MailScene().addMail(newobj);
+
+              debugPrint("newobj : $newobj");
+
+              Navigator.pop(context);
+              debugPrint("after pop");
+            }, icon: const Icon(Icons.send_outlined)),
             IconButton(onPressed: () {}, icon: const Icon(Icons.menu_open))
           ],
         ),
         body: ListView(
-          children: const [
-            ListTile(
+          children: [
+            const ListTile(
               leading: Text("보낸사람"),
               title: Text("temp@gmail.com"),
               trailing: Icon(Icons.arrow_drop_down),
             ),
-            ListTile(
+            const ListTile(
               leading: Text("받는사람"),
               title: TextField(
 
               ),
               trailing: Icon(Icons.arrow_drop_down),
             ),
-            TextField(
-              maxLines: 1,
-              decoration: InputDecoration(
-                hintText: '제목',
+            ListTile(
+              title: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextField(
+                    controller: _titleController,
+                    maxLines: 1,
+                    decoration: const InputDecoration(
+                      hintText: '제목',
+                    ),
+                  ),
+                  const TextField(
+                    maxLines: 20,
+                    decoration: InputDecoration(
+                      hintText: '이메일 작성',
+                    ),
+                  ),
+                ],
               ),
-            ),
-            TextField(
-              maxLines: 20,
-              decoration: InputDecoration(
-                hintText: '이메일 작성',
-              ),
-            ),
+            )
+
           ],
         ),
       )

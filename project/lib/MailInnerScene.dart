@@ -55,6 +55,7 @@ class MailInnerScene extends StatelessWidget {
                   ),
                 ],
               ),
+              //보낸사람의 정보
               ListTile(
                   leading: const FlutterLogo(size: 50.0),
                   title: Row(children: const [
@@ -63,11 +64,15 @@ class MailInnerScene extends StatelessWidget {
                   ]),
                   subtitle: Row(
                     children: const [
-                      Text("receiver"),
+                      Text("receiver:"),
                       Text("name")
                     ],
                   ),
-                  trailing: const Icon(Icons.backspace)
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [Icon(Icons.arrow_back_sharp),
+                          Icon(Icons.menu)],
+                  )
               ),
               const Text("message"),
             ],

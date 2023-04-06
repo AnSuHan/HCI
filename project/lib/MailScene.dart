@@ -1,16 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/MailWriteStateful.dart';
 
 import 'ChatScene.dart';
 import 'Drawer.dart';
 import 'JsonParsing.dart';
 import 'Mail.dart';
 import 'MailInnerScene.dart';
-import 'MailWrite.dart';
+import 'MailSceneStateful.dart';
+import 'Temp.dart';
 
-
-class MailScene extends StatelessWidget {
-  const MailScene({super.key});
+//https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
+class MailScene extends State<MailSceneStateful> {
+  var items = [Mail("tempSender",
+      "tempTitle",
+      "tempSubtitle",
+      "tempMessage", "tempTime", false, "받은편지함"),
+    Mail("tempSender",
+        "tempTitle",
+        "tempSubtitle",
+        "tempMessage", "tempTime", false, "받은편지함")];
 
   // This widget is the root of your application.
   @override
@@ -20,16 +29,17 @@ class MailScene extends StatelessWidget {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
 
-    var items = [Mail("tempSender",
-        "tempTitle",
-        "tempSubtitle",
-        "tempMessage", "tempTime", false),
-      Mail("tempSender",
-          "tempTitle",
-          "tempSubtitle",
-          "tempMessage", "tempTime", false)];
-
     JsonParsing().saveData(items);
+
+    List<Mail> item = [];
+    JsonParsing().getData(item);
+    debugPrint("item from param : $item");
+
+    //라벨 선택
+    var nowLabel = thisLabel;
+    debugPrint("nowLabel : $nowLabel");
+    items = setLabel("받은편지함", items);
+
 
     return MaterialApp(
         title: 'Flutter Demo',
@@ -43,7 +53,7 @@ class MailScene extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MailWrite())
+                    MaterialPageRoute(builder: (context) => const MailWriteStateful())
                 );
               },
               child: Stack(
@@ -173,6 +183,10 @@ class MailScene extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
+                    addMail(Mail("tempSender",
+                        "tempTitle",
+                        "tempSubtitle",
+                        "tempMessage", "tempTime", false, "받은편지함"));
                   },
                   child: const SizedBox(
                     height: 200,
@@ -186,4 +200,34 @@ class MailScene extends StatelessWidget {
         )
     );
   }
+
+  List<Mail> setLabel(String targetLabel, List<Mail> item) {
+    List<Mail> all = [];
+
+    for(int i = 0 ; i < item.length ; i++) {
+      if(item[i].label == targetLabel) {
+        debugPrint("add");
+        all.add(item[i]);
+      }
+    }
+
+    return all;
+  }
+
+  void addMail(Mail mail) {
+    setState(() {
+      items.add(mail);
+    });
+  }
+  /*
+  void setItems(Future<List<Mail>> mails) async {
+    var temp = JsonParsing().getData();
+    var item = await temp;
+
+    //값 접근 가능
+    debugPrint("item in set : ${item[0].title}");
+    bridge.addAll(item);
+    //ret = item;
+  }
+   */
 }
