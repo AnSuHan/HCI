@@ -14,11 +14,9 @@ class ChatScene extends StatelessWidget {
 
     var items = [Mail("tempSender",
         "tempTitle",
-        "tempSubtitle",
         "tempMessage", "tempTime", false, "받은편지함"),
       Mail("tempSender",
           "tempTitle",
-          "tempSubtitle",
           "tempMessage", "tempTime", false, "받은편지함")];
 
     return MaterialApp(
@@ -53,7 +51,7 @@ class ChatScene extends StatelessWidget {
                         SizedBox(
                           width: 1000,
                           child: Text(
-                            items[index].subTitle,
+                            items[index].message.substring(0, 10),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/MailScene.dart';
 
 import 'Temp.dart';
 
@@ -154,6 +155,7 @@ class MyDrawer extends StatelessWidget {
                 debugPrint("drawer 별표편지함");
                 Navigator.pop(context);
                 Temp().nowLabel = "별표편지함";
+                MailScene().changeLabel("별표편지함");
                 thisLabel = "별표편지함";
               }
           ),

@@ -34,13 +34,12 @@ class JsonParsing {
     for(int i = 0 ; i < myList.length ; i++) {
       var sender = myList[0]["sender"].toString();
       var title = myList[0]["title"].toString();
-      var subTitle = myList[0]["subTitle"].toString();
       var message = myList[0]["message"].toString();
       var time = myList[0]["time"].toString();
       var isStar = myList[0]["isStar"] as bool;
       var label = myList[0]["label"].toString();
 
-      var temp = Mail(sender, title, subTitle, message, time, isStar, label);
+      var temp = Mail(sender, title, message, time, isStar, label);
 
       mailObj.add(temp);
     }

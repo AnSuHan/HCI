@@ -12,14 +12,16 @@ import 'Temp.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
 class MailScene extends State<MailSceneStateful> {
-  var items = [Mail("tempSender",
+  var mails = [Mail("tempSender",
       "tempTitle",
-      "tempSubtitle",
       "tempMessage", "tempTime", false, "받은편지함"),
     Mail("tempSender",
         "tempTitle",
-        "tempSubtitle",
-        "tempMessage", "tempTime", false, "받은편지함")];
+        "tempMessage", "tempTime", false, "받은편지함"),
+    Mail("starSender",
+        "starTitle",
+        "starMessage", "starTime", true, "별표편지함")];
+  var nowLabel = "";
 
   // This widget is the root of your application.
   @override
@@ -29,16 +31,20 @@ class MailScene extends State<MailSceneStateful> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
 
-    JsonParsing().saveData(items);
+    JsonParsing().saveData(mails);
 
     List<Mail> item = [];
     JsonParsing().getData(item);
     debugPrint("item from param : $item");
 
+    /*
     //라벨 선택
     var nowLabel = thisLabel;
     debugPrint("nowLabel : $nowLabel");
     items = setLabel("받은편지함", items);
+     */
+
+    var items = setLabel(nowLabel, mails);
 
 
     return MaterialApp(
@@ -98,7 +104,7 @@ class MailScene extends State<MailSceneStateful> {
                         SizedBox(
                           width: 1000,
                           child: Text(
-                            items[index].subTitle,
+                            items[index].message.substring(0, 10),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -185,8 +191,8 @@ class MailScene extends State<MailSceneStateful> {
                   onTap: () {
                     addMail(Mail("tempSender",
                         "tempTitle",
-                        "tempSubtitle",
                         "tempMessage", "tempTime", false, "받은편지함"));
+                    //changeLabel("별표편지함");
                   },
                   child: const SizedBox(
                     height: 200,
@@ -202,6 +208,10 @@ class MailScene extends State<MailSceneStateful> {
   }
 
   List<Mail> setLabel(String targetLabel, List<Mail> item) {
+    if(targetLabel == "") {
+      return item;
+    }
+
     List<Mail> all = [];
 
     for(int i = 0 ; i < item.length ; i++) {
@@ -216,7 +226,12 @@ class MailScene extends State<MailSceneStateful> {
 
   void addMail(Mail mail) {
     setState(() {
-      items.add(mail);
+      mails.add(mail);
+    });
+  }
+  void changeLabel(String newLabel) {
+    setState(() {
+      nowLabel = newLabel;
     });
   }
   /*
