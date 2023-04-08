@@ -50,8 +50,8 @@ class MailScene extends State<MailSceneStateful> {
     return MaterialApp(
         title: 'Flutter Demo',
         home: Scaffold(
-          appBar: AppBar( title: const Text('메일') ),
-          drawer: const MyDrawer(),
+          appBar: AppBar( title: Text('메일 : $nowLabel') ),
+          drawer: MyDrawer(onItemSelected: onDrawerItemSelected),
           floatingActionButton: SizedBox(
             width: 200,
             height: 50,
@@ -232,6 +232,13 @@ class MailScene extends State<MailSceneStateful> {
   void changeLabel(String newLabel) {
     setState(() {
       nowLabel = newLabel;
+    });
+  }
+
+  void onDrawerItemSelected(String selected) {
+    debugPrint("onDrawerItemSelected : $nowLabel");
+    setState(() {
+      nowLabel = selected;
     });
   }
   /*

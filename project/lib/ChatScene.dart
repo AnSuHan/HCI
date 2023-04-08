@@ -23,7 +23,7 @@ class ChatScene extends StatelessWidget {
         title: 'Flutter Demo',
         home: Scaffold(
           appBar: AppBar( title: const Text('채팅') ),
-          drawer: const MyDrawer(),
+          //drawer: MyDrawer(onItemSelected: onDrawerItemSelected),
           body: ListView.builder(
             itemCount: items.length,
             itemBuilder: (context, index) {

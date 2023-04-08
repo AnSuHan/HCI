@@ -5,8 +5,9 @@ import 'package:project/MailScene.dart';
 import 'Temp.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+  const MyDrawer({super.key, required this.onItemSelected});
 
+  final Function(String) onItemSelected;
   @override
   Widget build(BuildContext context) {
     var userState = const Icon(Icons.arrow_drop_down);
@@ -81,6 +82,8 @@ class MyDrawer extends StatelessWidget {
               title: const Text('전체 받은편지함', style: TextStyle(fontSize: 20)),
               onTap: () {
                 debugPrint("drawer 전체 받은편지함");
+                Navigator.pop(context);
+                onItemSelected("");
               }
           ),
 
@@ -154,9 +157,7 @@ class MyDrawer extends StatelessWidget {
               onTap: () {
                 debugPrint("drawer 별표편지함");
                 Navigator.pop(context);
-                Temp().nowLabel = "별표편지함";
-                MailScene().changeLabel("별표편지함");
-                thisLabel = "별표편지함";
+                onItemSelected("별표편지함");
               }
           ),
           ListTile(
