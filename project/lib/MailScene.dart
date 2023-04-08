@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/MailInnerSceneStateful.dart';
 import 'package:project/MailWriteStateful.dart';
 
 import 'ChatScene.dart';
@@ -22,6 +23,7 @@ class MailScene extends State<MailSceneStateful> {
         "starTitle",
         "starMessage", "starTime", true, "별표편지함")];
   var nowLabel = "";
+  var inMailNum = -1;
 
   // This widget is the root of your application.
   @override
@@ -37,13 +39,7 @@ class MailScene extends State<MailSceneStateful> {
     JsonParsing().getData(item);
     debugPrint("item from param : $item");
 
-    /*
-    //라벨 선택
-    var nowLabel = thisLabel;
-    debugPrint("nowLabel : $nowLabel");
-    items = setLabel("받은편지함", items);
-     */
-
+    //라벨에 맞는 메일만 필터링
     var items = setLabel(nowLabel, mails);
 
 
@@ -79,9 +75,10 @@ class MailScene extends State<MailSceneStateful> {
               return InkWell(
                 onTap: () {
                   debugPrint("mailScene$index");
+                  inMailNum = index;
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const MailInnerScene())
+                      MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
                   );
                 },
                 child: ListTile(
@@ -144,6 +141,13 @@ class MailScene extends State<MailSceneStateful> {
                               setState(() {
                                 items[index].isStar = !items[index].isStar;
                               });
+                              debugPrint("item-index : ${items[index].toJson()}");
+                              if(items[index].isStar) {
+                                items[index].label = "별표편지함";
+                              }
+                              else {
+                                items[index].label = "받은편지함";
+                              }
                             },
                             child: items[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
                                 : const Icon(Icons.star, color: Colors.grey),
