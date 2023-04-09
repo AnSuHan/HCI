@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/MailScene.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:project/MailScene.dart';
 
+import 'Mail.dart';
+import 'MailWriteStateful.dart';
 import 'Mail.dart';
 import 'MailWriteStateful.dart';
 
@@ -20,17 +25,22 @@ class MailWrite extends State<MailWriteStateful> {
         ),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.file_present_outlined)),
-            IconButton(onPressed: () {
-              var newobj = Mail("temp@gmail.com", _titleController.toString(),
-                  _messageController.toString(), "230406", false, "받은편지함");
-              //MailScene().addMail(newobj);
+            IconButton(
+              onPressed: () {
+                Mail newMail = Mail(
+                  "temp@gmail.com",
+                  _titleController.text,
+                  _messageController.text,
+                  "230406",
+                  false,
+                  "받은편지함",
+                );
+                MailScene().addMail(newMail);
 
-              debugPrint("newobj : $newobj");
-              debugPrint("newobj : ${newobj.message}"); /* TextEditingController#3ed1a(TextEditingValue(text: ┤qwerty├, selection: TextSelection.collapsed(offset: 6, affinity: TextAffinity.downstream, isDirectional: false), composing: TextRange(start: -1, end: -1)))*/
-
-              Navigator.pop(context);
-              debugPrint("after pop");
-            }, icon: const Icon(Icons.send_outlined)),
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.send_outlined),
+            ),
             IconButton(onPressed: () {}, icon: const Icon(Icons.menu_open))
           ],
         ),

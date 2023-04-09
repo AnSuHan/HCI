@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:project/MailScene.dart';
 
+import 'Mail.dart';
+import 'MailWriteStateful.dart';
 import 'MailWrite.dart';
 
 class MailWriteStateful extends StatefulWidget {
@@ -7,6 +12,6 @@ class MailWriteStateful extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return MailWrite();
+    return MailWriteStatefulState();
   }
 }
