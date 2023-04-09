@@ -8,7 +8,7 @@ import 'package:project/MailScene.dart';
 import 'Mail.dart';
 import 'MailWriteStateful.dart';
 import 'Mail.dart';
-import 'MailWriteStateful.dart';
+import 'MailWriteStatefulState.dart';
 
 class MailWrite extends State<MailWriteStateful> {
   final _receiverController = TextEditingController();

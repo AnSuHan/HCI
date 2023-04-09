@@ -5,6 +5,7 @@ import 'package:project/MailScene.dart';
 
 import 'Mail.dart';
 import 'MailWriteStateful.dart';
+import 'MailWriteStatefulState.dart';
 import 'MailWrite.dart';
 
 class MailWriteStateful extends StatefulWidget {
