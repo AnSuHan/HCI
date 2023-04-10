@@ -1,22 +1,34 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/MailInnerSceneStateful.dart';
+import 'package:project/MailSceneStateful.dart';
 
 import 'ChatScene.dart';
+import 'MailScene.dart';
 
 class MailInnerScene extends State<MailInnerSceneStateful> {
   bool isMenuOpen = false;
 
   @override
   Widget build(BuildContext context) {
-    var isStar = false;
+    var isStar = MailScene.mails[MailScene.inMailNum].isStar;
     final screenWidth = MediaQuery.of(context).size.width;
     final textWidth = screenWidth * 0.8;
 
     return MaterialApp(
         title: 'Flutter Demo',
         home: Scaffold(
-          appBar: AppBar( title: IconButton(onPressed: () { Navigator.pop(context); }, icon: const Icon(Icons.backspace)),
+          appBar: AppBar( title: IconButton(onPressed: () {
+                /*
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => MailSceneStateful()));
+                */
+                Navigator.pop(context);
+                //Navigator.popAndPushNamed(context, "MailScene_screen");
+
+                }, icon: const Icon(Icons.backspace)),
             actions: [
               IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
               IconButton(onPressed: () {}, icon: const Icon(Icons.cancel)),
@@ -49,7 +61,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                         PopupMenuItem(
                           child: const Text("라벨 변경"),
                           onTap: () {
-                            debugPrint("asd");
+                            dialogLayout();
                           },
                         ),
                         PopupMenuItem(
@@ -147,6 +159,13 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                           onTap: () {
                             setState(() {
                               isStar = !isStar;
+                              MailScene.mails[MailScene.inMailNum].isStar = isStar;
+                              if(MailScene.mails[MailScene.inMailNum].isStar) {
+                                MailScene.mails[MailScene.inMailNum].label = "별표편지함";
+                              }
+                              else {
+                                MailScene.mails[MailScene.inMailNum].label = "받은편지함";
+                              }
                             });
                           },
                           child: isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
@@ -278,5 +297,48 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
           ),
         )
     );
+  }
+  void dialogLayout() {
+    showDialog(
+        context: context,
+        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            //Dialog Main Title
+            title: Column(
+              children: const <Widget>[
+                Text("라벨 적용"),
+              ],
+            ),
+            //
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Dialog Content",
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close dialog
+                },
+                child: const Text('취소'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close dialog
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          );
+        });
   }
 }

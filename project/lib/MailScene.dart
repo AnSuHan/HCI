@@ -12,8 +12,8 @@ import 'MailSceneStateful.dart';
 import 'Temp.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
-class MailScene extends State<MailSceneStateful> {
-  var mails = [Mail("tempSender",
+class MailScene extends State<MailSceneStateful> with RouteAware {
+  static var mails = [Mail("tempSender",
       "tempTitle",
       "tempMessage", "tempTime", false, "받은편지함"),
     Mail("tempSender",
@@ -23,24 +23,45 @@ class MailScene extends State<MailSceneStateful> {
         "starTitle",
         "starMessage", "starTime", true, "별표편지함")];
   var nowLabel = "";
-  var inMailNum = -1;
+  static var inMailNum = -1;
+  List<Mail> newData = [];
+
+  List<Mail> items = [];
+
+  @override
+  void initState() {
+    super.initState();
+    items = setLabel(nowLabel, mails);
+
+    setState(() {
+      debugPrint("initState");
+    });
+  }
+  @override
+  void didUpdateWidget(covariant MailSceneStateful oldWidget) {
+    setState(() {
+      items = setLabel(nowLabel, mails);
+      debugPrint("len : ${items.length}");
+    });
+    super.didUpdateWidget(oldWidget);
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    debugPrint("mail class");
-    double baseWidth = 375;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
+    debugPrint("build mail class");
 
-    JsonParsing().saveData(mails);
+    //JsonParsing().saveData(mails);
 
     List<Mail> item = [];
-    JsonParsing().getData(item);
-    debugPrint("item from param : $item");
+    //JsonParsing().getData(item);
+    //debugPrint("item from param : $item");
 
     //라벨에 맞는 메일만 필터링
-    var items = setLabel(nowLabel, mails);
+    setState(() {
+      items = setLabel(nowLabel, mails);
+      debugPrint("len : ${items.length}");
+    });
 
 
     return MaterialApp(
@@ -106,28 +127,6 @@ class MailScene extends State<MailSceneStateful> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        /*
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              // file2uE (0:65)
-                              margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 5.33*fem, 1*fem),
-                              width: 9.33*fem,
-                              height: 11.67*fem,
-                              child: Image.asset(
-                                'assets/page-1/images/file.png',
-                                width: 9.33*fem,
-                                height: 11.67*fem,
-                              ),
-                            ),
-                            const Text(
-                              // message9U4 (0:68)
-                              'filename'
-                            ),
-                          ],
-                        ),
-                         */
                       ],
                     ),
                   ),
@@ -233,6 +232,10 @@ class MailScene extends State<MailSceneStateful> {
       mails.add(mail);
     });
   }
+  static void addMailStatic(Mail mail) {
+    mails.add(mail);
+    debugPrint("static mails : ${mails.toList()}");
+  }
   void changeLabel(String newLabel) {
     setState(() {
       nowLabel = newLabel;
@@ -256,4 +259,27 @@ class MailScene extends State<MailSceneStateful> {
     //ret = item;
   }
    */
+}
+class MyModalRoute extends MaterialPageRoute<void> {
+  MyModalRoute({required super.builder});
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('This is a modal route'),
+          ElevatedButton(
+            child: Text('Close'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          Text('The name of this route is ${settings.name}'),
+        ],
+      ),
+    );
+  }
 }

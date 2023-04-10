@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:project/MailScene.dart';
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/MailScene.dart';
 
 import 'Mail.dart';
 import 'MailWriteStateful.dart';
-import 'Mail.dart';
-import 'MailWriteStatefulState.dart';
 
 class MailWrite extends State<MailWriteStateful> {
   final _receiverController = TextEditingController();
@@ -25,22 +22,26 @@ class MailWrite extends State<MailWriteStateful> {
         ),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.file_present_outlined)),
-            IconButton(
-              onPressed: () {
-                Mail newMail = Mail(
-                  "temp@gmail.com",
-                  _titleController.text,
-                  _messageController.text,
-                  "230406",
-                  false,
-                  "받은편지함",
-                );
-                MailScene().addMail(newMail);
+            IconButton(onPressed: () {
+              var newobj = Mail("temp@gmail.com", parsingData(_titleController.toString()),
+                  parsingData(_messageController.toString()), "230406", false, "받은편지함");
 
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.send_outlined),
-            ),
+              debugPrint("newobj : ${newobj.toJson()}");
+              debugPrint("inWrite : ${MailScene.mails.toList()}");
+              //MailScene.mails.add(newobj);        //range error
+              //MailScene().addMail(newobj);        //not adding
+              //MailScene.addMailStatic(newobj);    //range error
+
+              setState(() {
+                //MailScene.mails.add(newobj);      //range error
+                //MailScene().addMail(newobj);      //not adding
+                //MailScene.addMailStatic(newobj);  //range error
+              });
+
+              debugPrint("inWrite : ${MailScene.mails.toList()}");
+
+              Navigator.pop(context, newobj);
+            }, icon: const Icon(Icons.send_outlined)),
             IconButton(onPressed: () {}, icon: const Icon(Icons.menu_open))
           ],
         ),
@@ -84,5 +85,24 @@ class MailWrite extends State<MailWriteStateful> {
         ),
       )
     );
+  }
+
+  String parsingData(String raw) {
+    int start = -1, end = -1;
+
+    for(int i = 0 ; i < raw.length ; i++) {
+      if(raw[i] == '┤') {
+        start = i;
+      }
+      else if(raw[i] == '├') {
+        end = i;
+      }
+    }
+
+    if(start != -1 || end != -1) {
+      return raw.substring(start + 1, end);
+    }
+
+    return "";
   }
 }
