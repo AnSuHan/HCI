@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/MailInnerSceneStateful.dart';
 import 'package:project/MailWriteStateful.dart';
 
 import 'ChatScene.dart';
@@ -11,41 +12,152 @@ import 'MailSceneStateful.dart';
 import 'Temp.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
-class MailScene extends State<MailSceneStateful> {
-  var items = [Mail("tempSender",
+class MailScene extends State<MailSceneStateful> with RouteAware {
+  static var mails = [Mail("tempSender",
       "tempTitle",
-      "tempSubtitle",
       "tempMessage", "tempTime", false, "받은편지함"),
     Mail("tempSender",
         "tempTitle",
-        "tempSubtitle",
-        "tempMessage", "tempTime", false, "받은편지함")];
+        "tempMessage", "tempTime", false, "받은편지함"),
+    Mail("starSender",
+        "starTitle",
+        "starMessage", "starTime", true, "별표편지함")];
+  static var changes = Mail("", "", "", "", false, "");
+  var nowLabel = "";
+  static var inMailNum = -1;
+  List<Mail> newData = [];
+
+  List<Mail> items = [];
+
+  @override
+  void initState() {
+    super.initState();
+    items = setLabel(nowLabel, mails);
+
+    setState(() {
+      debugPrint("initState");
+    });
+  }
+  @override
+  void didUpdateWidget(covariant MailSceneStateful oldWidget) {
+    setState(() {
+      items = setLabel(nowLabel, mails);
+      debugPrint("len : ${items.length}");
+    });
+    super.didUpdateWidget(oldWidget);
+  }
+  @override
+  void didPopNext() {
+    debugPrint("didPopNext");
+    update();
+    super.didPopNext();
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    debugPrint("mail class");
-    double baseWidth = 375;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
+    debugPrint("build mail class");
 
-    JsonParsing().saveData(items);
+    //JsonParsing().saveData(mails);
 
     List<Mail> item = [];
-    JsonParsing().getData(item);
-    debugPrint("item from param : $item");
+    //JsonParsing().getData(item);
+    //debugPrint("item from param : $item");
 
-    //라벨 선택
-    var nowLabel = thisLabel;
-    debugPrint("nowLabel : $nowLabel");
-    items = setLabel("받은편지함", items);
 
+    //라벨에 맞는 메일만 필터링
+    setState(() {
+      //MailInnewrScene의 변경 내용 적용
+      if(inMailNum != -1) {
+        //isStar는 항상 재설정
+        mails[inMailNum].isStar = changes.isStar;
+
+        //변경 사항이 있을 때
+        if(changes != Mail("", "", "", "", false, "")) {
+
+        }
+      }
+      changes = Mail("", "", "", "", false, "");
+      items = setLabel(nowLabel, mails);
+      debugPrint("len : ${items.length}");
+    });
+
+
+    var listview = ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return InkWell(
+          onTap: () {
+            debugPrint("mailScene$index");
+            inMailNum = index;
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
+            );
+          },
+          child: ListTile(
+            leading: const FlutterLogo(size: 50.0),
+            title: Text(items[index].sender),
+            subtitle: SizedBox(
+              height: 50,
+              width: 500,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 1000,
+                    child: Text(
+                      items[index].title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 1000,
+                    child: Text(
+                      items[index].message.substring(0, 10),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            trailing: Column(
+              children: [
+                Text(items[index].time),
+                StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          items[index].isStar = !items[index].isStar;
+                        });
+                        debugPrint("item-index : ${items[index].toJson()}");
+                        if(items[index].isStar) {
+                          items[index].label = "별표편지함";
+                        }
+                        else {
+                          items[index].label = "받은편지함";
+                        }
+                      },
+                      child: items[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                          : const Icon(Icons.star, color: Colors.grey),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
 
     return MaterialApp(
         title: 'Flutter Demo',
         home: Scaffold(
-          appBar: AppBar( title: const Text('메일') ),
-          drawer: const MyDrawer(),
+          appBar: AppBar( title: Text('메일 : $nowLabel') ),
+          drawer: MyDrawer(onItemSelected: onDrawerItemSelected),
           floatingActionButton: SizedBox(
             width: 200,
             height: 50,
@@ -67,89 +179,7 @@ class MailScene extends State<MailSceneStateful> {
               ),
             ),
           ),
-          body: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  debugPrint("mailScene$index");
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const MailInnerScene())
-                  );
-                },
-                child: ListTile(
-                  leading: const FlutterLogo(size: 50.0),
-                  title: Text(items[index].sender),
-                  subtitle: SizedBox(
-                    height: 50,
-                    width: 500,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 1000,
-                          child: Text(
-                            items[index].title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 1000,
-                          child: Text(
-                            items[index].subTitle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        /*
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              // file2uE (0:65)
-                              margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 5.33*fem, 1*fem),
-                              width: 9.33*fem,
-                              height: 11.67*fem,
-                              child: Image.asset(
-                                'assets/page-1/images/file.png',
-                                width: 9.33*fem,
-                                height: 11.67*fem,
-                              ),
-                            ),
-                            const Text(
-                              // message9U4 (0:68)
-                              'filename'
-                            ),
-                          ],
-                        ),
-                         */
-                      ],
-                    ),
-                  ),
-                  trailing: Column(
-                    children: [
-                      Text(items[index].time),
-                      StatefulBuilder(
-                        builder: (BuildContext context, StateSetter setState) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                items[index].isStar = !items[index].isStar;
-                              });
-                            },
-                            child: items[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
-                                : const Icon(Icons.star, color: Colors.grey),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
+          body: listview,
 
           bottomNavigationBar: SizedBox(
             height: 100,
@@ -185,8 +215,8 @@ class MailScene extends State<MailSceneStateful> {
                   onTap: () {
                     addMail(Mail("tempSender",
                         "tempTitle",
-                        "tempSubtitle",
                         "tempMessage", "tempTime", false, "받은편지함"));
+                    //changeLabel("별표편지함");
                   },
                   child: const SizedBox(
                     height: 200,
@@ -202,6 +232,10 @@ class MailScene extends State<MailSceneStateful> {
   }
 
   List<Mail> setLabel(String targetLabel, List<Mail> item) {
+    if(targetLabel == "") {
+      return item;
+    }
+
     List<Mail> all = [];
 
     for(int i = 0 ; i < item.length ; i++) {
@@ -216,7 +250,40 @@ class MailScene extends State<MailSceneStateful> {
 
   void addMail(Mail mail) {
     setState(() {
-      items.add(mail);
+      mails.add(mail);
+    });
+  }
+  static void addMailStatic(Mail mail) {
+    mails.add(mail);
+    debugPrint("static mails : ${mails.toList()}");
+  }
+  void changeLabel(String newLabel) {
+    setState(() {
+      nowLabel = newLabel;
+    });
+  }
+
+  void update() {
+    setState(() {
+      //MailInnewrScene의 변경 내용 적용
+      if(inMailNum != -1) {
+        //isStar는 항상 재설정
+        mails[inMailNum].isStar = changes.isStar;
+
+        //변경 사항이 있을 때
+        if(changes != Mail("", "", "", "", false, "")) {
+
+        }
+      }
+
+      items = setLabel(nowLabel, mails);
+      debugPrint("len : ${items.length}");
+    });
+  }
+  void onDrawerItemSelected(String selected) {
+    debugPrint("onDrawerItemSelected : $nowLabel");
+    setState(() {
+      nowLabel = selected;
     });
   }
   /*
@@ -230,4 +297,27 @@ class MailScene extends State<MailSceneStateful> {
     //ret = item;
   }
    */
+}
+class MyModalRoute extends MaterialPageRoute<void> {
+  MyModalRoute({required super.builder});
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('This is a modal route'),
+          ElevatedButton(
+            child: Text('Close'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          Text('The name of this route is ${settings.name}'),
+        ],
+      ),
+    );
+  }
 }
