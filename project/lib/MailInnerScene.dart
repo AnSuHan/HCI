@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Drawer.dart';
 import 'package:project/MailInnerSceneStateful.dart';
 import 'package:project/MailSceneStateful.dart';
 
@@ -10,6 +11,8 @@ import 'MailScene.dart';
 
 class MailInnerScene extends State<MailInnerSceneStateful> {
   bool isMenuOpen = false;
+  var mailReceive = true;
+  var _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 Navigator.pop(context);
                 //Navigator.popAndPushNamed(context, "MailScene_screen");
 
-                }, icon: const Icon(Icons.backspace)),
+            }, icon: const Icon(Icons.backspace)),
             actions: [
               IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
               IconButton(onPressed: () {}, icon: const Icon(Icons.cancel)),
@@ -112,6 +115,14 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
           ),
           body: Column(
             children: [
+              Checkbox(
+                value: mailReceive,
+                onChanged: (value) {
+                  setState(() {
+                    mailReceive = value!;
+                  });
+                },
+              ),
               /*
               //this code have space, not locating above
               AnimatedContainer(
@@ -159,6 +170,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                           onTap: () {
                             setState(() {
                               isStar = !isStar;
+                              MailScene.changes.isStar = isStar;
                               MailScene.mails[MailScene.inMailNum].isStar = isStar;
                               if(MailScene.mails[MailScene.inMailNum].isStar) {
                                 MailScene.mails[MailScene.inMailNum].label = "별표편지함";
@@ -319,9 +331,26 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "Dialog Content",
-                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    const Icon(Icons.indeterminate_check_box),
+                    const Text("받은편지함"),
+                    Checkbox(
+                      value: mailReceive,
+                      onChanged: (value) {
+                        setState(() {
+                          debugPrint("value : $value");
+                          debugPrint("mailReceive : $mailReceive");
+                          //mailReceive = value!;
+                          mailReceive = !mailReceive;
+                          value = mailReceive;
+                        });
+                        value = mailReceive;
+                      },
+                    )
+                  ],
+                )
               ],
             ),
             actions: <Widget>[

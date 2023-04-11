@@ -28,7 +28,7 @@ class MailWrite extends State<MailWriteStateful> {
 
               debugPrint("newobj : ${newobj.toJson()}");
               debugPrint("inWrite : ${MailScene.mails.toList()}");
-              //MailScene.mails.add(newobj);        //range error
+              MailScene.mails.add(newobj);        //range error
               //MailScene().addMail(newobj);        //not adding
               //MailScene.addMailStatic(newobj);    //range error
 
