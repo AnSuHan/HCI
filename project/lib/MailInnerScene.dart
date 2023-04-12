@@ -7,12 +7,14 @@ import 'package:project/MailInnerSceneStateful.dart';
 import 'package:project/MailSceneStateful.dart';
 
 import 'ChatScene.dart';
+import 'Mail.dart';
 import 'MailScene.dart';
 
 class MailInnerScene extends State<MailInnerSceneStateful> {
   bool isMenuOpen = false;
   var mailReceive = true;
   var _isChecked = false;
+  Mail data = MailScene.getMail();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,10 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
             }, icon: const Icon(Icons.backspace)),
             actions: [
               IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.cancel)),
+              IconButton(onPressed: () {
+                MailScene.deleteMail();
+                Navigator.pop(context);
+              }, icon: const Icon(Icons.cancel)),
               IconButton(onPressed: () {}, icon: const Icon(Icons.mail)),
               IconButton(onPressed: () {
                 //gpt
@@ -156,9 +161,9 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                   SizedBox(
                     width: textWidth,
                     child: Column(
-                      children: const [
-                        Text("title", style: TextStyle(fontSize: 30)),
-                        Text("받은편지함"),
+                      children: [
+                        Text(data.title, style: const TextStyle(fontSize: 30)),
+                        Text(data.label),
                       ],
                     ),
                   ),
@@ -191,9 +196,9 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
               //보낸사람의 정보
               ListTile(
                   leading: const FlutterLogo(size: 50.0),
-                  title: Row(children: const [
-                    Text("sender", maxLines: 1, overflow: TextOverflow.ellipsis),
-                    Text("time"),
+                  title: Row(children: [
+                    Text("${data.sender} ", maxLines: 1, overflow: TextOverflow.ellipsis),
+                    Text(data.time),
                   ]),
                   subtitle: Row(
                     children: const [
@@ -207,7 +212,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                           Icon(Icons.menu)],
                   )
               ),
-              const Text("message"),
+              Text(data.message),
             ],
           ),
           bottomSheet: Row(

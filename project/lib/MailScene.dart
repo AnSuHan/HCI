@@ -297,6 +297,14 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     //ret = item;
   }
    */
+  static Mail getMail() {
+    return mails[inMailNum];
+  }
+  static void deleteMail() {
+    mails.removeAt(inMailNum);
+    //@@this prevent "RangeError (index): Index out of range: no indices are valid: 0"
+    inMailNum = -1;
+  }
 }
 class MyModalRoute extends MaterialPageRoute<void> {
   MyModalRoute({required super.builder});
