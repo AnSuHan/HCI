@@ -156,7 +156,25 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     return MaterialApp(
         title: 'Flutter Demo',
         home: Scaffold(
-          appBar: AppBar( title: Text('메일 : $nowLabel') ),
+          appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: () {},
+              ),
+              title: TextField(
+                  decoration: InputDecoration(
+                    hintText: "검색",
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(color: Colors.white70),
+                  ),
+                  ),
+              actions: [
+                IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {},
+              ),
+              ],
+          ),
           drawer: MyDrawer(onItemSelected: onDrawerItemSelected),
           floatingActionButton: SizedBox(
             width: 200,
