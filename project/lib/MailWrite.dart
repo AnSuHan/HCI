@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/MailScene.dart';
@@ -104,5 +102,10 @@ class MailWrite extends State<MailWriteStateful> {
     }
 
     return "";
+  }
+
+  static List<String> getInput() {
+    var list = [""];//[parsingData(_messageController.toString())];
+    return list;
   }
 }
