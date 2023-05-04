@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/JsonParsing.dart';
 import 'package:project/MailInnerSceneStateful.dart';
 import 'package:project/MailWrite.dart';
 import 'package:project/MailWriteStateful.dart';
@@ -20,53 +21,32 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     Mail("starSender",
         "starTitle",
         "starMessage", "starTime", true, "별표편지함")];
+  /*
+  static var mails = [Mail("LoadingSender",
+      "LoadingTitle",
+      "LoadingMessage", "LoadingTime", false, "받은편지함")];
+   */
+
   static var changes = Mail("", "", "", "", false, "");
   var nowLabel = "";
   static var inMailNum = -1;
-  List<Mail> newData = [];
+  static var newData = Mail("", "", "", "", false, "");
 
   List<Mail> items = [];
+  Future<List<Mail>> getFutureData() async {
+    return await JsonParsing().getData();
+  }
 
-  List<Color> mailsColor = [Colors.white, Colors.white, Colors.white];
+  static List<Color> mailsColor = [Colors.white, Colors.white, Colors.white];
   var isSelect = false;
-
-  @override
-  void initState() {
-    super.initState();
-    items = setLabel(nowLabel, mails);
-
-    setState(() {
-      debugPrint("initState");
-    });
-  }
-  @override
-  void didUpdateWidget(covariant MailSceneStateful oldWidget) {
-    setState(() {
-      items = setLabel(nowLabel, mails);
-      debugPrint("len : ${items.length}");
-    });
-    super.didUpdateWidget(oldWidget);
-  }
-  @override
-  void didPopNext() {
-    debugPrint("didPopNext");
-    update();
-    super.didPopNext();
-  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     debugPrint("build mail class");
     debugPrint("MailWrite : ${MailWrite.getInput()}");
-    //mails.add(Mail(MailWrite.getInput()[0], "", "", "", false, ""));
 
     //JsonParsing().saveData(mails);
-
-    List<Mail> item = [];
-    //JsonParsing().getData(item);
-    //debugPrint("item from param : $item");
-
 
     //라벨에 맞는 메일만 필터링
     setState(() {
@@ -266,6 +246,18 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                Visibility(
+                  //visible이 false이면 child가 동작하지 않음
+                  visible: true,
+                  child: FutureBuilder(
+                  future: getFutureData(),
+                  builder: (context, snapshot) {
+                    mails = snapshot.data!;
+                    debugPrint("exec FutureBuilder");
+                    return Text("");
+                  },),
+                ),
+
                 InkWell(  //GestureDetector
                   onTap: () {
                   },
@@ -330,11 +322,23 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   void addMail(Mail mail) {
     setState(() {
       mails.add(mail);
+      mailsColor.add(Colors.white);
     });
   }
   static void addMailStatic(Mail mail) {
-    mails.add(mail);
+    //mails.add(mail);
+    //mailsColor.add(Colors.white);
+    newData = mail;
     debugPrint("static mails : ${mails.toList()}");
+  }
+  bool setStateForStatic() {
+    if(newData != Mail("", "", "", "", false, "")) {
+      setState(() {
+        mails.add(newData);
+        mailsColor.add(Colors.white);
+      });
+    }
+    return true;
   }
   void changeLabel(String newLabel) {
     setState(() {
