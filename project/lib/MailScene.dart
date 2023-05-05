@@ -40,6 +40,8 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   static List<Color> mailsColor = [Colors.white, Colors.white, Colors.white];
   var isSelect = false;
 
+  var listview;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -65,103 +67,18 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
       debugPrint("len : ${items.length}");
     });
 
+    /*
+    //index out of range: index should be less than 3:3
+    debugPrint("staTic : ${MailWrite.newMail}");
+    if(MailWrite.newMail != null) {
+      setState(() {
+        mails.add(MailWrite.newMail);
+      });
+    }
+     */
 
-    var listview = ListView.builder(
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        return InkWell(
-          onTap: () {
-            if(!isSelect) {
-              debugPrint("mailScene$index");
-              inMailNum = index;
-              setState(() {
-                isSelect = false;
-              });
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
-              );
-            }
-            else {
-              setState(() {
-                if(mailsColor[index] == Colors.red) {
-                  //이미 선택된 경우 해제
-                  mailsColor[index] = Colors.white;
-                }
-                else {
-                  mailsColor[index] = Colors.red;
-                }
-              });
-            }
-          },
-          //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
-          onLongPress: () {
-            setState(() {
-              mailsColor[index] = Colors.red;
-              inMailNum = index;
-              isSelect = true;
-            });
-          },
-          child: Container(
-            color: !isSelect ? (mailsColor[index] = Colors.white) : mailsColor[index],
-            child: ListTile(
-              leading: const FlutterLogo(size: 50.0),
-              title: Text(items[index].sender),
-              subtitle: SizedBox(
-                height: 50,
-                width: 500,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 1000,
-                      child: Text(
-                        items[index].title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 1000,
-                      child: Text(
-                        items[index].message.substring(0, 10),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              trailing: Column(
-                children: [
-                  Text(items[index].time),
-                  StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setState) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            items[index].isStar = !items[index].isStar;
-                          });
-                          debugPrint("item-index : ${items[index].toJson()}");
-                          if(items[index].isStar) {
-                            items[index].label = "별표편지함";
-                          }
-                          else {
-                            items[index].label = "받은편지함";
-                          }
-                        },
-                        child: items[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
-                            : const Icon(Icons.star, color: Colors.grey),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          )
-        );
-      },
-    );
+    listview = getListView();
+
 
     var appbar = !isSelect ? AppBar(title: Text('메일 : $nowLabel'))
         : AppBar(title: IconButton(onPressed: () {
@@ -246,6 +163,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                /*
                 Visibility(
                   //visible이 false이면 child가 동작하지 않음
                   visible: true,
@@ -257,6 +175,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                     return Text("");
                   },),
                 ),
+                 */
 
                 InkWell(  //GestureDetector
                   onTap: () {
@@ -326,9 +245,9 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     });
   }
   static void addMailStatic(Mail mail) {
-    //mails.add(mail);
-    //mailsColor.add(Colors.white);
-    newData = mail;
+    mails.add(mail);
+    mailsColor.add(Colors.white);
+    //newData = mail;
     debugPrint("static mails : ${mails.toList()}");
   }
   bool setStateForStatic() {
@@ -387,6 +306,107 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     mails.removeAt(inMailNum);
     //@@this prevent "RangeError (index): Index out of range: no indices are valid: 0"
     inMailNum = -1;
+  }
+  ListView getListView() {
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return InkWell(
+            onTap: () {
+              if(!isSelect) {
+                debugPrint("mailScene$index");
+                inMailNum = index;
+                setState(() {
+                  isSelect = false;
+                });
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
+                );
+              }
+              else {
+                setState(() {
+                  if(mailsColor[index] == Colors.red) {
+                    //이미 선택된 경우 해제
+                    mailsColor[index] = Colors.white;
+                  }
+                  else {
+                    mailsColor[index] = Colors.red;
+                  }
+                });
+              }
+            },
+            //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
+            onLongPress: () {
+              setState(() {
+                mailsColor[index] = Colors.red;
+                inMailNum = index;
+                isSelect = true;
+              });
+            },
+            child: Container(
+              color: !isSelect ? (mailsColor[index] = Colors.white) : mailsColor[index],
+              child: ListTile(
+                leading: const FlutterLogo(size: 50.0),
+                title: Text(items[index].sender),
+                subtitle: SizedBox(
+                  height: 50,
+                  width: 500,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 1000,
+                        child: Text(
+                          items[index].title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 1000,
+                        child: Text(
+                          items[index].message.substring(0, 10),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                trailing: Column(
+                  children: [
+                    Text(items[index].time),
+                    StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              items[index].isStar = !items[index].isStar;
+                            });
+                            debugPrint("item-index : ${items[index].toJson()}");
+                            if(items[index].isStar) {
+                              items[index].label = "별표편지함";
+                            }
+                            else {
+                              items[index].label = "받은편지함";
+                            }
+                          },
+                          child: items[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                              : const Icon(Icons.star, color: Colors.grey),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            )
+        );
+      },
+    );
+  }
+  void setListView(newList) {
+    listview = newList;
   }
 }
 class MyModalRoute extends MaterialPageRoute<void> {

@@ -10,6 +10,9 @@ class MailWrite extends State<MailWriteStateful> {
   final _titleController = TextEditingController();
   final _messageController = TextEditingController();
 
+  final MYACCOUNT = "temp@gmail.com";
+  var writeMe = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +24,7 @@ class MailWrite extends State<MailWriteStateful> {
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.file_present_outlined)),
             IconButton(onPressed: () {
-              var newobj = Mail("temp@gmail.com", parsingData(_titleController.toString()),
+              var newobj = Mail(MYACCOUNT, parsingData(_titleController.toString()),
                   parsingData(_messageController.toString()), "230406", false, "받은편지함");
 
               debugPrint("newobj : ${newobj.toJson()}");
@@ -55,7 +58,27 @@ class MailWrite extends State<MailWriteStateful> {
               title: TextField(
                 controller: _receiverController,
               ),
-              trailing: Icon(Icons.arrow_drop_down),
+              trailing: Container(
+                width: 80.0,
+                height: 50.0,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          writeMe = !writeMe;
+                          _receiverController.text = textControl();
+                        });
+                      },
+                      child: Container(
+                        color: writeMe ? Colors.blue : Colors.white,
+                        child: const Text("내게쓰기"),
+                      ),
+                    ),
+                    const Icon(Icons.arrow_drop_down),
+                  ],
+                ),
+              ),
             ),
             ListTile(
               title: Column(
@@ -102,6 +125,57 @@ class MailWrite extends State<MailWriteStateful> {
     }
 
     return "";
+  }
+
+  String textControl() {
+    var rtValue = "";
+    var originText = _receiverController.text;
+    if(originText == "") {
+      if(writeMe) {
+        rtValue = MYACCOUNT;
+      }
+      else {
+        rtValue = "";
+      }
+      return rtValue;
+    }
+
+    //receiver를 배열로 관리하며 컴마로 구분
+    var origin;
+    if(originText.contains(",")) {
+      origin = _receiverController.text.split(",");
+    }
+    else {
+      origin = [_receiverController.text];
+    }
+
+    //컴마 이후 메일을 작성하지 않은 경우 처리
+    for(var i = origin.length - 1 ; i >= 0 ; i--) {
+      if(origin[i] == "") {
+        origin.removeAt(i);
+      }
+    }
+
+    for(var i = 0 ; i < origin.length ; i++) {
+      origin[i] = origin[i].trim();
+      origin[i] = origin[i].replaceAll(",", "");
+    }
+
+    if(writeMe) {
+      origin.add(MYACCOUNT);
+    }
+    else {
+      origin.remove(MYACCOUNT);
+    }
+
+    for(var i = 0 ; i < origin.length ; i++) {
+      rtValue += origin[i];
+
+      if(i < origin.length - 1) {
+        rtValue += ", ";
+      }
+    }
+    return rtValue;
   }
 
   static List<String> getInput() {
