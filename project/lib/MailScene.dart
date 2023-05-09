@@ -250,6 +250,9 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     //newData = mail;
     debugPrint("static mails : ${mails.toList()}");
   }
+  static void addMailWithNewData(input) {
+    newData = input;
+  }
   bool setStateForStatic() {
     if(newData != Mail("", "", "", "", false, "")) {
       setState(() {
@@ -308,102 +311,122 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     inMailNum = -1;
   }
   ListView getListView() {
-    return ListView.builder(
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        return InkWell(
-            onTap: () {
-              if(!isSelect) {
-                debugPrint("mailScene$index");
-                inMailNum = index;
+    debugPrint("getListView-newData : ${newData.toJson()}");
+    debugPrint("need to update : ${newData.sender != ""}");
+
+    var localItems = items;
+
+    if(newData.sender != "") {
+      setState(() {
+        localItems.add(newData);
+        newData = Mail("", "", "", "", false, "");
+        //개수는 늘어남
+        debugPrint("getListView-mails : ${mails.toList()}");
+      });
+    }
+
+    var listView;
+
+    setState(() {
+      listView = ListView.builder(
+        itemCount: localItems.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+              onTap: () {
+                if(!isSelect) {
+                  debugPrint("mailScene$index");
+                  inMailNum = index;
+                  setState(() {
+                    isSelect = false;
+                  });
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
+                  );
+                }
+                else {
+                  setState(() {
+                    if(mailsColor[index] == Colors.red) {
+                      //이미 선택된 경우 해제
+                      mailsColor[index] = Colors.white;
+                    }
+                    else {
+                      mailsColor[index] = Colors.red;
+                    }
+                  });
+                }
+              },
+              //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
+              onLongPress: () {
                 setState(() {
-                  isSelect = false;
+                  mailsColor[index] = Colors.red;
+                  inMailNum = index;
+                  isSelect = true;
                 });
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
-                );
-              }
-              else {
-                setState(() {
-                  if(mailsColor[index] == Colors.red) {
-                    //이미 선택된 경우 해제
-                    mailsColor[index] = Colors.white;
-                  }
-                  else {
-                    mailsColor[index] = Colors.red;
-                  }
-                });
-              }
-            },
-            //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
-            onLongPress: () {
-              setState(() {
-                mailsColor[index] = Colors.red;
-                inMailNum = index;
-                isSelect = true;
-              });
-            },
-            child: Container(
-              color: !isSelect ? (mailsColor[index] = Colors.white) : mailsColor[index],
-              child: ListTile(
-                leading: const FlutterLogo(size: 50.0),
-                title: Text(items[index].sender),
-                subtitle: SizedBox(
-                  height: 50,
-                  width: 500,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+              },
+              child: Container(
+                color: !isSelect ? (mailsColor[index] = Colors.white) : mailsColor[index],
+                child: ListTile(
+                  leading: const FlutterLogo(size: 50.0),
+                  title: Text(localItems[index].sender),
+                  subtitle: SizedBox(
+                    height: 50,
+                    width: 500,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 1000,
+                          child: Text(
+                            localItems[index].title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 1000,
+                          child: Text(
+                            localItems[index].message.substring(0, 10),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  trailing: Column(
                     children: [
-                      SizedBox(
-                        width: 1000,
-                        child: Text(
-                          items[index].title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 1000,
-                        child: Text(
-                          items[index].message.substring(0, 10),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      Text(localItems[index].time),
+                      StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                localItems[index].isStar = !localItems[index].isStar;
+                              });
+                              debugPrint("item-index : ${localItems[index].toJson()}");
+                              if(localItems[index].isStar) {
+                                localItems[index].label = "별표편지함";
+                              }
+                              else {
+                                localItems[index].label = "받은편지함";
+                              }
+                            },
+                            child: localItems[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                                : const Icon(Icons.star, color: Colors.grey),
+                          );
+                        },
                       ),
                     ],
                   ),
                 ),
-                trailing: Column(
-                  children: [
-                    Text(items[index].time),
-                    StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              items[index].isStar = !items[index].isStar;
-                            });
-                            debugPrint("item-index : ${items[index].toJson()}");
-                            if(items[index].isStar) {
-                              items[index].label = "별표편지함";
-                            }
-                            else {
-                              items[index].label = "받은편지함";
-                            }
-                          },
-                          child: items[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
-                              : const Icon(Icons.star, color: Colors.grey),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            )
-        );
-      },
-    );
+              )
+          );
+        },
+      );
+    });
+
+    return listView;
   }
   void setListView(newList) {
     listview = newList;

@@ -12,6 +12,7 @@ class MailWrite extends State<MailWriteStateful> {
 
   final MYACCOUNT = "temp@gmail.com";
   var writeMe = false;
+  var isMenuOpen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class MailWrite extends State<MailWriteStateful> {
               //MailScene.mails.add(newobj);        //range error
               //MailScene().addMail(newobj);        //not adding
               MailScene.addMailStatic(newobj);    //range error
+              //MailScene.addMailWithNewData(newobj);
 
               setState(() {
                 //MailScene.mails.add(newobj);      //range error
@@ -43,7 +45,91 @@ class MailWrite extends State<MailWriteStateful> {
 
               Navigator.pop(context, newobj);
             }, icon: const Icon(Icons.send_outlined)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.menu_open))
+            IconButton(onPressed: () {
+              //gpt
+              final RenderBox overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
+              final RelativeRect position = RelativeRect.fromLTRB(
+                MediaQuery.of(context).size.width - 100, // right
+                MediaQuery.of(context).padding.top + kToolbarHeight, // top
+                0, // left
+                0, // bottom
+              );
+              showMenu(
+                context: context,
+                position: position,
+                items: [
+                  PopupMenuItem(
+                    child: const Text("보내기 예약"),
+                    onTap: () {
+                      debugPrint("click schedule");
+                      //scheduleSending();
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text("Show Alert Dialog Box"),
+                          content: Text("You have raised a Alert Dialog Box"),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Text("Ok"),
+                            ),
+                          ],
+                        ),
+                      );
+                      debugPrint("end of showDialog");
+                    },
+                  ),
+                  PopupMenuItem(
+                    child: const Text("라벨 변경"),
+                    onTap: () {
+
+                    },
+                  ),
+                  PopupMenuItem(
+                    child: const Text("주소록에서 추가"),
+                    onTap: () {
+
+                    },
+                  ),
+                  PopupMenuItem(
+                    child: const Text("비밀 모드"),
+                    onTap: () {
+
+                    },
+                  ),
+                  PopupMenuItem(
+                    child: const Text("임시보관함에 저장"),
+                    onTap: () {
+
+                    },
+                  ),
+                  PopupMenuItem(
+                    child: const Text("삭제"),
+                    onTap: () {
+
+                    },
+                  ),
+                  PopupMenuItem(
+                    child: const Text("설정"),
+                    onTap: () {
+
+                    },
+                  ),
+                  PopupMenuItem(
+                    child: const Text("고객센터"),
+                    onTap: () {
+
+                    },
+                  ),
+                ],
+              );
+
+              setState(() {
+                isMenuOpen = !isMenuOpen;
+              });
+            }, icon: const Icon(Icons.menu_open))
           ],
         ),
         body: ListView(
@@ -181,5 +267,55 @@ class MailWrite extends State<MailWriteStateful> {
   static List<String> getInput() {
     var list = [""];//[parsingData(_messageController.toString())];
     return list;
+  }
+
+  void scheduleSending() {
+    showDialog(
+        context: context,
+        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          debugPrint("front of builder");   //can not access this
+          return AlertDialog(
+            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            //Dialog Main Title
+            title: Column(
+              children: const <Widget>[
+                Text("라벨 적용"),
+              ],
+            ),
+            //
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: const <Widget>[
+                    Icon(Icons.indeterminate_check_box),
+                    Text("받은편지함"),
+                  ],
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close dialog
+                },
+                child: const Text('취소'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close dialog
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          );
+        }
+    );
   }
 }
