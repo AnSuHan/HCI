@@ -13,6 +13,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
   var mailReceiveLabel = true;
   var mailStarLabel = false;
   Mail data = MailScene.getMail();
+  var isRead = MailScene.mails[MailScene.inMailNum].isRead;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,13 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 MailScene.deleteMail();
                 Navigator.pop(context);
               }, icon: const Icon(Icons.cancel)),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.mail)),
+              IconButton(onPressed: () {
+                //읽지 않음 또는 읽음 상태로 변경
+                setState(() {
+                  isRead = !isRead;
+                  MailScene.mails[MailScene.inMailNum].isRead = isRead;
+                });
+              }, icon: isRead ? const Icon(Icons.mail_outline) : const Icon(Icons.mail)),
               IconButton(onPressed: () {
                 //gpt
                 final RenderBox overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;

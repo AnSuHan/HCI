@@ -51,8 +51,9 @@ class JsonParsing {
       var time = myList[0]["time"].toString();
       var isStar = myList[0]["isStar"] as bool;
       var label = myList[0]["label"].toString();
+      var isRead = myList[0]["isRead"] as bool;
 
-      var temp = Mail(sender, title, message, time, isStar, label);
+      var temp = Mail(sender, title, message, time, isStar, label, isRead);
 
       mailObj.add(temp);
     }

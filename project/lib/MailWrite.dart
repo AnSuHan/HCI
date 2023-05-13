@@ -26,7 +26,7 @@ class MailWrite extends State<MailWriteStateful> {
             IconButton(onPressed: () {}, icon: const Icon(Icons.file_present_outlined)),
             IconButton(onPressed: () {
               var newobj = Mail(MYACCOUNT, parsingData(_titleController.toString()),
-                  parsingData(_messageController.toString()), "230406", false, "받은편지함");
+                  parsingData(_messageController.toString()), "230406", false, "받은편지함", false);
 
               debugPrint("newobj : ${newobj.toJson()}");
               debugPrint("inWrite : ${MailScene.mails.toList()}");
@@ -62,7 +62,8 @@ class MailWrite extends State<MailWriteStateful> {
                     child: const Text("보내기 예약"),
                     onTap: () {
                       debugPrint("click schedule");
-                      //scheduleSending();
+                      scheduleSending();
+                      /*
                       showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(
@@ -78,6 +79,7 @@ class MailWrite extends State<MailWriteStateful> {
                           ],
                         ),
                       );
+                       */
                       debugPrint("end of showDialog");
                     },
                   ),
@@ -161,7 +163,6 @@ class MailWrite extends State<MailWriteStateful> {
                         child: const Text("내게쓰기"),
                       ),
                     ),
-                    const Icon(Icons.arrow_drop_down),
                   ],
                 ),
               ),
@@ -275,46 +276,15 @@ class MailWrite extends State<MailWriteStateful> {
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: false,
         builder: (BuildContext context) {
-          debugPrint("front of builder");   //can not access this
-          return AlertDialog(
-            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            //Dialog Main Title
-            title: Column(
-              children: const <Widget>[
-                Text("라벨 적용"),
-              ],
-            ),
-            //
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const <Widget>[
-                    Icon(Icons.indeterminate_check_box),
-                    Text("받은편지함"),
-                  ],
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close dialog
-                },
-                child: const Text('취소'),
+          return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: Column(
+                children: const <Widget>[
+                  Text("라벨 적용"),
+                ],
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close dialog
-                },
-                child: const Text('확인'),
-              ),
-            ],
-          );
+            );
+          });
         }
     );
   }

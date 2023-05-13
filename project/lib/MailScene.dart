@@ -14,23 +14,23 @@ import 'MailSceneStateful.dart';
 class MailScene extends State<MailSceneStateful> with RouteAware {
   static var mails = [Mail("tempSender",
       "tempTitle",
-      "tempMessage", "tempTime", false, "받은편지함"),
+      "tempMessage", "tempTime", false, "받은편지함", true),
     Mail("tempSender",
         "tempTitle",
-        "tempMessage", "tempTime", false, "받은편지함"),
+        "tempMessage", "tempTime", false, "받은편지함", false),
     Mail("starSender",
         "starTitle",
-        "starMessage", "starTime", true, "별표편지함")];
+        "starMessage", "starTime", true, "별표편지함", false)];
   /*
   static var mails = [Mail("LoadingSender",
       "LoadingTitle",
       "LoadingMessage", "LoadingTime", false, "받은편지함")];
    */
 
-  static var changes = Mail("", "", "", "", false, "");
+  static var changes = Mail("", "", "", "", false, "", false);
   var nowLabel = "";
   static var inMailNum = -1;
-  static var newData = Mail("", "", "", "", false, "");
+  static var newData = Mail("", "", "", "", false, "", false);
 
   List<Mail> items = [];
   Future<List<Mail>> getFutureData() async {
@@ -58,29 +58,25 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         mails[inMailNum].isStar = changes.isStar;
 
         //변경 사항이 있을 때
-        if(changes != Mail("", "", "", "", false, "")) {
+        if(changes != Mail("", "", "", "", false, "", false)) {
 
         }
       }
-      changes = Mail("", "", "", "", false, "");
+      changes = Mail("", "", "", "", false, "", false);
       items = setLabel(nowLabel, mails);
       debugPrint("len : ${items.length}");
     });
 
-    /*
-    //index out of range: index should be less than 3:3
-    debugPrint("staTic : ${MailWrite.newMail}");
-    if(MailWrite.newMail != null) {
-      setState(() {
-        mails.add(MailWrite.newMail);
-      });
-    }
-     */
-
     listview = getListView();
 
 
-    var appbar = !isSelect ? AppBar(title: Text('메일 : $nowLabel'))
+    var appbar = !isSelect ? AppBar(title: Row(
+      children: [
+        Text("메일"),
+        Text((nowLabel == "") ? "" : " : "),
+        Text(nowLabel)
+      ],
+    ))  //Text('메일 : $nowLabel')
         : AppBar(title: IconButton(onPressed: () {
                           setState(() {
                             isSelect = false;
@@ -157,6 +153,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
           ),
           body: listview,
 
+          /*
           bottomNavigationBar: SizedBox(
             height: 100,
             width: 200,
@@ -205,7 +202,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                   onTap: () {
                     addMail(Mail("tempSender",
                         "tempTitle",
-                        "tempMessage", "tempTime", false, "받은편지함"));
+                        "tempMessage", "tempTime", false, "받은편지함", false));
                     //changeLabel("별표편지함");
                   },
                   child: const SizedBox(
@@ -217,6 +214,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
               ],
             ),
           ),
+          */
         )
     );
   }
@@ -250,18 +248,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     //newData = mail;
     debugPrint("static mails : ${mails.toList()}");
   }
-  static void addMailWithNewData(input) {
-    newData = input;
-  }
-  bool setStateForStatic() {
-    if(newData != Mail("", "", "", "", false, "")) {
-      setState(() {
-        mails.add(newData);
-        mailsColor.add(Colors.white);
-      });
-    }
-    return true;
-  }
   void changeLabel(String newLabel) {
     setState(() {
       nowLabel = newLabel;
@@ -276,7 +262,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         mails[inMailNum].isStar = changes.isStar;
 
         //변경 사항이 있을 때
-        if(changes != Mail("", "", "", "", false, "")) {
+        if(changes != Mail("", "", "", "", false, "", false)) {
 
         }
       }
@@ -319,7 +305,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     if(newData.sender != "") {
       setState(() {
         localItems.add(newData);
-        newData = Mail("", "", "", "", false, "");
+        newData = Mail("", "", "", "", false, "", false);
         //개수는 늘어남
         debugPrint("getListView-mails : ${mails.toList()}");
       });
@@ -339,6 +325,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                   setState(() {
                     isSelect = false;
                   });
+                  mails[inMailNum].isRead = true;
                   Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
@@ -365,7 +352,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 });
               },
               child: Container(
-                color: !isSelect ? (mailsColor[index] = Colors.white) : mailsColor[index],
+                color: !isSelect ? (!localItems[index].isRead ? mailsColor[index] = Colors.white : mailsColor[index] = Colors.black12) : mailsColor[index],
                 child: ListTile(
                   leading: const FlutterLogo(size: 50.0),
                   title: Text(localItems[index].sender),
