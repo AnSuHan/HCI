@@ -34,6 +34,7 @@ class MailWrite extends State<MailWriteStateful> {
               //MailScene().addMail(newobj);        //not adding
               MailScene.addMailStatic(newobj);    //range error
               //MailScene.addMailWithNewData(newobj);
+              //main에 merge하기 위해 commit한 주석
 
               setState(() {
                 //MailScene.mails.add(newobj);      //range error
