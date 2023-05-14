@@ -1,82 +1,133 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/JsonParsing.dart';
+import 'package:project/MailInnerSceneStateful.dart';
+import 'package:project/MailWrite.dart';
 import 'package:project/MailWriteStateful.dart';
 
 import 'ChatScene.dart';
 import 'Drawer.dart';
-import 'JsonParsing.dart';
 import 'Mail.dart';
-import 'MailInnerScene.dart';
 import 'MailSceneStateful.dart';
-import 'Temp.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
-class MailScene extends State<MailSceneStateful> {
-  final TextEditingController searchController = TextEditingController();
 
-  var items = [Mail("tempSender",
       "tempTitle",
-      "tempSubtitle",
-      "tempMessage", "tempTime", false, "받은편지함"),
+      "tempMessage", "tempTime", false, "받은편지함", true),
     Mail("tempSender",
         "tempTitle",
-        "tempSubtitle",
-        "tempMessage", "tempTime", false, "받은편지함")];
+        "tempMessage", "tempTime", false, "받은편지함", false),
+    Mail("starSender",
+        "starTitle",
+        "starMessage", "starTime", true, "별표편지함", false)];
+  /*
+  static var mails = [Mail("LoadingSender",
+      "LoadingTitle",
+      "LoadingMessage", "LoadingTime", false, "받은편지함")];
+   */
+
+  static var changes = Mail("", "", "", "", false, "", false);
+  var nowLabel = "";
+  static var inMailNum = -1;
+  static var newData = Mail("", "", "", "", false, "", false);
+
+  List<Mail> items = [];
+  Future<List<Mail>> getFutureData() async {
+    return await JsonParsing().getData();
+  }
+
+  static List<Color> mailsColor = [Colors.white, Colors.white, Colors.white];
+  var isSelect = false;
+
+  var listview;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    debugPrint("mail class");
-    double baseWidth = 375;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
+    debugPrint("build mail class");
+    debugPrint("MailWrite : ${MailWrite.getInput()}");
 
-    JsonParsing().saveData(items);
+    //JsonParsing().saveData(mails);
 
-    List<Mail> item = [];
-    JsonParsing().getData(item);
-    debugPrint("item from param : $item");
+    //라벨에 맞는 메일만 필터링
+    setState(() {
+      //MailInnewrScene의 변경 내용 적용
+      if(inMailNum != -1) {
+        //isStar는 항상 재설정
+        mails[inMailNum].isStar = changes.isStar;
 
-    //라벨 선택
-    var nowLabel = thisLabel;
-    debugPrint("nowLabel : $nowLabel");
-    items = setLabel("받은편지함", items);
+        //변경 사항이 있을 때
+        if(changes != Mail("", "", "", "", false, "", false)) {
 
+        }
+      }
+      changes = Mail("", "", "", "", false, "", false);
+      items = setLabel(nowLabel, mails);
+      debugPrint("len : ${items.length}");
+    });
+
+    listview = getListView();
+
+
+    var appbar = !isSelect ? AppBar(title: Row(
+      children: [
+        Text("메일"),
+        Text((nowLabel == "") ? "" : " : "),
+        Text(nowLabel)
+      ],
+    ))  //Text('메일 : $nowLabel')
+        : AppBar(title: IconButton(onPressed: () {
+                          setState(() {
+                            isSelect = false;
+                            for(int i = 0 ; i < mailsColor.length ; i++) {
+                              mailsColor[i] = Colors.white;
+                            }
+                          });
+                        }, icon: const Icon(Icons.arrow_back_sharp),),
+            actions: [
+              IconButton(onPressed: () {
+                //원래는 보관이지만 전체 선택으로 변경 (네이버 메일 앱 참조)
+                setState(() {
+                  if(mailsColor.contains(Colors.white)) {
+                    //선택되지 않은 메일이 하나라도 있는 경우
+                    for(int i = 0 ; i < mailsColor.length ; i++) {
+                      mailsColor[i] = Colors.red;
+                    }
+                  }
+                  else {
+                    for(int i = 0 ; i < mailsColor.length ; i++) {
+                      mailsColor[i] = Colors.white;
+                    }
+                  }
+                });
+              }, icon: const Icon(Icons.checklist)),
+              IconButton(onPressed: () {
+                //삭제
+                setState(() {
+                  //인덱스가 큰 것 부터 삭제
+                  for(int i = mails.length - 1 ; i >= 0 ; i--) {
+                    if(mailsColor[i] == Colors.red) {
+                      mails.removeAt(i);
+                      mailsColor.removeAt(i);
+                    }
+                  }
+                  inMailNum = -1;
+                  isSelect = false;
+                });
+              }, icon: const Icon(Icons.delete)),
+              IconButton(onPressed: () {
+                //읽지 않음 상태
+              }, icon: const Icon(Icons.mail)),
+              IconButton(onPressed: () {
+
+              }, icon: const Icon(Icons.menu_open)),
+            ],
+          );
 
     return MaterialApp(
         title: 'Flutter Demo',
         home: Scaffold(
-          appBar: AppBar(
-              title: const Text('메일'),
-              actions: [
-                PopupMenuButton(
-                    itemBuilder: (BuildContext context){
-                      return[
-                        PopupMenuItem(
-                          child:TextField(
-                            controller: searchController,
-                            decoration: const InputDecoration(
-                              hintText: 'Search in mail',
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ];
-                    },
-                    onSelected:(value){
-                      if(value == 'search'){
-                        //saerch function 추가
-                      }
-                    },
-                    icon: const Icon(Icons.search),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: (){},
-            ),
-          ],
-        ),
-          drawer: const MyDrawer(),
+
           floatingActionButton: SizedBox(
             width: 200,
             height: 50,
@@ -98,96 +149,29 @@ class MailScene extends State<MailSceneStateful> {
               ),
             ),
           ),
-          body: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  debugPrint("mailScene$index");
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const MailInnerScene())
-                  );
-                },
-                child: ListTile(
-                  leading: const FlutterLogo(size: 50.0),
-                  title: Text(items[index].sender),
-                  subtitle: SizedBox(
-                    height: 50,
-                    width: 500,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 1000,
-                          child: Text(
-                            items[index].title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 1000,
-                          child: Text(
-                            items[index].subTitle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        /*
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              // file2uE (0:65)
-                              margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 5.33*fem, 1*fem),
-                              width: 9.33*fem,
-                              height: 11.67*fem,
-                              child: Image.asset(
-                                'assets/page-1/images/file.png',
-                                width: 9.33*fem,
-                                height: 11.67*fem,
-                              ),
-                            ),
-                            const Text(
-                              // message9U4 (0:68)
-                              'filename'
-                            ),
-                          ],
-                        ),
-                         */
-                      ],
-                    ),
-                  ),
-                  trailing: Column(
-                    children: [
-                      Text(items[index].time),
-                      StatefulBuilder(
-                        builder: (BuildContext context, StateSetter setState) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                items[index].isStar = !items[index].isStar;
-                              });
-                            },
-                            child: items[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
-                                : const Icon(Icons.star, color: Colors.grey),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
+          body: listview,
 
+          /*
           bottomNavigationBar: SizedBox(
             height: 100,
             width: 200,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                /*
+                Visibility(
+                  //visible이 false이면 child가 동작하지 않음
+                  visible: true,
+                  child: FutureBuilder(
+                  future: getFutureData(),
+                  builder: (context, snapshot) {
+                    mails = snapshot.data!;
+                    debugPrint("exec FutureBuilder");
+                    return Text("");
+                  },),
+                ),
+                 */
+
                 InkWell(  //GestureDetector
                   onTap: () {
                   },
@@ -216,8 +200,8 @@ class MailScene extends State<MailSceneStateful> {
                   onTap: () {
                     addMail(Mail("tempSender",
                         "tempTitle",
-                        "tempSubtitle",
-                        "tempMessage", "tempTime", false, "받은편지함"));
+                        "tempMessage", "tempTime", false, "받은편지함", false));
+                    //changeLabel("별표편지함");
                   },
                   child: const SizedBox(
                     height: 200,
@@ -228,11 +212,16 @@ class MailScene extends State<MailSceneStateful> {
               ],
             ),
           ),
+          */
         )
     );
   }
 
   List<Mail> setLabel(String targetLabel, List<Mail> item) {
+    if(targetLabel == "") {
+      return item;
+    }
+
     List<Mail> all = [];
 
     for(int i = 0 ; i < item.length ; i++) {
@@ -247,7 +236,43 @@ class MailScene extends State<MailSceneStateful> {
 
   void addMail(Mail mail) {
     setState(() {
-      items.add(mail);
+      mails.add(mail);
+      mailsColor.add(Colors.white);
+    });
+  }
+  static void addMailStatic(Mail mail) {
+    mails.add(mail);
+    mailsColor.add(Colors.white);
+    //newData = mail;
+    debugPrint("static mails : ${mails.toList()}");
+  }
+  void changeLabel(String newLabel) {
+    setState(() {
+      nowLabel = newLabel;
+    });
+  }
+
+  void update() {
+    setState(() {
+      //MailInnewrScene의 변경 내용 적용
+      if(inMailNum != -1) {
+        //isStar는 항상 재설정
+        mails[inMailNum].isStar = changes.isStar;
+
+        //변경 사항이 있을 때
+        if(changes != Mail("", "", "", "", false, "", false)) {
+
+        }
+      }
+
+      items = setLabel(nowLabel, mails);
+      debugPrint("len : ${items.length}");
+    });
+  }
+  void onDrawerItemSelected(String selected) {
+    debugPrint("onDrawerItemSelected : $nowLabel");
+    setState(() {
+      nowLabel = selected;
     });
   }
   /*
@@ -261,4 +286,157 @@ class MailScene extends State<MailSceneStateful> {
     //ret = item;
   }
    */
+  static Mail getMail() {
+    return mails[inMailNum];
+  }
+  static void deleteMail() {
+    mails.removeAt(inMailNum);
+    //@@this prevent "RangeError (index): Index out of range: no indices are valid: 0"
+    inMailNum = -1;
+  }
+  ListView getListView() {
+    debugPrint("getListView-newData : ${newData.toJson()}");
+    debugPrint("need to update : ${newData.sender != ""}");
+
+    var localItems = items;
+
+    if(newData.sender != "") {
+      setState(() {
+        localItems.add(newData);
+        newData = Mail("", "", "", "", false, "", false);
+        //개수는 늘어남
+        debugPrint("getListView-mails : ${mails.toList()}");
+      });
+    }
+
+    var listView;
+
+    setState(() {
+      listView = ListView.builder(
+        itemCount: localItems.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+              onTap: () {
+                if(!isSelect) {
+                  debugPrint("mailScene$index");
+                  inMailNum = index;
+                  setState(() {
+                    isSelect = false;
+                  });
+                  mails[inMailNum].isRead = true;
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
+                  );
+                }
+                else {
+                  setState(() {
+                    if(mailsColor[index] == Colors.red) {
+                      //이미 선택된 경우 해제
+                      mailsColor[index] = Colors.white;
+                    }
+                    else {
+                      mailsColor[index] = Colors.red;
+                    }
+                  });
+                }
+              },
+              //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
+              onLongPress: () {
+                setState(() {
+                  mailsColor[index] = Colors.red;
+                  inMailNum = index;
+                  isSelect = true;
+                });
+              },
+              child: Container(
+                color: !isSelect ? (!localItems[index].isRead ? mailsColor[index] = Colors.white : mailsColor[index] = Colors.black12) : mailsColor[index],
+                child: ListTile(
+                  leading: const FlutterLogo(size: 50.0),
+                  title: Text(localItems[index].sender),
+                  subtitle: SizedBox(
+                    height: 50,
+                    width: 500,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 1000,
+                          child: Text(
+                            localItems[index].title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 1000,
+                          child: Text(
+                            localItems[index].message.substring(0, 10),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  trailing: Column(
+                    children: [
+                      Text(localItems[index].time),
+                      StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                localItems[index].isStar = !localItems[index].isStar;
+                              });
+                              debugPrint("item-index : ${localItems[index].toJson()}");
+                              if(localItems[index].isStar) {
+                                localItems[index].label = "별표편지함";
+                              }
+                              else {
+                                localItems[index].label = "받은편지함";
+                              }
+                            },
+                            child: localItems[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                                : const Icon(Icons.star, color: Colors.grey),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              )
+          );
+        },
+      );
+    });
+
+    return listView;
+  }
+  void setListView(newList) {
+    listview = newList;
+  }
+}
+class MyModalRoute extends MaterialPageRoute<void> {
+  MyModalRoute({required super.builder});
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('This is a modal route'),
+          ElevatedButton(
+            child: Text('Close'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          Text('The name of this route is ${settings.name}'),
+        ],
+      ),
+    );
+  }
 }

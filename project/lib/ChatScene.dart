@@ -14,18 +14,16 @@ class ChatScene extends StatelessWidget {
 
     var items = [Mail("tempSender",
         "tempTitle",
-        "tempSubtitle",
-        "tempMessage", "tempTime", false, "받은편지함"),
+        "tempMessage", "tempTime", false, "받은편지함", false),
       Mail("tempSender",
           "tempTitle",
-          "tempSubtitle",
-          "tempMessage", "tempTime", false, "받은편지함")];
+          "tempMessage", "tempTime", false, "받은편지함", false)];
 
     return MaterialApp(
         title: 'Flutter Demo',
         home: Scaffold(
           appBar: AppBar( title: const Text('채팅') ),
-          drawer: const MyDrawer(),
+          //drawer: MyDrawer(onItemSelected: onDrawerItemSelected),
           body: ListView.builder(
             itemCount: items.length,
             itemBuilder: (context, index) {
@@ -53,7 +51,7 @@ class ChatScene extends StatelessWidget {
                         SizedBox(
                           width: 1000,
                           child: Text(
-                            items[index].subTitle,
+                            items[index].message.substring(0, 10),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
