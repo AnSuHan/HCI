@@ -12,6 +12,8 @@ import 'Temp.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
 class MailScene extends State<MailSceneStateful> {
+  final TextEditingController searchController = TextEditingController();
+
   var items = [Mail("tempSender",
       "tempTitle",
       "tempSubtitle",
@@ -44,7 +46,36 @@ class MailScene extends State<MailSceneStateful> {
     return MaterialApp(
         title: 'Flutter Demo',
         home: Scaffold(
-          appBar: AppBar( title: const Text('메일') ),
+          appBar: AppBar(
+              title: const Text('메일'),
+              actions: [
+                PopupMenuButton(
+                    itemBuilder: (BuildContext context){
+                      return[
+                        PopupMenuItem(
+                          child:TextField(
+                            controller: searchController,
+                            decoration: const InputDecoration(
+                              hintText: 'Search in mail',
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ];
+                    },
+                    onSelected:(value){
+                      if(value == 'search'){
+                        //saerch function 추가
+                      }
+                    },
+                    icon: const Icon(Icons.search),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: (){},
+            ),
+          ],
+        ),
           drawer: const MyDrawer(),
           floatingActionButton: SizedBox(
             width: 200,
