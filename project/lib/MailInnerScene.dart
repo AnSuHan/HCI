@@ -2,9 +2,7 @@ import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/Drawer.dart';
 import 'package:project/MailInnerSceneStateful.dart';
-import 'package:project/MailSceneStateful.dart';
 
 import 'ChatScene.dart';
 import 'Mail.dart';
@@ -12,9 +10,10 @@ import 'MailScene.dart';
 
 class MailInnerScene extends State<MailInnerSceneStateful> {
   bool isMenuOpen = false;
-  var mailReceive = true;
-  var _isChecked = false;
+  var mailReceiveLabel = true;
+  var mailStarLabel = false;
   Mail data = MailScene.getMail();
+  var isRead = MailScene.mails[MailScene.inMailNum].isRead;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,13 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 MailScene.deleteMail();
                 Navigator.pop(context);
               }, icon: const Icon(Icons.cancel)),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.mail)),
+              IconButton(onPressed: () {
+                //읽지 않음 또는 읽음 상태로 변경
+                setState(() {
+                  isRead = !isRead;
+                  MailScene.mails[MailScene.inMailNum].isRead = isRead;
+                });
+              }, icon: isRead ? const Icon(Icons.mail_outline) : const Icon(Icons.mail)),
               IconButton(onPressed: () {
                 //gpt
                 final RenderBox overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
@@ -120,14 +125,6 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
           ),
           body: Column(
             children: [
-              Checkbox(
-                value: mailReceive,
-                onChanged: (value) {
-                  setState(() {
-                    mailReceive = value!;
-                  });
-                },
-              ),
               /*
               //this code have space, not locating above
               AnimatedContainer(
@@ -321,58 +318,98 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return AlertDialog(
-            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            //Dialog Main Title
-            title: Column(
-              children: const <Widget>[
-                Text("라벨 적용"),
-              ],
-            ),
-            //
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    const Icon(Icons.indeterminate_check_box),
-                    const Text("받은편지함"),
-                    Checkbox(
-                      value: mailReceive,
-                      onChanged: (value) {
-                        setState(() {
-                          debugPrint("value : $value");
-                          debugPrint("mailReceive : $mailReceive");
-                          //mailReceive = value!;
-                          mailReceive = !mailReceive;
-                          value = mailReceive;
-                        });
-                        value = mailReceive;
-                      },
-                    )
-                  ],
-                )
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close dialog
-                },
-                child: const Text('취소'),
+          //https://bit.ly/3LIK02d
+          return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              //Dialog Main Title
+              title: Column(
+                children: const <Widget>[
+                  Text("라벨 적용"),
+                ],
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close dialog
-                },
-                child: const Text('확인'),
+              //
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      const Icon(Icons.indeterminate_check_box),
+                      const Text("받은편지함"),
+                      Checkbox(
+                        value: mailReceiveLabel,
+                        onChanged: (value) {
+                          setState(() {
+                            //mailReceiveLabel = value!;
+                            mailReceiveLabel = !mailReceiveLabel;
+                            value = mailReceiveLabel;
+                          });
+                        },
+                      ),
+                      /*
+                      //radio button
+                      RadioMenuButton(
+                          value: mailReceiveLabel,
+                          groupValue: "label",
+                          onChanged: (value) {
+                            setState(() {
+                              //mailReceiveLabel = value!;
+                              mailReceiveLabel = !mailReceiveLabel;
+                              value = mailReceiveLabel;
+                            });
+                          },
+                          child: Text("asd"))
+                       */
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      const Icon(Icons.indeterminate_check_box),
+                      const Text("별표편지함"),
+                      Checkbox(
+                        value: mailStarLabel,
+                        onChanged: (value) {
+                          setState(() {
+                            mailStarLabel = !mailStarLabel;
+                            value = mailStarLabel;
+                          });
+                        },
+                      )
+                    ],
+                  )
+                ],
               ),
-            ],
-          );
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Close dialog
+                  },
+                  child: const Text('취소'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    //라벨의 변경을 실제로 적용
+                    setState(() {
+                      if(mailStarLabel) {
+                        MailScene.mails[MailScene.inMailNum].label = "별표편지함";
+                      }
+                      else {
+                        MailScene.mails[MailScene.inMailNum].label = "받은편지함";
+                      }
+                    });
+                    MailScene.inMailNum = -1;
+                    Navigator.pop(context); // Close dialog
+                  },
+                  child: const Text('확인'),
+                ),
+              ],
+            );
+          });
         });
   }
 }

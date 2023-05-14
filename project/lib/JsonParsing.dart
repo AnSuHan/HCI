@@ -1,6 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'dart:html' as html;
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,25 +13,33 @@ import 'Mail.dart';
 
 class JsonParsing {
   Future<void> saveData(List<Mail> data) async {
-    debugPrint("origin : $data");
-    debugPrint("origin : ${data[0].title}");
-
     String jsonData = jsonEncode(data.map((item) => item.toJson()).toList());
 
-    debugPrint("jsonData : $jsonData");
-
-    await saveJsonToFile(jsonData);
+    //웹에서 실행하는 환경인 경우 (gpt) (안드로이드에서 사용 불가)
+    if(kIsWeb) {
+      html.window.localStorage['mails'] = jsonData;
+    }
 
     /*
-      var file = File('$_localPath/mail.json');
-      file.writeAsStringSync(jsonData);
-      debugPrint("file : $file");
-       */
-    //getData(jsonData);  //working well
+    if(Platform.isWindows) {
+
+    }
+    else {
+      await saveJsonToFile(jsonData);
+    }
+     */
   }
-  Future<List<Mail>> getData(List<Mail> ret) async {
+  Future<List<Mail>> getData() async {
     var sp = await SharedPreferences.getInstance();
     var jsonData = sp.getString('mails');
+
+    if(kIsWeb) {
+      jsonData = html.window.localStorage['mails'];
+    }
+
+    if(jsonData == null) {
+      return <Mail>[];
+    }
 
     List<dynamic> myList = json.decode(jsonData!);
     List<Mail> mailObj = <Mail>[];
@@ -38,60 +51,18 @@ class JsonParsing {
       var time = myList[0]["time"].toString();
       var isStar = myList[0]["isStar"] as bool;
       var label = myList[0]["label"].toString();
+      var isRead = myList[0]["isRead"] as bool;
 
-      var temp = Mail(sender, title, message, time, isStar, label);
+      var temp = Mail(sender, title, message, time, isStar, label, isRead);
 
       mailObj.add(temp);
     }
-
-    ret = mailObj;
-    debugPrint("ret : $ret");
-    //debugPrint("obj : ${mailObj[0].title}");
+    debugPrint("fut ${mailObj}");
     return mailObj;
   }
   Future<void> saveJsonToFile(String jsonData) async {
-    var fileName = 'mail.json';
-    //const directory = "/data/user/0/project/app_flutter/";
-    //var directory = await getApplicationDocumentsDirectory();
-    //debugPrint("directory : $directory");
-
     var sp = await SharedPreferences.getInstance();
     await sp.setString('mails', jsonData);
     debugPrint("save sp");
-
-    /*
-    var appDocDir = await getApplicationDocumentsDirectory();
-    var appDocPath = appDocDir.path;
-    debugPrint("doc : $appDocPath");
-
-    var path = 'assets/mail/$fileName';
-
-    final file = File(path);
-    debugPrint("asd");
-    if (await file.exists()) {
-      debugPrint("true");
-      // File exists, open it using the platform's default app
-      await file.open();
-    } else {
-      debugPrint("else");
-      // File does not exist, create it
-      await file.create(recursive: true);
-      debugPrint('File created: $path');
-    }
-
-    debugPrint("file : $file");
-
-    //var filePath = path.join(directory.path, fileName);
-    //var file = File(path);
-
-    var sink = file.openWrite();
-
-    sink.write(jsonData);
-    debugPrint("jsonData after write");
-
-    await sink.flush();
-    await sink.close();
-  */
-
   }
 }
