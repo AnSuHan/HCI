@@ -11,8 +11,7 @@ import 'Mail.dart';
 import 'MailSceneStateful.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
-class MailScene extends State<MailSceneStateful> with RouteAware {
-  static var mails = [Mail("tempSender",
+
       "tempTitle",
       "tempMessage", "tempTime", false, "받은편지함", true),
     Mail("tempSender",
@@ -128,8 +127,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     return MaterialApp(
         title: 'Flutter Demo',
         home: Scaffold(
-          appBar: appbar,
-          drawer: !isSelect ? MyDrawer(onItemSelected: onDrawerItemSelected) : null,
+
           floatingActionButton: SizedBox(
             width: 200,
             height: 50,
