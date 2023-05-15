@@ -40,6 +40,7 @@ class MailWrite extends State<MailWriteStateful> {
                 //MailScene.mails.add(newobj);      //range error
                 //MailScene().addMail(newobj);      //not adding
                 //MailScene.addMailStatic(newobj);  //range error
+                //push하기 위한 주석
               });
 
               debugPrint("inWrite : ${MailScene.mails.toList()}");
