@@ -39,6 +39,7 @@ class MailWrite extends State<MailWriteStateful> {
                 //MailScene.mails.add(newobj);      //range error
                 //MailScene().addMail(newobj);      //not adding
                 //MailScene.addMailStatic(newobj);  //range error
+                //forceMerge 브랜치 생성
               });
 
               debugPrint("inWrite : ${MailScene.mails.toList()}");
