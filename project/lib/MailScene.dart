@@ -28,6 +28,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
    */
   //new
   //forceMerge2
+  //forceMerge3
 
   static var changes = Mail("", "", "", "", false, "", false);
   var nowLabel = "";
