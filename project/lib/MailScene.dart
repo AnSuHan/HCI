@@ -27,6 +27,9 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
       "LoadingTitle",
       "LoadingMessage", "LoadingTime", false, "받은편지함")];
    */
+  //new
+  //forceMerge2
+  //forceMerge3
 
   static var changes = Mail("", "", "", "", false, "", false);
   var nowLabel = "";
