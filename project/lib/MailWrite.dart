@@ -26,7 +26,7 @@ class MailWrite extends State<MailWriteStateful> {
             IconButton(onPressed: () {}, icon: const Icon(Icons.file_present_outlined)),
             IconButton(onPressed: () {
               var newobj = Mail(MYACCOUNT, parsingData(_titleController.toString()),
-                  parsingData(_messageController.toString()), "230406", false, "받은편지함", false);
+                  parsingData(_messageController.toString()), "230406", false, "받은편지함", false, false);
 
               debugPrint("newobj : ${newobj.toJson()}");
               debugPrint("inWrite : ${MailScene.mails.toList()}");

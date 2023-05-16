@@ -14,13 +14,13 @@ import 'MailSceneStateful.dart';
 class MailScene extends State<MailSceneStateful> with RouteAware {
   static var mails = [Mail("tempSender",
       "tempTitle",
-      "tempMessage", "tempTime", false, "받은편지함", true),
+      "tempMessage", "tempTime", false, "받은편지함", true, false),
     Mail("tempSender",
         "tempTitle",
-        "tempMessage", "tempTime", false, "받은편지함", false),
+        "tempMessage", "tempTime", false, "받은편지함", false, true),
     Mail("starSender",
         "starTitle",
-        "starMessage", "starTime", true, "별표편지함", false)];
+        "starMessage", "starTime", true, "별표편지함", false, false)];
   /*
   static var mails = [Mail("LoadingSender",
       "LoadingTitle",
@@ -31,10 +31,10 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   //forceMerge3
   //forceMerge to main
 
-  static var changes = Mail("", "", "", "", false, "", false);
+  static var changes = Mail("", "", "", "", false, "", false, false);
   var nowLabel = "";
   static var inMailNum = -1;
-  static var newData = Mail("", "", "", "", false, "", false);
+  static var newData = Mail("", "", "", "", false, "", false, false);
 
   List<Mail> items = [];
   Future<List<Mail>> getFutureData() async {
@@ -62,11 +62,11 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         mails[inMailNum].isStar = changes.isStar;
 
         //변경 사항이 있을 때
-        if(changes != Mail("", "", "", "", false, "", false)) {
+        if(changes != Mail("", "", "", "", false, "", false, false)) {
 
         }
       }
-      changes = Mail("", "", "", "", false, "", false);
+      changes = Mail("", "", "", "", false, "", false, false);
       items = setLabel(nowLabel, mails);
       debugPrint("len : ${items.length}");
     });
@@ -266,7 +266,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         mails[inMailNum].isStar = changes.isStar;
 
         //변경 사항이 있을 때
-        if(changes != Mail("", "", "", "", false, "", false)) {
+        if(changes != Mail("", "", "", "", false, "", false, false)) {
 
         }
       }
@@ -309,7 +309,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     if(newData.sender != "") {
       setState(() {
         localItems.add(newData);
-        newData = Mail("", "", "", "", false, "", false);
+        newData = Mail("", "", "", "", false, "", false, false);
         //개수는 늘어남
         debugPrint("getListView-mails : ${mails.toList()}");
       });
@@ -385,31 +385,40 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                       ],
                     ),
                   ),
-                  trailing: Column(
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(localItems[index].time),
-                      StatefulBuilder(
-                        builder: (BuildContext context, StateSetter setState) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                localItems[index].isStar = !localItems[index].isStar;
-                              });
-                              debugPrint("item-index : ${localItems[index].toJson()}");
-                              if(localItems[index].isStar) {
-                                localItems[index].label = "별표편지함";
-                              }
-                              else {
-                                localItems[index].label = "받은편지함";
-                              }
-                            },
-                            child: localItems[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
-                                : const Icon(Icons.star, color: Colors.grey),
-                          );
-                        },
+                      (localItems[index].isReceiverOpen) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
+                      SizedBox(
+                        width: 100,
+                        child: Column(
+                          children: [
+                            Text(localItems[index].time),
+                            StatefulBuilder(
+                              builder: (BuildContext context, StateSetter setState) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      localItems[index].isStar = !localItems[index].isStar;
+                                    });
+                                    debugPrint("item-index : ${localItems[index].toJson()}");
+                                    if(localItems[index].isStar) {
+                                      localItems[index].label = "별표편지함";
+                                    }
+                                    else {
+                                      localItems[index].label = "받은편지함";
+                                    }
+                                  },
+                                  child: localItems[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                                      : const Icon(Icons.star, color: Colors.grey),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ],
-                  ),
+                  )
                 ),
               )
           );
