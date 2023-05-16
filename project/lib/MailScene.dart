@@ -34,7 +34,18 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   static var changes = Mail("", "", "", "", false, "", false);
   var nowLabel = "";
   static var inMailNum = -1;
-  static var newData = Mail("", "", "", "", false, "", false);
+  var newData = Mail("", "", "", "", false, "", false);
+  var newMail;
+  Future<void> _refreshData() async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    setState(() {
+      newMail = MailWrite.newMail;
+      mails.add(newMail);
+      mailsColor.add(Colors.white);
+    });
+  }
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
 
   List<Mail> items = [];
   Future<List<Mail>> getFutureData() async {
@@ -50,7 +61,19 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   @override
   Widget build(BuildContext context) {
     debugPrint("build mail class");
-    debugPrint("MailWrite : ${MailWrite.getInput()}");
+    /*
+    newMail = MailWrite.newMail;
+    debugPrint("Static Write : ${newMail}");
+
+    if(newMail != null) {
+      setState(() {
+        mails.add(newMail);
+        mailsColor.add(Colors.white);
+        newMail = null;
+      });
+    }
+     */
+    refreshKey.currentState?.show();
 
     //JsonParsing().saveData(mails);
 
@@ -155,7 +178,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
               ),
             ),
           ),
-          body: listview,
+          body: getIndicator(),
 
           /*
           bottomNavigationBar: SizedBox(
@@ -300,12 +323,119 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     //@@this prevent "RangeError (index): Index out of range: no indices are valid: 0"
     inMailNum = -1;
   }
+  //gpt & https://dev-yakuza.posstree.com/ko/flutter/widget/RefreshIndicator/
+  RefreshIndicator getIndicator() {
+    var indicator = RefreshIndicator(key: refreshKey, onRefresh: _refreshData, child: ListView.builder(
+      itemCount: mails.length,
+      itemBuilder: (context, index) {
+        return InkWell(
+            onTap: () {
+              if (!isSelect) {
+                debugPrint("mailScene$index");
+                inMailNum = index;
+                setState(() {
+                  isSelect = false;
+                });
+                mails[inMailNum].isRead = true;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
+                );
+              }
+              else {
+                setState(() {
+                  if (mailsColor[index] == Colors.red) {
+                    //이미 선택된 경우 해제
+                    mailsColor[index] = Colors.white;
+                  }
+                  else {
+                    mailsColor[index] = Colors.red;
+                  }
+                });
+              }
+            },
+            //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
+            onLongPress: () {
+              setState(() {
+                mailsColor[index] = Colors.red;
+                inMailNum = index;
+                isSelect = true;
+              });
+            },
+            child: Container(
+              color: !isSelect ? (!mails[index].isRead ? mailsColor[index] = Colors.white : mailsColor[index] = Colors.black12) : mailsColor[index],
+              child: ListTile(
+                leading: const FlutterLogo(size: 50.0),
+                title: Text(mails[index].sender),
+                subtitle: SizedBox(
+                  height: 50,
+                  width: 500,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 1000,
+                        child: Text(
+                          mails[index].title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 1000,
+                        child: Text(
+                          mails[index].message.substring(0, 10),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                trailing: Column(
+                  children: [
+                    Text(mails[index].time),
+                    StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              mails[index].isStar = !mails[index].isStar;
+                            });
+                            debugPrint("item-index : ${mails[index].toJson()}");
+                            if (mails[index].isStar) {
+                              mails[index].label = "별표편지함";
+                            }
+                            else {
+                              mails[index].label = "받은편지함";
+                            }
+                          },
+                          child: mails[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                              : const Icon(Icons.star, color: Colors.grey),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            )
+        );
+      },
+    )
+    );
+
+    return indicator;
+  }
   ListView getListView() {
+    debugPrint("------getListView---------");
+    debugPrint("mails : ${mails}");
+    debugPrint("mailsColor : ${mailsColor}");
     debugPrint("getListView-newData : ${newData.toJson()}");
     debugPrint("need to update : ${newData.sender != ""}");
 
-    var localItems = items;
+    var localItems = mails;
 
+    /*
     if(newData.sender != "") {
       setState(() {
         localItems.add(newData);
@@ -314,6 +444,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         debugPrint("getListView-mails : ${mails.toList()}");
       });
     }
+     */
 
     var listView;
 
@@ -323,7 +454,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         itemBuilder: (context, index) {
           return InkWell(
               onTap: () {
-                if(!isSelect) {
+                if (!isSelect) {
                   debugPrint("mailScene$index");
                   inMailNum = index;
                   setState(() {
@@ -337,7 +468,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 }
                 else {
                   setState(() {
-                    if(mailsColor[index] == Colors.red) {
+                    if (mailsColor[index] == Colors.red) {
                       //이미 선택된 경우 해제
                       mailsColor[index] = Colors.white;
                     }
@@ -396,7 +527,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                                 localItems[index].isStar = !localItems[index].isStar;
                               });
                               debugPrint("item-index : ${localItems[index].toJson()}");
-                              if(localItems[index].isStar) {
+                              if (localItems[index].isStar) {
                                 localItems[index].label = "별표편지함";
                               }
                               else {
@@ -416,7 +547,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         },
       );
     });
-
     return listView;
   }
   void setListView(newList) {

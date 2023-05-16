@@ -14,6 +14,8 @@ class MailWrite extends State<MailWriteStateful> {
   var writeMe = false;
   var isMenuOpen = false;
 
+  static var newMail;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,8 +34,9 @@ class MailWrite extends State<MailWriteStateful> {
               debugPrint("inWrite : ${MailScene.mails.toList()}");
               //MailScene.mails.add(newobj);        //range error
               //MailScene().addMail(newobj);        //not adding
-              MailScene.addMailStatic(newobj);    //range error
+              //MailScene.addMailStatic(newobj);    //range error
               //MailScene.addMailWithNewData(newobj);
+              newMail = newobj;
 
               setState(() {
                 //MailScene.mails.add(newobj);      //range error
