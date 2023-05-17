@@ -4,6 +4,7 @@ import 'package:project/MailScene.dart';
 
 import 'Mail.dart';
 import 'MailWriteStateful.dart';
+import 'Temp.dart';
 
 class MailWrite extends State<MailWriteStateful> {
   final _receiverController = TextEditingController();
@@ -26,14 +27,15 @@ class MailWrite extends State<MailWriteStateful> {
             IconButton(onPressed: () {}, icon: const Icon(Icons.file_present_outlined)),
             IconButton(onPressed: () {
               var newobj = Mail(MYACCOUNT, parsingData(_titleController.toString()),
-                  parsingData(_messageController.toString()), "230406", false, "받은편지함", false, false);
+                  parsingData(_messageController.toString()), "230406", false, "보낸편지함", false, false);
 
               debugPrint("newobj : ${newobj.toJson()}");
               debugPrint("inWrite : ${MailScene.mails.toList()}");
               //MailScene.mails.add(newobj);        //range error
               //MailScene().addMail(newobj);        //not adding
-              MailScene.addMailStatic(newobj);    //range error
+              //MailScene.addMailStatic(newobj);    //range error
               //MailScene.addMailWithNewData(newobj);
+              MailScene.sendMails.add(newobj);
 
               setState(() {
                 //MailScene.mails.add(newobj);      //range error
@@ -62,7 +64,7 @@ class MailWrite extends State<MailWriteStateful> {
                     child: const Text("보내기 예약"),
                     onTap: () {
                       debugPrint("click schedule");
-                      scheduleSending();
+                      scheduleSending(context);
                       /*
                       showDialog(
                         context: context,
@@ -270,9 +272,9 @@ class MailWrite extends State<MailWriteStateful> {
     return list;
   }
 
-  void scheduleSending() {
+  void scheduleSending(ctx) {
     showDialog(
-        context: context,
+        context: ctx,
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: false,
         builder: (BuildContext context) {

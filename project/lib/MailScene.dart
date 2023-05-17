@@ -8,19 +8,21 @@ import 'package:project/MailWriteStateful.dart';
 import 'ChatScene.dart';
 import 'Drawer.dart';
 import 'Mail.dart';
+import 'MailInnerScene.dart';
 import 'MailSceneStateful.dart';
+import 'Temp.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
 class MailScene extends State<MailSceneStateful> with RouteAware {
-  static var mails = [Mail("tempSender",
-      "tempTitle",
-      "tempMessage", "tempTime", false, "받은편지함", true, false),
-    Mail("tempSender",
-        "tempTitle",
-        "tempMessage", "tempTime", false, "받은편지함", false, true),
-    Mail("starSender",
-        "starTitle",
-        "starMessage", "starTime", true, "별표편지함", false, false)];
+  static var mails = [Mail("AAA@gmail.com",
+      "A-mail Title",
+      "MessageMessageMessageMessageMessageMessageMessageMessage", "21:00", false, "받은편지함", true, false),
+    Mail("BBB@gmail.com",
+        "B-mail Title",
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "10:30", false, "받은편지함", false, true),
+    Mail("CCC@gmail.com",
+        "C-mail Title",
+        "starMessagestarMessagestarMessagestarMessagestarMessage", "12:50", true, "별표편지함", false, false)];
   /*
   static var mails = [Mail("LoadingSender",
       "LoadingTitle",
@@ -42,7 +44,10 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   }
 
   static List<Color> mailsColor = [Colors.white, Colors.white, Colors.white];
+  static var sendMails = [];
+  static var sendMailsColor = [];
   var isSelect = false;
+  static var isSendLabel = false;
 
   var listview;
 
@@ -71,7 +76,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
       debugPrint("len : ${items.length}");
     });
 
-    listview = getListView();
+    listview = isSendLabel ? getSendListView() : getListView();
 
 
     var appbar = !isSelect ? AppBar(title: Row(
@@ -155,7 +160,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
               ),
             ),
           ),
-          body: listview,
+          body: getListView(),
 
           /*
           bottomNavigationBar: SizedBox(
@@ -299,6 +304,119 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     mails.removeAt(inMailNum);
     //@@this prevent "RangeError (index): Index out of range: no indices are valid: 0"
     inMailNum = -1;
+  }
+  ListView getSendListView() {
+    debugPrint("sendMails : $sendMails");
+
+    var listView = ListView.builder(
+      itemCount: sendMails.length,
+      itemBuilder: (context, index) {
+        return InkWell(
+            onTap: () {
+              if(!isSelect) {
+                debugPrint("mailScene$index");
+                inMailNum = index;
+                setState(() {
+                  isSelect = false;
+                });
+                sendMails[inMailNum].isRead = true;
+                MailInnerScene.from = 0;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
+                );
+              }
+              else {
+                setState(() {
+                  if(sendMailsColor[index] == Colors.red) {
+                    //이미 선택된 경우 해제
+                    sendMailsColor[index] = Colors.white;
+                  }
+                  else {
+                    sendMailsColor[index] = Colors.red;
+                  }
+                });
+              }
+            },
+            //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
+            onLongPress: () {
+              setState(() {
+                sendMailsColor[index] = Colors.red;
+                inMailNum = index;
+                isSelect = true;
+              });
+            },
+            child: Container(
+              color: !isSelect ? (!sendMails[index].isRead ? sendMailsColor[index] = Colors.white : sendMailsColor[index] = Colors.black12) : sendMailsColor[index],
+              child: ListTile(
+                  leading: const FlutterLogo(size: 50.0),
+                  title: Text(sendMails[index].sender),
+                  subtitle: SizedBox(
+                    height: 50,
+                    width: 500,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 1000,
+                          child: Text(
+                            sendMails[index].title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 1000,
+                          child: Text(
+                            sendMails[index].message.substring(0, 10),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      (sendMails[index].isReceiverOpen) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
+                      SizedBox(
+                        width: 100,
+                        child: Column(
+                          children: [
+                            Text(sendMails[index].time),
+                            StatefulBuilder(
+                              builder: (BuildContext context, StateSetter setState) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      sendMails[index].isStar = !sendMails[index].isStar;
+                                    });
+                                    debugPrint("item-index : ${sendMails[index].toJson()}");
+                                    /*
+                                    if(sendMails[index].isStar) {
+                                      sendMails[index].label = "별표편지함";
+                                    }
+                                    else {
+                                      sendMails[index].label = "받은편지함";
+                                    }
+                                     */
+                                  },
+                                  child: sendMails[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                                      : const Icon(Icons.star, color: Colors.grey),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+              ),
+            )
+        );
+    });
+    return listView;
   }
   ListView getListView() {
     debugPrint("getListView-newData : ${newData.toJson()}");

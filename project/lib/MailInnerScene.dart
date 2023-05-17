@@ -7,19 +7,31 @@ import 'package:project/MailInnerSceneStateful.dart';
 import 'ChatScene.dart';
 import 'Mail.dart';
 import 'MailScene.dart';
+import 'MailSceneWrite.dart';
 
 class MailInnerScene extends State<MailInnerSceneStateful> {
   bool isMenuOpen = false;
   var mailReceiveLabel = true;
   var mailStarLabel = false;
-  Mail data = MailScene.getMail();
-  var isRead = MailScene.mails[MailScene.inMailNum].isRead;
+  static var from = 0;  //0 : MailScene, 1 : MailSceneWrite
+  var data;
+  var isRead;
 
   @override
   Widget build(BuildContext context) {
     var isStar = MailScene.mails[MailScene.inMailNum].isStar;
     final screenWidth = MediaQuery.of(context).size.width;
     final textWidth = screenWidth * 0.8;
+
+    switch(from) {
+      case 0:
+        data = MailScene.getMail();
+        isRead = MailScene.mails[MailScene.inMailNum].isRead;
+        break;
+      case 1:
+        data = MailSceneWrite.getMail();
+        isRead = MailSceneWrite.mails[MailSceneWrite.inMailNum].isRead;
+    }
 
     return MaterialApp(
         title: 'Flutter Demo',
