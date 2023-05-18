@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/MailScene.dart';
 
 import 'Mail.dart';
+import 'MailSceneWrite.dart';
 import 'MailWriteStateful.dart';
 import 'Temp.dart';
 
@@ -35,9 +36,13 @@ class MailWrite extends State<MailWriteStateful> {
               //MailScene().addMail(newobj);        //not adding
               //MailScene.addMailStatic(newobj);    //range error
               //MailScene.addMailWithNewData(newobj);
-              MailScene.sendMails.add(newobj);
+              //MailScene.sendMails.add(newobj);
+              MailSceneWrite.mails.add(newobj);
+              //MailSceneWrite().addDynamic();
+
 
               setState(() {
+                //MailSceneWrite.addMail(newobj);
                 //MailScene.mails.add(newobj);      //range error
                 //MailScene().addMail(newobj);      //not adding
                 //MailScene.addMailStatic(newobj);  //range error
