@@ -316,7 +316,6 @@ class MyDrawer extends StatelessWidget {
             title: const Text('전체 받은편지함', style: TextStyle(fontSize: 20)),
             onTap: () {
               debugPrint("drawer 전체 받은편지함");
-              changeLabel("");
               Navigator.pop(context);
               onItemSelected("");
             }
@@ -332,7 +331,6 @@ class MyDrawer extends StatelessWidget {
             title: const Text('별표편지함', style: TextStyle(fontSize: 20)),
             onTap: () {
               debugPrint("drawer 별표편지함");
-              changeLabel("");
               Navigator.pop(context);
               onItemSelected("별표편지함");
             }
@@ -342,7 +340,6 @@ class MyDrawer extends StatelessWidget {
             title: const Text('보낸편지함', style: TextStyle(fontSize: 20)),
             onTap: () {
               debugPrint("drawer 보낸편지함");
-              changeLabel("보낸편지함");
               Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const MailSceneWriteStateful())
@@ -355,7 +352,6 @@ class MyDrawer extends StatelessWidget {
             title: const Text('예약편지함', style: TextStyle(fontSize: 20)),
             onTap: () {
               debugPrint("drawer 예약편지함");
-              changeLabel("");
             }
         ),
         ListTile(
@@ -363,7 +359,6 @@ class MyDrawer extends StatelessWidget {
             title: const Text('전체 받은편지함', style: TextStyle(fontSize: 20)),
             onTap: () {
               debugPrint("drawer 전체 받은편지함");
-              changeLabel("");
               Navigator.pop(context);
               onItemSelected("");
             }
@@ -373,7 +368,6 @@ class MyDrawer extends StatelessWidget {
             title: const Text('휴지통', style: TextStyle(fontSize: 20)),
             onTap: () {
               debugPrint("drawer 휴지통");
-              changeLabel("");
             }
         ),
 
@@ -402,14 +396,5 @@ class MyDrawer extends StatelessWidget {
     return Drawer(
       child: newDrawer
     );
-  }
-
-  void changeLabel(label) {
-    if(label == "보낸편지함") {
-      MailScene.isSendLabel = true;
-    }
-    else {
-      MailScene.isSendLabel = false;
-    }
   }
 }

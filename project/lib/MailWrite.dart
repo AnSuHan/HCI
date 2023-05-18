@@ -30,25 +30,7 @@ class MailWrite extends State<MailWriteStateful> {
               var newobj = Mail(MYACCOUNT, parsingData(_titleController.toString()),
                   parsingData(_messageController.toString()), "230406", false, "보낸편지함", false, false);
 
-              debugPrint("newobj : ${newobj.toJson()}");
-              debugPrint("inWrite : ${MailScene.mails.toList()}");
-              //MailScene.mails.add(newobj);        //range error
-              //MailScene().addMail(newobj);        //not adding
-              //MailScene.addMailStatic(newobj);    //range error
-              //MailScene.addMailWithNewData(newobj);
-              //MailScene.sendMails.add(newobj);
               MailSceneWrite.mails.add(newobj);
-              //MailSceneWrite().addDynamic();
-
-
-              setState(() {
-                //MailSceneWrite.addMail(newobj);
-                //MailScene.mails.add(newobj);      //range error
-                //MailScene().addMail(newobj);      //not adding
-                //MailScene.addMailStatic(newobj);  //range error
-              });
-
-              debugPrint("inWrite : ${MailScene.mails.toList()}");
 
               Navigator.pop(context, newobj);
             }, icon: const Icon(Icons.send_outlined)),
@@ -70,23 +52,6 @@ class MailWrite extends State<MailWriteStateful> {
                     onTap: () {
                       debugPrint("click schedule");
                       scheduleSending(context);
-                      /*
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: Text("Show Alert Dialog Box"),
-                          content: Text("You have raised a Alert Dialog Box"),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(ctx).pop();
-                              },
-                              child: Text("Ok"),
-                            ),
-                          ],
-                        ),
-                      );
-                       */
                       debugPrint("end of showDialog");
                     },
                   ),

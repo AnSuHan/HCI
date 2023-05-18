@@ -5,12 +5,10 @@ import 'package:project/MailInnerSceneStateful.dart';
 import 'package:project/MailWrite.dart';
 import 'package:project/MailWriteStateful.dart';
 
-import 'ChatScene.dart';
 import 'Drawer.dart';
 import 'Mail.dart';
 import 'MailInnerScene.dart';
 import 'MailSceneStateful.dart';
-import 'Temp.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
 class MailScene extends State<MailSceneStateful> with RouteAware {
@@ -23,15 +21,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     Mail("CCC@gmail.com",
         "C-mail Title",
         "starMessagestarMessagestarMessagestarMessagestarMessage", "12:50", true, "별표편지함", false, false)];
-  /*
-  static var mails = [Mail("LoadingSender",
-      "LoadingTitle",
-      "LoadingMessage", "LoadingTime", false, "받은편지함")];
-   */
-  //new
-  //forceMerge2
-  //forceMerge3
-  //forceMerge to main
 
   static var changes = Mail("", "", "", "", false, "", false, false);
   var nowLabel = "";
@@ -47,8 +36,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   static var sendMails = [];
   static var sendMailsColor = [];
   var isSelect = false;
-  static var isSendLabel = false;
-
   var listview;
 
   // This widget is the root of your application.
@@ -76,7 +63,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
       debugPrint("len : ${items.length}");
     });
 
-    listview = isSendLabel ? getSendListView() : getListView();
+    listview = getListView();
 
 
     var appbar = !isSelect ? AppBar(title: Row(
@@ -245,58 +232,13 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     return all;
   }
 
-  void addMail(Mail mail) {
-    setState(() {
-      mails.add(mail);
-      mailsColor.add(Colors.white);
-    });
-  }
-  static void addMailStatic(Mail mail) {
-    mails.add(mail);
-    mailsColor.add(Colors.white);
-    //newData = mail;
-    debugPrint("static mails : ${mails.toList()}");
-  }
-  void changeLabel(String newLabel) {
-    setState(() {
-      nowLabel = newLabel;
-    });
-  }
-
-  void update() {
-    setState(() {
-      //MailInnewrScene의 변경 내용 적용
-      if(inMailNum != -1) {
-        //isStar는 항상 재설정
-        mails[inMailNum].isStar = changes.isStar;
-
-        //변경 사항이 있을 때
-        if(changes != Mail("", "", "", "", false, "", false, false)) {
-
-        }
-      }
-
-      items = setLabel(nowLabel, mails);
-      debugPrint("len : ${items.length}");
-    });
-  }
   void onDrawerItemSelected(String selected) {
     debugPrint("onDrawerItemSelected : $nowLabel");
     setState(() {
       nowLabel = selected;
     });
   }
-  /*
-  void setItems(Future<List<Mail>> mails) async {
-    var temp = JsonParsing().getData();
-    var item = await temp;
 
-    //값 접근 가능
-    debugPrint("item in set : ${item[0].title}");
-    bridge.addAll(item);
-    //ret = item;
-  }
-   */
   static Mail getMail() {
     return mails[inMailNum];
   }
@@ -419,20 +361,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     return listView;
   }
   ListView getListView() {
-    debugPrint("getListView-newData : ${newData.toJson()}");
-    debugPrint("need to update : ${newData.sender != ""}");
-
     var localItems = items;
-
-    if(newData.sender != "") {
-      setState(() {
-        localItems.add(newData);
-        newData = Mail("", "", "", "", false, "", false, false);
-        //개수는 늘어남
-        debugPrint("getListView-mails : ${mails.toList()}");
-      });
-    }
-
     var listView;
 
     setState(() {
@@ -545,31 +474,5 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     });
 
     return listView;
-  }
-  void setListView(newList) {
-    listview = newList;
-  }
-}
-class MyModalRoute extends MaterialPageRoute<void> {
-  MyModalRoute({required super.builder});
-
-  @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('This is a modal route'),
-          ElevatedButton(
-            child: Text('Close'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          Text('The name of this route is ${settings.name}'),
-        ],
-      ),
-    );
   }
 }

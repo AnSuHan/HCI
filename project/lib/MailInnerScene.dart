@@ -19,44 +19,61 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
 
   @override
   Widget build(BuildContext context) {
-    var isStar = MailScene.mails[MailScene.inMailNum].isStar;
+    var isStar;
     final screenWidth = MediaQuery.of(context).size.width;
     final textWidth = screenWidth * 0.8;
+    debugPrint("from value : $from");
 
     switch(from) {
       case 0:
+        isStar = MailScene.mails[MailScene.inMailNum].isStar;
         data = MailScene.getMail();
         isRead = MailScene.mails[MailScene.inMailNum].isRead;
         break;
       case 1:
+        isStar = MailSceneWrite.mails[MailSceneWrite.inMailNum].isStar;
         data = MailSceneWrite.getMail();
+        debugPrint("after getMail");
         isRead = MailSceneWrite.mails[MailSceneWrite.inMailNum].isRead;
     }
+    debugPrint("after switch");
 
     return MaterialApp(
         title: 'Flutter Demo',
         home: Scaffold(
           appBar: AppBar( title: IconButton(onPressed: () {
-                /*
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => MailSceneStateful()));
-                */
+                //MailScene에서 메일을 선택할 때 from을 세팅하는데 세팅이 되지 않아
+                //나갈 때 0으로 세팅
+                from = 0;
                 Navigator.pop(context);
-                //Navigator.popAndPushNamed(context, "MailScene_screen");
-
             }, icon: const Icon(Icons.backspace)),
             actions: [
               IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
               IconButton(onPressed: () {
-                MailScene.deleteMail();
+                switch(from) {
+                  case 0:
+                    MailScene.deleteMail();
+                    break;
+                  case 1:
+                    MailSceneWrite.deleteMail();
+                }
                 Navigator.pop(context);
               }, icon: const Icon(Icons.cancel)),
               IconButton(onPressed: () {
                 //읽지 않음 또는 읽음 상태로 변경
-                setState(() {
-                  isRead = !isRead;
-                  MailScene.mails[MailScene.inMailNum].isRead = isRead;
-                });
+                switch(from) {
+                  case 0:
+                    setState(() {
+                      isRead = !isRead;
+                      MailScene.mails[MailScene.inMailNum].isRead = isRead;
+                    });
+                    break;
+                  case 1:
+                    setState(() {
+                      isRead = !isRead;
+                      MailSceneWrite.mails[MailSceneWrite.inMailNum].isRead = isRead;
+                    });
+                }
               }, icon: isRead ? const Icon(Icons.mail_outline) : const Icon(Icons.mail)),
               IconButton(onPressed: () {
                 //gpt
@@ -137,34 +154,6 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
           ),
           body: Column(
             children: [
-              /*
-              //this code have space, not locating above
-              AnimatedContainer(
-                duration: Duration(milliseconds: 500),
-                height: isMenuOpen ? 200 : 0,
-                child: ListView(
-                  children: [
-                    ListTile(
-                      title: Text("Menu Item 1"),
-                    ),
-                    ListTile(
-                      title: Text("Menu Item 2"),
-                    ),
-                    ListTile(
-                      title: Text("Menu Item 3"),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: Center(
-                    child: Text("Main Content"),
-                  ),
-                ),
-              ),
-               */
               Row(
                 children: [
                   SizedBox(
