@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/MailScene.dart';
 
 import 'MailSceneWriteStateful.dart';
-import 'Temp.dart';
+import 'Setting.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key, required this.onItemSelected});
@@ -380,7 +379,10 @@ class MyDrawer extends StatelessWidget {
             leading: const Icon(Icons.settings),
             title: const Text('설정', style: TextStyle(fontSize: 20)),
             onTap: () {
-              debugPrint("drawer 설정");
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Setting())
+              );
             }
         ),
         ListTile(
