@@ -136,6 +136,65 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
         child: ListTile(
             leading: const FlutterLogo(size: 50.0),
             title: Text(mails[i].sender),
+            subtitle: SizedBox(
+              height: 50,
+              width: 500,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 1000,
+                    child: Text(
+                      mails[i].title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 1000,
+                    child: Text(
+                      mails[i].message.substring(0, (mails[i].message.length >= 10) ? 10 : mails[i].message.length),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              (mails[i].isReceiverOpen) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
+              SizedBox(
+                width: 100,
+                child: Column(
+                  children: [
+                    Text(mails[i].time),
+                    StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              mails[i].isStar = !mails[i].isStar;
+                            });
+                            debugPrint("item-index : ${mails[i].toJson()}");
+                            if(mails[i].isStar) {
+                              //mails[i].label = "별표편지함";
+                            }
+                            else {
+                              //mails[i].label = "받은편지함";
+                            }
+                          },
+                          child: mails[i].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                              : const Icon(Icons.star, color: Colors.grey),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       );
       
