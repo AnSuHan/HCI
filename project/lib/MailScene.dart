@@ -38,6 +38,8 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   var isSelect = false;
   var listview;
 
+  static var flag_rebuild_Dismissible = false;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -361,14 +363,13 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     return listView;
   }
   ListView getListView() {
-    var localItems = items;
     var listView;
 
     setState(() {
       listView = ListView.builder(
-        itemCount: localItems.length,
+        itemCount: items.length,
         itemBuilder: (context, index) {
-          return InkWell(
+          var ink = InkWell(
               onTap: () {
                 if(!isSelect) {
                   debugPrint("mailScene$index");
@@ -403,10 +404,10 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 });
               },
               child: Container(
-                color: !isSelect ? (!localItems[index].isRead ? mailsColor[index] = Colors.white : mailsColor[index] = Colors.black12) : mailsColor[index],
+                color: !isSelect ? (!items[index].isRead ? mailsColor[index] = Colors.white : mailsColor[index] = Colors.black12) : mailsColor[index],
                 child: ListTile(
                   leading: const FlutterLogo(size: 50.0),
-                  title: Text(localItems[index].sender),
+                  title: Text(items[index].sender),
                   subtitle: SizedBox(
                     height: 50,
                     width: 500,
@@ -416,7 +417,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                         SizedBox(
                           width: 1000,
                           child: Text(
-                            localItems[index].title,
+                            items[index].title,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -424,7 +425,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                         SizedBox(
                           width: 1000,
                           child: Text(
-                            localItems[index].message.substring(0, 10),
+                            items[index].message.substring(0, 10),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -435,28 +436,28 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      (localItems[index].isReceiverOpen) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
+                      (items[index].isReceiverOpen) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
                       SizedBox(
                         width: 100,
                         child: Column(
                           children: [
-                            Text(localItems[index].time),
+                            Text(items[index].time),
                             StatefulBuilder(
                               builder: (BuildContext context, StateSetter setState) {
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      localItems[index].isStar = !localItems[index].isStar;
+                                      items[index].isStar = !items[index].isStar;
                                     });
-                                    debugPrint("item-index : ${localItems[index].toJson()}");
-                                    if(localItems[index].isStar) {
-                                      localItems[index].label = "별표편지함";
+                                    debugPrint("item-index : ${items[index].toJson()}");
+                                    if(items[index].isStar) {
+                                      items[index].label = "별표편지함";
                                     }
                                     else {
-                                      localItems[index].label = "받은편지함";
+                                      items[index].label = "받은편지함";
                                     }
                                   },
-                                  child: localItems[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                                  child: items[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
                                       : const Icon(Icons.star, color: Colors.grey),
                                 );
                               },
@@ -469,6 +470,77 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 ),
               )
           );
+          final thisItem = items[index].toString();
+          var dismiss = Dismissible(
+              key: Key(thisItem),
+              direction: DismissDirection.horizontal,
+              onDismissed: (direction) {
+                if(direction == DismissDirection.startToEnd) {
+                  //왼쪽으로 슬라이드
+                  setState(() {
+                    //삭제 이벤트 세팅
+                    //items.removeAt(index);
+                    //items.removeWhere((element) => element.message == mails[index].message && element.sender == mails[index].sender);
+                    //items.removeWhere((element) => element == mails[index]);
+                  });
+                }
+                else if(direction == DismissDirection.endToStart) {
+                  //오른쪽으로 슬라이드
+                  setState(() {
+                    //삭제 이벤트 세팅
+                    //조건이 하나면 동작 함
+                    //items.removeWhere((element) => element.message == mails[index].message);
+                    //items.removeWhere((element) => element.message == items[index].message);
+
+
+
+                    //inMailNum = index; deleteMail();
+                    //items.removeWhere((element) => element.message + element.sender == mails[index].message + mails[index].sender);
+                    //items.removeAt(index);
+                    //items.removeWhere((element) => compareObject(element, mails[index]));
+                    //items.removeWhere((element) => element == mails[index]);
+                    //items.removeWhere((element) => compareObject(element, mails[index]));
+                    //items.removeWhere((element) => (element.message.compareTo(mails[index].message) == 0 && element.title.compareTo(mails[index].title) == 0));
+                    //items.removeWhere((element) => element.toJson() == mails[index].toJson());
+                    //mails.remove(mails[index]);
+                    //mails.remove(items[index]);
+                  });
+                }
+
+                /*
+                //화면 하단에 메시지 출력
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('제거됨')),
+                );
+                 */
+              },
+              /*
+              //스와이프 한 뒤 Dialog로 confirm 받음
+              confirmDismiss: (direction) async {
+                return await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Confirm'),
+                      content: Text('Are you sure you want to remove?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: Text('Delete'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              */
+              child: ink);
+
+          return dismiss;
         },
       );
     });

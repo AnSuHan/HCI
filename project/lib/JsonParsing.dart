@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +16,7 @@ class JsonParsing {
 
     //웹에서 실행하는 환경인 경우 (gpt) (안드로이드에서 사용 불가)
     if(kIsWeb) {
-      html.window.localStorage['mails'] = jsonData;
+      //html.window.localStorage['mails'] = jsonData;
     }
 
     /*
@@ -34,7 +33,7 @@ class JsonParsing {
     var jsonData = sp.getString('mails');
 
     if(kIsWeb) {
-      jsonData = html.window.localStorage['mails'];
+      //jsonData = html.window.localStorage['mails'];
     }
 
     if(jsonData == null) {

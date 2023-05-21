@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:project/SettingBasicStateful.dart';
+import 'package:project/SettingDetailStateful.dart';
 
 import 'Setting.dart';
+import 'SettingDetail.dart';
 
 class SettingBasic extends State<SettingBasicStateful> {
-  var itemsBasic = [["테마", "시스템 기본값"], ["기본 이메일 알림 작업", "보관처리"], ["알림 관리", ""],
+  static var itemsBasic = [["테마", "시스템 기본값"], ["기본 이메일 알림 작업", "보관처리"], ["알림 관리", ""],
   ["이메일 대화형식으로 보기", true, "IMAP, POP3 및 Exchange 계정의 경우 동일한 대화의 이메일을 하나로 묶음"],
   ["대화 목록 밀도", "기본"], ["메일 스와이프 동작", "대화 목록에서 이메일 관련 작업을 빠르게 실행할 수 있도록 스와이프 동작을 설정함"],
   ["스크롤할 때 하단 탐색 숨기기", true], ["기본 이메일 답장 작업", "기본 답장 설정 선택"], ["이메일 메시지 자동 맞춤", true, "화면 크기메 맞게 메일 축소"],
   ["Gmail에서 웹 링크 열기", true, "빠른 탐색을 위해 사용"], ["자동 진행", "보관처리 또는 삭제 후 대화 목록 표시"],
   ["TITLE", "작업 확인"],
   ["삭제하기 전에 확인하기", true], ["보관처리하기 전에 확인하기", true], ["보내기 전에 확인하기", true]];
-  var itemsMail = [["TITLE", "계정"], ["Google 계정 관리", ""],
+  static var itemsMail = [["TITLE", "계정"], ["Google 계정 관리", ""],
   ["TITLE", "받은편지함"], ["받은편지함 유형", "기본 받은편지함"], ["받은편지함 카테고리", "기본, 프로모션, 소셜"],
   ["TITLE", "알림"], ["이메일 알림", "모두"], ["받은편지함 알림", "한 번만 알림"],
     ["라벨 관리", ""], ["채팅 알림", true], ["채팅 알림 일시중지", ""], ["알림 소리", ""], ["알림 관리", ""],
@@ -25,7 +27,8 @@ class SettingBasic extends State<SettingBasicStateful> {
   ["TITLE", "회의 참여"], ["영상 통화용 회의 참여 탬 표시", false], ["통화 벨소리", true, "전화 수신 시 벨소리 울리기"],
   ["TITLE", "중요한 메일 올리기"], ["답장 및 후속 조치", ""], ["TITLE", "받은편지함 도움말"], ["받은편지함 도움말 설정", ""],
   ["TITLE", "데이터 사용"], ["Gmail 동기화", true], ["메일 동기화 일 수", "30일"], ["첨부파일 다운로드", true, "Wi-Fi를 통해 최근 메일의 첨부파일을 자동으로 다운로드"],
-    ["이미지", "항상 외부 이미지 표시"], ["동적 이메일 사용 설정", true, "가능한 경우 동적 이메일 콘텐츠를 표시합니다."]];
+    ["이미지", "항상 외부 이미지 표시"], ["동적 이메일 사용 설정", true, "가능한 경우 동적 이메일 콘텐츠를 표시합니다."],
+  ["TITLE", "개인설정"], ["중요한 사용자 메일만 읽기", true], ["스팸메일 자동 삭제", false], ["휴지통 자동 비우기", false], ["사용자 차단", ""], ["오래된 메일 자동 삭제", ""]];
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +84,7 @@ class SettingBasic extends State<SettingBasicStateful> {
   InkWell getListItem(List items, int index) {
     return InkWell(
       onTap: () {
-        debugPrint("item ${items[index]}");
+        gotoDetail(items[index][0]);
       },
       child: ListTile(
         title: Text(items[index][0].toString()),
@@ -122,5 +125,24 @@ class SettingBasic extends State<SettingBasicStateful> {
         })(),
       ),
     );
+  }
+
+  //alertDialog가 아닌 새로운 화면을 구성해야 하는 경우, 다른 클래스로 이동하여 빌드
+  bool gotoDetail(title) {
+    var type = Setting.selectIndex;
+    var itemsBasicGo = ["메일 스와이프 동작"];
+    var itemsMail = [];
+
+    if(type == 0) {
+      if(itemsBasicGo.contains(title)) {
+        SettingDetail.appbarTitle = title;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SettingDetailStateful())
+        );
+      }
+    }
+
+    return true;
   }
 }
