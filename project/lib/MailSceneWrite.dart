@@ -197,14 +197,14 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
           ),
         ),
       );
-      
+
       mailWidgetStatic.add(newWidget);
       mailWidgetColorStatic.add(Colors.white);
     }
     var listview = ListView.builder(
         itemCount: mailWidgetStatic.length,
         itemBuilder: (context, index) {
-          return InkWell(
+          var ink = InkWell(
             onTap: () {
               MailInnerScene.from = 1;
               inMailNum = index;
@@ -215,6 +215,22 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
             },
             child: mailWidgetStatic[index],
           );
+          var dismiss = Dismissible(
+              key: Key(mailWidgetStatic[index].toString()),
+              direction: DismissDirection.horizontal,
+              onDismissed: (direction) {
+                if(direction == DismissDirection.startToEnd) {
+                  //왼쪽으로 슬라이드
+                  setState(() {
+
+                  });
+                }
+                else if(direction == DismissDirection.endToStart) {
+
+                }
+              }, child: ink);
+
+          return dismiss;
         });
 
     return listview;
