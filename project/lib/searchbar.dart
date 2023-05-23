@@ -16,9 +16,14 @@ class _HomePageState extends State<HomePage> {
   var searchResults = [];
 
   void searchEmails(String query) {
+    debugPrint("emails : $emails");
+
     for(var i = 0 ; i < emails.length ; i++) {
       if(emails[i].sender.contains(query) || emails[i].message.contains(query) || emails[i].title.contains(query)) {
-        searchResults.add(emails[i]);
+        setState(() {
+          searchResults.add(emails[i]);
+        });
+
       }
     }
   }
@@ -74,15 +79,15 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: ListView.builder(
+      body: (searchResults.isEmpty) ? Text("") : ListView.builder(
         itemCount: searchResults.length,
         itemBuilder: (context, index) {
           return ListTile(
             leading: CircleAvatar(
-              child: Text(searchResults[index][0]),
+              child: Text(searchResults[index].toString()),
             ),
             title: Text(
-              searchResults[index],
+              searchResults[index].toString(),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             subtitle: Text('Snippet of the email content'),
