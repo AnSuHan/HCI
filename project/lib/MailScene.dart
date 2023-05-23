@@ -4,6 +4,7 @@ import 'package:project/JsonParsing.dart';
 import 'package:project/MailInnerSceneStateful.dart';
 import 'package:project/MailWrite.dart';
 import 'package:project/MailWriteStateful.dart';
+import 'package:project/searchbar.dart';
 
 import 'ChatScene.dart';
 import 'Drawer.dart';
@@ -80,7 +81,15 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         Text((nowLabel == "") ? "" : " : "),
         Text(nowLabel)
       ],
-    ))  //Text('메일 : $nowLabel')
+    ), actions: [
+      IconButton(onPressed: (){
+        Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const HomePage())
+        );
+      }, icon: const Icon(Icons.add))
+    ],)  //Text('메일 : $nowLabel')
+
+
         : AppBar(title: IconButton(onPressed: () {
                           setState(() {
                             isSelect = false;

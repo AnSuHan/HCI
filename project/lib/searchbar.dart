@@ -1,43 +1,26 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+import 'MailScene.dart';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Gmail Clone',
-      theme: ThemeData(
-        primarySwatch: Colors.red, // Use Gmail's primary color
-      ),
-      home: HomePage(),
-    );
-  }
-}
+
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> emails = [
-    'Example email 1',
-    'Example email 2',
-    'Example email 3',
-    'Example email 4',
-    'Example email 5',
-  ];
-  List<String> searchResults = [];
+  var emails = MailScene.mails;
+  var searchResults = [];
 
   void searchEmails(String query) {
-    setState(() {
-      searchResults = emails
-          .where((email) => email.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
+    for(var i = 0 ; i < emails.length ; i++) {
+      if(emails[i].sender.contains(query) || emails[i].message.contains(query) || emails[i].title.contains(query)) {
+        searchResults.add(emails[i]);
+      }
+    }
   }
 
   @override
