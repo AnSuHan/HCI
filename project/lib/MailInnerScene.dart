@@ -14,6 +14,8 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
   static var from = 0;  //0 : MailScene, 1 : MailSceneWrite
   var data;
   var isRead;
+  var mailList = [];
+  var listExpanded = [];
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +28,82 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
       case 0:
         isStar = MailScene.mails[MailScene.inMailNum].isStar;
         data = MailScene.getMail();
+        mailList = gatherMails();
         isRead = MailScene.mails[MailScene.inMailNum].isRead;
         break;
       case 1:
         isStar = MailSceneWrite.mails[MailSceneWrite.inMailNum].isStar;
         data = MailSceneWrite.getMail();
+        mailList = gatherMails();
         debugPrint("after getMail");
         isRead = MailSceneWrite.mails[MailSceneWrite.inMailNum].isRead;
     }
     debugPrint("after switch");
+    for(var i = 0 ; i < mailList.length ; i++) {
+      listExpanded.add(true);
+    }
+
+    var listview = ListView.builder(
+      itemCount: mailList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Column(
+          children: [
+            Row(
+              children: [
+                Visibility(
+                  visible: false,
+                  child: SizedBox(
+                    width: textWidth,
+                    child: Center(
+                      child : Text(mailList[index].sender, style: const TextStyle(fontSize: 30))
+                        /*
+                        SizedBox(
+                          width: screenWidth - textWidth,
+                          child: StatefulBuilder(
+                            builder: (BuildContext context, StateSetter setState) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    isStar = !isStar;
+                                    MailScene.changes.isStar = isStar;
+                                    MailScene.mails[MailScene.inMailNum].isStar = isStar;
+                                    if(MailScene.mails[MailScene.inMailNum].isStar) {
+                                      MailScene.mails[MailScene.inMailNum].label = "별표편지함";
+                                    }
+                                    else {
+                                      MailScene.mails[MailScene.inMailNum].label = "받은편지함";
+                                    }
+                                  });
+                                },
+                                child: isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                                    : const Icon(Icons.star, color: Colors.grey),
+                              );
+                            },
+                          ),
+                        ),
+                        */
+                    ),
+                  )
+                ),
+
+              ],
+            ),
+            //보낸사람의 정보
+            ListTile(
+                leading: const FlutterLogo(size: 50.0),
+                title: Row(children: [
+                  Text("${mailList[index].title} ", maxLines: 1, overflow: TextOverflow.ellipsis),
+                ]),
+            ),
+            Visibility(
+              visible: listExpanded[index],
+              child: Text(mailList[index].message)
+            ),
+          ],
+        );
+      },
+
+    );
 
     return MaterialApp(
         title: 'Flutter Demo',
@@ -150,7 +219,10 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
             ],
 
           ),
-          body: Column(
+          body: listview,
+
+          /*
+          Column(
             children: [
               Row(
                 children: [
@@ -211,6 +283,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
               Text(data.message),
             ],
           ),
+          */
           bottomSheet: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -410,5 +483,9 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
             );
           });
         });
+  }
+
+  List<Mail> gatherMails() {
+    return [data, data];
   }
 }
