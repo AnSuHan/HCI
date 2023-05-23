@@ -9,6 +9,7 @@ import 'Drawer.dart';
 import 'Mail.dart';
 import 'MailInnerScene.dart';
 import 'MailSceneStateful.dart';
+import 'searchbar.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
 class MailScene extends State<MailSceneStateful> with RouteAware {
@@ -91,7 +92,16 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         Text((nowLabel == "") ? "" : " : "),
         Text(nowLabel)
       ],
-    ))  //Text('메일 : $nowLabel')
+    ),
+    actions: [
+      IconButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage())
+        );
+      },icon: Icon(Icons.add),
+    )],)  //Text('메일 : $nowLabel')
         : AppBar(title: IconButton(onPressed: () {
                           setState(() {
                             isSelect = false;
