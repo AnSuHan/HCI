@@ -16,7 +16,8 @@ class _HomePageState extends State<HomePage> {
   var searchResults = [];
 
   void searchEmails(String query) {
-    debugPrint("emails : $emails");
+    debugPrint("emails : ${emails.length}");
+    searchResults = [];
 
     for(var i = 0 ; i < emails.length ; i++) {
       if(emails[i].sender.contains(query) || emails[i].message.contains(query) || emails[i].title.contains(query)) {
