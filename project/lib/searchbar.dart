@@ -84,19 +84,76 @@ class _HomePageState extends State<HomePage> {
       body: (searchResults.isEmpty) ? Text("") : ListView.builder(
         itemCount: searchResults.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            leading: CircleAvatar(
-              child: Text(searchResults[index].title),
+          return  Container(
+            child: ListTile(
+                leading: const FlutterLogo(size: 50.0),
+                title: Text(searchResults[index].sender),
+                subtitle: SizedBox(
+                  height: 50,
+                  width: 500,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 1000,
+                        child: Text(
+                          searchResults[index].title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 1000,
+                        child: Text(
+                          searchResults[index].message.substring(0, 10),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    (searchResults[index].isReceiverOpen) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
+                    SizedBox(
+                      width: 100,
+                      child: Column(
+                        children: [
+                          Text(searchResults[index].time),
+                          StatefulBuilder(
+                            builder: (BuildContext context, StateSetter setState) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    searchResults[index].isStar = !searchResults[index].isStar;
+                                  });
+                                  debugPrint("item-index : ${searchResults[index].toJson()}");
+                                  /*
+                                    if(sendMails[index].isStar) {
+                                      sendMails[index].label = "별표편지함";
+                                    }
+                                    else {
+                                      sendMails[index].label = "받은편지함";
+                                    }
+                                     */
+                                },
+                                child: searchResults[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                                    : const Icon(Icons.star, color: Colors.grey),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
             ),
-            title: Text(
-              searchResults[index].sender,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text('Snippet of the email content'),
-            trailing: Icon(Icons.star_border), // Set trailing icon
           );
         },
       ),
     );
+
   }
 }
