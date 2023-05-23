@@ -19,15 +19,15 @@ class _HomePageState extends State<HomePage> {
 
   void searchEmails(String query) {
     debugPrint("emails : $emails");
-    searchResults = [];
-    for(var i = 0 ; i < emails.length ; i++) {
-      if(emails[i].sender.contains(query) || emails[i].message.contains(query) || emails[i].title.contains(query)) {
-        setState(() {
-          searchResults.add(emails[i]);
-        });
+    setState(() {
+      searchResults = [];
 
+      for(var i = 0 ; i < emails.length ; i++) {
+        if(emails[i].sender.contains(query) || emails[i].message.contains(query) || emails[i].title.contains(query)) {
+          searchResults.add(emails[i]);
+        }
       }
-    }
+    });
   }
 
   @override
