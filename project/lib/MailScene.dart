@@ -15,22 +15,22 @@ import 'searchbar.dart';
 class MailScene extends State<MailSceneStateful> with RouteAware {
   static var mails = [Mail("AAA@gmail.com",
       "A-mail Title",
-      "MessageMessageMessageMessageMessageMessageMessageMessage", "21:00", false, "받은편지함", true, false),
+      "MessageMessageMessageMessageMessageMessageMessageMessage", "230404_21:00", false, "받은편지함", true, false),
     Mail("BBB@gmail.com",
         "B-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "10:30", false, "받은편지함", false, true),
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230404_10:30", false, "받은편지함", false, true),
     Mail("CCC@gmail.com",
         "C-mail Title",
-        "starMessagestarMessagestarMessagestarMessagestarMessage", "12:50", true, "별표편지함", false, false),
+        "starMessagestarMessagestarMessagestarMessagestarMessage", "230403_12:50", true, "별표편지함", false, false),
     Mail("AAA@gmail.com",
         "A-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "21:00", false, "받은편지함", true, false),
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230402_21:00", false, "받은편지함", true, false),
     Mail("BBB@gmail.com",
         "B-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "10:30", false, "받은편지함", false, true),
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230402_10:30", false, "받은편지함", false, true),
     Mail("CCC@gmail.com",
         "C-mail Title",
-        "starMessagestarMessagestarMessagestarMessagestarMessage", "12:50", true, "별표편지함", false, false)];
+        "starMessagestarMessagestarMessagestarMessagestarMessage", "230401_12:50", true, "별표편지함", false, false)];
 
   static var changes = Mail("", "", "", "", false, "", false, false);
   var nowLabel = "";
@@ -672,7 +672,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                         width: 100,
                         child: Column(
                           children: [
-                            Text(items[index].time),
+                            Text(items[index].time.split("_")[0]),
                             StatefulBuilder(
                               builder: (BuildContext context, StateSetter setState) {
                                 return GestureDetector(

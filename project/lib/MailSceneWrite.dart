@@ -10,18 +10,18 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
   var isSelect = false;
   static var inMailNum = -1;
 
-  static var mails = [Mail("AAA@gmail.com",
-        "A-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "04:20", false, "받은편지함", true, false),
-    Mail("BBB@gmail.com",
+  static var mails = [Mail("BBB@gmail.com",
         "B-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "23:50", false, "받은편지함", true, true),
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230403_23:50", false, "받은편지함", true, true),
+    Mail("AAA@gmail.com",
+        "A-mail Title",
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230403_04:20", false, "받은편지함", true, false),
     Mail("CCC@gmail.com",
         "C-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "14:01", false, "받은편지함", true, false),
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230402_14:01", false, "받은편지함", true, false),
     Mail("DDD@gmail.com",
         "D-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "17:30", false, "받은편지함", true, false)];
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230401_17:30", false, "받은편지함", true, false)];
   var mailsColor = [Colors.white, Colors.white, Colors.white, Colors.white];
 
   static var mailWidgetStatic = [];
@@ -169,7 +169,7 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
                 width: 100,
                 child: Column(
                   children: [
-                    Text(mails[i].time),
+                    Text(mails[i].time.split("_")[0]),
                     StatefulBuilder(
                       builder: (BuildContext context, StateSetter setState) {
                         return GestureDetector(
