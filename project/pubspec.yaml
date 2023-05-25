@@ -65,11 +65,7 @@ flutter:
   assets:
     - assets/images/
     - assets/blue/Android/blue.png
-    - assets/orange/Android/
-    - assets/purple/Android/
-    - assets/pink/Android/
-    - assets/red/Android/
-    - assets/yellow/Android/
+
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
