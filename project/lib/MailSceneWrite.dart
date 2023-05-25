@@ -122,6 +122,14 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
     //@@this prevent "RangeError (index): Index out of range: no indices are valid: 0"
     inMailNum = -1;
   }
+  Map<String, String> senderImageMap = {
+    'AAA@gmail.com': 'assets/contact/blue.png',
+    'BBB@gmail.com': 'assets/contact/green.png',
+    'CCC@gmail.com': 'assets/contact/purple.png',
+    'DDD@gmail.com': 'assets/contact/red.png',
+
+    // Add more mappings for each sender/email and image asset
+  };
   ListView getListViewNotWidget() {
     var listview = ListView.builder(
         itemCount: mails.length,
@@ -138,7 +146,10 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
             child: Container(
               //color: !isSelect ? (!mails[i].isRead ? mailsColor[i] = Colors.white : mailsColor[i] = Colors.black12) : mailsColor[i],
               child: ListTile(
-                leading: const FlutterLogo(size: 50.0),
+                leading: Image.asset(
+                  senderImageMap[mails[index].sender] ?? 'assets/images/file-tzt.png',
+                  width: 50.0,
+                ),
                 title: Text(mails[index].sender),
                 subtitle: SizedBox(
                   height: 50,
