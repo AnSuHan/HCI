@@ -11,6 +11,7 @@ class ChatScene extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrint("chat class");
+    //
 
     var items = [Mail("tempSender",
         "tempTitle",
