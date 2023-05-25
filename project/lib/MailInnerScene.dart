@@ -133,18 +133,25 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              mailList[index][0].title,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                mailList[index][0].title,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
                             ),
-                            Text(
-                              mailList[index][0].time,
-                              style: const TextStyle(fontSize: 14),
+
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                mailList[index][0].time,
+                                style: const TextStyle(fontSize: 14),
+                              ),
                             ),
                           ],
                         ),
@@ -531,7 +538,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
       case "AAA@gmail.com":
         path = "assets/contact/blue.png";
         break;
-      case "BBB@gmail.com":
+      case "김영희":
         path = "assets/contact/green.png";
         break;
       case "CCC@gmail.com":
