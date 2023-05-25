@@ -3,6 +3,7 @@ import 'package:project/SettingDetailStateful.dart';
 
 class SettingDetail extends State<SettingDetailStateful> {
   static var appbarTitle = "";
+  static var swipeData = [["오른쪽으로 스와이프", "보관처리"], ["왼쪽으로 스와이프", "보관처리"]];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class SettingDetail extends State<SettingDetailStateful> {
     if(true){
       //스와이프 관련 세팅인 경우
       var options = ["보관처리", "삭제", "읽음/읽지않음으로 표시", "이동", "다시 알림", "없음"];
-      var swipeData = [["오른쪽으로 스와이프", "보관처리"], ["왼쪽으로 스와이프", "보관처리"]];
+
       //기본으로 체크되어 있는 값
       int? selectedRadio = 1;
       
@@ -136,6 +137,12 @@ class SettingDetail extends State<SettingDetailStateful> {
                   ),
               ),
               );
+
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingDetailStateful(),)
+              );
             },
             child: Column(  //Row 사용 불가
               children: [
@@ -144,7 +151,10 @@ class SettingDetail extends State<SettingDetailStateful> {
                   subtitle: Text(subtitleText),
                   trailing: const Text("변경")
                 ),
-                Image.asset('assets/images/right_save.png')
+                Container(
+                  child: getAssetPath(swipeData[index][1], index),
+                )
+
               ],
             ),
           );
@@ -155,6 +165,76 @@ class SettingDetail extends State<SettingDetailStateful> {
     }
 
   }
+
+  Widget getAssetPath(String swipeData, index) {
+    var path = "";
+
+    if(index == 0) {
+      switch (swipeData) {
+        case "보관처리":
+          path = 'assets/images/right_save.png';
+          break;
+        case "삭제":
+          path = 'assets/images/right_delete.png';
+          break;
+        case "읽음/읽지않음으로 표시":
+          path = 'assets/images/right_readState.png';
+          break;
+        case "이동":
+          path = 'assets/images/right_move.png';
+          break;
+        case "다시 알림":
+          path = 'assets/images/right_remind.png';
+          break;
+        case "없음":
+          path = '';
+          break;
+        default:
+          path = 'assets/images/right_save.png';
+      }
+    }
+    else {
+      switch (swipeData) {
+        case "보관처리":
+          path = 'assets/images/left_save.png';
+          break;
+        case "삭제":
+          path = 'assets/images/left_delete.png';
+          break;
+        case "읽음/읽지않음으로 표시":
+          path = 'assets/images/left_readState.png';
+          break;
+        case "이동":
+          path = 'assets/images/left_move.png';
+          break;
+        case "다시 알림":
+          path = 'assets/images/left_remind.png';
+          break;
+        case "없음":
+          path = '';
+          break;
+        default:
+          path = 'assets/images/left_save.png';
+      }
+    }
+
+    if(path != '') {
+      return Container(
+        height: 120,
+        width: 400,
+        child: Image.asset(path),
+      );
+    }
+    else {
+      return Container(
+        alignment: Alignment.center,
+        height: 120,
+        width: 400,
+        child: Text("없음"),
+      );
+    }
+  }
+
 
   int? findDefaultSelection(List options, value) {
     return options.indexOf(value) + 1;
