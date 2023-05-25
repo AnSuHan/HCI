@@ -329,7 +329,11 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
             child: Container(
               color: !isSelect ? (!sendMails[index].isRead ? sendMailsColor[index] = Colors.white : sendMailsColor[index] = Colors.black12) : sendMailsColor[index],
               child: ListTile(
-                  leading: const FlutterLogo(size: 50.0),
+                  leading: Image.asset(
+                    'assets/images/file.png',
+                    width: 50.0,
+                    ),
+
                   title: Text(sendMails[index].sender),
                   subtitle: SizedBox(
                     height: 50,
@@ -443,7 +447,10 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 child: Container(
                   color: !isSelect ? (!concentrateItems[index].isRead ? mailsColor[index] = Colors.white : mailsColor[index] = Colors.black12) : mailsColor[index],
                   child: ListTile(
-                      leading: const FlutterLogo(size: 50.0),
+                      leading: Image.asset(
+                        'assets/images/file.png',
+                        width: 50.0,
+                      ),
                       title: Text(concentrateItems[index].sender),
                       subtitle: SizedBox(
                         height: 50,
@@ -532,6 +539,13 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
       return listView;
     } //concentrateItems의 마지막
 
+    Map<String, String> senderImageMap = {
+      'AAA@gmail.com': 'assets/blue/Android/blue.png',
+      'BBB@gmail.com': 'assets/images/file.png',
+      'CCC@gmail.com': 'assets/images/file.png',
+      // Add more mappings for each sender/email and image asset
+    };
+
     //setItem();
     setState(() {
       listView = ListView.builder(
@@ -572,9 +586,12 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 });
               },
               child: Container(
-                color: !isSelect ? (!items[index].isRead ? mailsColor[index] = Colors.white : mailsColor[index] = Colors.black12) : mailsColor[index],
+                color: !isSelect ? (!items[index].isRead ? Colors.white : Colors.black12) : mailsColor[index],
                 child: ListTile(
-                  leading: const FlutterLogo(size: 50.0),
+                    leading: Image.asset(
+                      senderImageMap[items[index].sender] ?? 'assets/images/file-tzt.png',
+                      width: 50.0,
+                    ),
                   title: Text(items[index].sender),
                   subtitle: SizedBox(
                     height: 50,
