@@ -64,7 +64,7 @@ flutter:
   #https://velog.io/@viiviii/flutter-assets-and-images
   assets:
     - assets/images/
-    - assets/blue/Android/blue.png
+    - assets/contact/
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
