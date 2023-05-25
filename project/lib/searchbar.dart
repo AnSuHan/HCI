@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project/MailInnerSceneStateful.dart';
 
+import 'Mail.dart';
+import 'MailInnerScene.dart';
 import 'MailScene.dart';
 
 
@@ -7,15 +10,22 @@ import 'MailScene.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<StatefulWidget> createState() {
+    return _HomePageState();
+  }
+
+  static Mail getClickEmail() {
+    return _HomePageState.clickEmail;
+}
 }
 
 class _HomePageState extends State<HomePage> {
   var emails = MailScene.mails;
   var searchResults = [];
+  static var clickEmail;
 
   void searchEmails(String query) {
     debugPrint("emails : $emails");
@@ -23,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       searchResults = [];
 
       for(var i = 0 ; i < emails.length ; i++) {
-        if(emails[i].sender.contains(query) || emails[i].message.contains(query) || emails[i].title.contains(query)) {
+        if(emails[i].sender.toLowerCase().contains(query.toLowerCase()) || emails[i].message.toLowerCase().contains(query.toLowerCase()) || emails[i].title.toLowerCase().contains(query.toLowerCase())) {
           searchResults.add(emails[i]);
         }
       }
@@ -84,9 +94,17 @@ class _HomePageState extends State<HomePage> {
       body: (searchResults.isEmpty) ? Text("") : ListView.builder(
         itemCount: searchResults.length,
         itemBuilder: (context, index) {
-          return  Container(
+          return InkWell(
+            onTap: () {
+              clickEmail = searchResults[index];
+              MailInnerScene.from = 2;
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MailInnerSceneStateful(),)
+              );
+            },
             child: ListTile(
-                leading: const FlutterLogo(size: 50.0),
+                leading: getSenderImage(searchResults[index].sender),
                 title: Text(searchResults[index].sender),
                 subtitle: SizedBox(
                   height: 50,
@@ -121,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                       width: 100,
                       child: Column(
                         children: [
-                          Text(searchResults[index].time),
+                          Text(searchResults[index].time.split("_")[0]),
                           StatefulBuilder(
                             builder: (BuildContext context, StateSetter setState) {
                               return GestureDetector(
@@ -155,5 +173,27 @@ class _HomePageState extends State<HomePage> {
       ),
     );
 
+  }
+  Widget getSenderImage(sender) {
+    var path = "assets/blue/Android/blue.png";
+
+    switch(sender) {
+      case "AAA@gmail.com":
+        path = "assets/contact/blue.png";
+        break;
+      case "BBB@gmail.com":
+        path = "assets/contact/green.png";
+        break;
+      case "CCC@gmail.com":
+        path = "assets/contact/purple.png";
+        break;
+      case "DDD@gmail.com":
+        path = "assets/contact/red.png";
+        break;
+      default:
+        path = "assets/blue/Android/blue.png";
+    }
+
+    return Image.asset(path, width: 50, height: 50,);
   }
 }

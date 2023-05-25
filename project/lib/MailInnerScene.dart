@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/MailInnerSceneStateful.dart';
+import 'package:project/searchbar.dart';
 
 import 'ChatScene.dart';
 import 'Mail.dart';
@@ -36,8 +37,13 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
         isStar = MailSceneWrite.mails[MailSceneWrite.inMailNum].isStar;
         data = MailSceneWrite.getMail();
         mailList = gatherMails();
-        debugPrint("after getMail");
         isRead = MailSceneWrite.mails[MailSceneWrite.inMailNum].isRead;
+        break;
+      case 2:
+        MailScene.inMailNum = 0;
+        data = HomePage.getClickEmail();
+        mailList = gatherMails();
+        isRead = false;
     }
     debugPrint("after switch");
     for(var i = 0 ; i < mailList.length ; i++) {
