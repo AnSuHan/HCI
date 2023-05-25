@@ -64,6 +64,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
             },
             child: Container(
               padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.fromLTRB(0, 0, 50, 0),
               decoration: BoxDecoration(
                 color: Colors.blue.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(10),
@@ -120,6 +121,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
             },
             child: Container(
               padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.fromLTRB(50, 0, 0, 0),
               decoration: BoxDecoration(
                 color: Colors.green.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(10),
