@@ -65,6 +65,8 @@ flutter:
   assets:
     - assets/images/
     - assets/contact/
+    - assets/images/gmail.png
+    - assets/images/mailWriteIcon.png
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

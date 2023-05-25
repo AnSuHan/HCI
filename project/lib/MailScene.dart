@@ -53,6 +53,15 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   var concentrateItems = [];
   static var isConcentrate = false;
 
+  Map<String, String> senderImageMap = {
+    'AAA@gmail.com': 'assets/contact/blue.png',
+    '김영희': 'assets/contact/green.png',
+    'CCC@gmail.com': 'assets/contact/purple.png',
+    'DDD@gmail.com': 'assets/contact/red.png',
+
+    // Add more mappings for each sender/email and image asset
+  };
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -238,9 +247,9 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 );
               },
               child: Stack(
-                children: const [
-                  Icon(Icons.abc),
-                  Positioned(
+                children: [
+                  Image.asset("assets/images/pencil2.png"),
+                  const Positioned(
                     left: 24,
                     child: Text("편지쓰기"),
                   ),
@@ -448,7 +457,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                   color: !isSelect ? (!concentrateItems[index].isRead ? mailsColor[index] = Colors.white : mailsColor[index] = Colors.black12) : mailsColor[index],
                   child: ListTile(
                       leading: Image.asset(
-                        'assets/images/file.png',
+                        senderImageMap[concentrateItems[index].sender] ?? 'assets/images/file-tzt.png',
                         width: 50.0,
                       ),
                       title: Text(concentrateItems[index].sender),
@@ -485,7 +494,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                             width: 100,
                             child: Column(
                               children: [
-                                Text(concentrateItems[index].time),
+                                Text(concentrateItems[index].time.split("_")[0]),
                                 StatefulBuilder(
                                   builder: (BuildContext context, StateSetter setState) {
                                     return GestureDetector(
@@ -538,15 +547,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
 
       return listView;
     } //concentrateItems의 마지막
-
-    Map<String, String> senderImageMap = {
-      'AAA@gmail.com': 'assets/contact/blue.png',
-      '김영희': 'assets/contact/green.png',
-      'CCC@gmail.com': 'assets/contact/purple.png',
-      'DDD@gmail.com': 'assets/contact/red.png',
-
-      // Add more mappings for each sender/email and image asset
-    };
 
     //setItem();
     setState(() {
