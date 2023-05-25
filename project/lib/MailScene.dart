@@ -603,7 +603,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     } //concentrateItems의 마지막
 
     Map<String, String> senderImageMap = {
-      'AAA@gmail.com': 'assets/Android/blue.png',
+      'AAA@gmail.com': 'assets/blue/Android/blue.png',
       'BBB@gmail.com': 'assets/images/file.png',
       'CCC@gmail.com': 'assets/images/file.png',
       // Add more mappings for each sender/email and image asset
