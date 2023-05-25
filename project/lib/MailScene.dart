@@ -14,8 +14,8 @@ import 'searchbar.dart';
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
 class MailScene extends State<MailSceneStateful> with RouteAware {
   static var mails = [Mail("AAA@gmail.com",
-      "A-mail Title",
-      "MessageMessageMessageMessageMessageMessageMessageMessage", "230404_21:00", false, "받은편지함", true, false),
+      "제품 A의 추가 판매 전략 논의 요청",
+      "안녕하세요,\n저희 마케팅 팀에서는 최근 제품 A의 판매량을 높이기 위한 추가 전략을 고려하고 있습니다. 이에 대해 판매팀과 함께 논의하고자 이메일을 보내드립니다.\n제안 사항:\n가격 조정: 현재 제품 A의 가격이 경쟁사에 비해 높게 책정되어 있습니다. 가격 조정 여부와 조정 방향에 대해 의견을 나누고자 합니다.\n마케팅 캠페인: 제품 A를 대중에 알리기 위한 새로운 마케팅 캠페인을 기획하고 있습니다. 어떤 유형의 캠페인을 실행해볼지 아이디어를 공유해주세요.\n회의 일정 조율을 위해 가능한 날짜와 시간을 알려주시면 감사하겠습니다. 빠른 조율이 필요한 만큼 신속한 회신을 부탁드립니다.도움이 필요하거나 다른 의견이 있으시면 언제든지 연락주세요.\n감사합니다.\n\nMarketing Team\nCompany Inc.", "230404_21:00", false, "받은편지함", true, false),
     Mail("김영희",
         "취업 문의",
         "안녕하세요 박지원님,\n 김영희라고 합니다. UI 디자이너로서 귀사에서 일하고 싶어서 이메일을 보내게 되었습니다. 제 경력과 기술이 UI 디자인 역할에 적합하다고 생각합니다.", "230404_10:30", false, "받은편지함", false, true),
