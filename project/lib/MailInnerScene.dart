@@ -74,23 +74,6 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 children: [
                   Row(
                     children: [
-                      ClipOval(
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          color: Colors.blue,
-                          child: Center(
-                            child: Text(
-                              mailList[index][0].title[0],
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Column(
@@ -146,11 +129,6 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 children: [
                   Row(
                     children: [
-                      const Visibility(
-                        visible: false,
-                        child: FlutterLogo(size: 50.0),
-                      ),
-                      const SizedBox(width: 10),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +149,6 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                           ],
                         ),
                       ),
-                      const Icon(Icons.add_alert, size: 20),
                     ],
                   ),
                   const SizedBox(height: 5),
@@ -198,12 +175,13 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
     return MaterialApp(
         title: 'Flutter Demo',
         home: Scaffold(
-          appBar: AppBar( title: IconButton(onPressed: () {
+          appBar: AppBar( leading: IconButton(onPressed: () {
                 //MailScene에서 메일을 선택할 때 from을 세팅하는데 세팅이 되지 않아
                 //나갈 때 0으로 세팅
                 from = 0;
                 Navigator.pop(context);
             }, icon: const Icon(Icons.backspace)),
+            title: getSenderImage(),
             actions: [
               IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
               IconButton(onPressed: () {
