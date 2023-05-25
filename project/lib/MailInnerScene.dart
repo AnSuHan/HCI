@@ -459,8 +459,16 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
 
   Widget getSenderImage() {
     var path = "assets/blue/Android/blue.png";
+    var sOption = MailScene.mails[MailScene.inMailNum].sender;
 
-    switch(MailScene.mails[MailScene.inMailNum].sender) {
+    if(from == 0) {
+      sOption = MailScene.mails[MailScene.inMailNum].sender;
+    }
+    else if(from == 1) {
+      sOption = MailSceneWrite.mails[MailSceneWrite.inMailNum].sender;
+    }
+
+    switch(sOption) {
       case "AAA@gmail.com":
         path = "assets/contact/blue.png";
         break;
