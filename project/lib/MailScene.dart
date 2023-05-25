@@ -96,12 +96,24 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     listview = getListView();
 
 
-    var appbar = !isSelect ? AppBar(title: Row(
-      children: [
-        Text("메일"),
-        Text((nowLabel == "") ? "" : " : "),
-        Text(nowLabel)
-      ],
+    var appbar = !isSelect ? AppBar(title: InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage())
+        );
+      },
+      child: SizedBox(
+        width: 1000,
+        height: 50,
+        child: Row(
+          children: [
+            Text("메일", style: TextStyle(color: Colors.black),),
+            Text((nowLabel == "") ? "" : " : "),
+            Text(nowLabel)
+          ],
+        ),
+      ),
     ),
     backgroundColor: Colors.white,
     iconTheme: const IconThemeData(

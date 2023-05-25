@@ -190,7 +190,15 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 from = 0;
                 Navigator.pop(context);
             }, icon: const Icon(Icons.backspace)),
-            title: getSenderImage(),
+            title: Row(
+              children: [
+                getSenderImage(),
+                const SizedBox(
+                  width: 20,
+                ),
+                Text(data.sender)
+              ],
+            ),
             actions: [
               IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
               IconButton(onPressed: () {
