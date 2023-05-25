@@ -10,22 +10,20 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
   var isSelect = false;
   static var inMailNum = -1;
 
-  static var mails = [Mail("AAA@gmail.com",
-        "A-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "04:20", false, "받은편지함", true, false),
-    Mail("BBB@gmail.com",
+  static var mails = [Mail("BBB@gmail.com",
         "B-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "23:50", false, "받은편지함", true, true),
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230403_23:50", false, "받은편지함", true, true),
+    Mail("AAA@gmail.com",
+        "A-mail Title",
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230403_04:20", false, "받은편지함", true, false),
     Mail("CCC@gmail.com",
         "C-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "14:01", false, "받은편지함", true, false),
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230402_14:01", false, "받은편지함", true, false),
     Mail("DDD@gmail.com",
         "D-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "17:30", false, "받은편지함", true, false)];
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230401_17:30", false, "받은편지함", true, false)];
   var mailsColor = [Colors.white, Colors.white, Colors.white, Colors.white];
 
-  static var mailWidgetStatic = [];
-  static var mailWidgetColorStatic = [];
   var listView;
 
   @override
@@ -87,7 +85,7 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
       home: Scaffold(
         appBar: appbar,
         drawer: !isSelect ? MyDrawer(onItemSelected: onDrawerItemSelected) : null,
-        body: getListView(),
+        body: getListViewNotWidget(),
         floatingActionButton: SizedBox(
           width: 200,
           height: 50,
@@ -124,85 +122,9 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
     //@@this prevent "RangeError (index): Index out of range: no indices are valid: 0"
     inMailNum = -1;
   }
-  ListView getListView() {
-    var newWidget;
-    mailWidgetStatic = [];
-    mailWidgetColorStatic = [];
-    debugPrint("length widget : ${mails.length}");
-
-    for(var i = 0 ; i < mails.length ; i++) {
-      newWidget = Container(
-        //color: !isSelect ? (!mails[i].isRead ? mailsColor[i] = Colors.white : mailsColor[i] = Colors.black12) : mailsColor[i],
-        child: ListTile(
-            leading: const FlutterLogo(size: 50.0),
-            title: Text(mails[i].sender),
-            subtitle: SizedBox(
-              height: 50,
-              width: 500,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 1000,
-                    child: Text(
-                      mails[i].title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 1000,
-                    child: Text(
-                      mails[i].message.substring(0, (mails[i].message.length >= 10) ? 10 : mails[i].message.length),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              (mails[i].isReceiverOpen) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
-              SizedBox(
-                width: 100,
-                child: Column(
-                  children: [
-                    Text(mails[i].time),
-                    StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              mails[i].isStar = !mails[i].isStar;
-                            });
-                            debugPrint("item-index : ${mails[i].toJson()}");
-                            if(mails[i].isStar) {
-                              //mails[i].label = "별표편지함";
-                            }
-                            else {
-                              //mails[i].label = "받은편지함";
-                            }
-                          },
-                          child: mails[i].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
-                              : const Icon(Icons.star, color: Colors.grey),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-
-      mailWidgetStatic.add(newWidget);
-      mailWidgetColorStatic.add(Colors.white);
-    }
+  ListView getListViewNotWidget() {
     var listview = ListView.builder(
-        itemCount: mailWidgetStatic.length,
+        itemCount: mails.length,
         itemBuilder: (context, index) {
           var ink = InkWell(
             onTap: () {
@@ -213,20 +135,83 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
                   MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
               );
             },
-            child: mailWidgetStatic[index],
+            child: Container(
+              //color: !isSelect ? (!mails[i].isRead ? mailsColor[i] = Colors.white : mailsColor[i] = Colors.black12) : mailsColor[i],
+              child: ListTile(
+                leading: const FlutterLogo(size: 50.0),
+                title: Text(mails[index].sender),
+                subtitle: SizedBox(
+                  height: 50,
+                  width: 500,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 1000,
+                        child: Text(
+                          mails[index].title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 1000,
+                        child: Text(
+                          mails[index].message.substring(0, (mails[index].message.length >= 10) ? 10 : mails[index].message.length),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    (mails[index].isReceiverOpen) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
+                    SizedBox(
+                      width: 100,
+                      child: Column(
+                        children: [
+                          Text(mails[index].time.split("_")[0]),
+                          StatefulBuilder(
+                            builder: (BuildContext context, StateSetter setState) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    mails[index].isStar = !mails[index].isStar;
+                                  });
+                                  //debugPrint("item-index : ${mails[index.toJson()}");
+                                  if(mails[index].isStar) {
+                                    //mails[i].label = "별표편지함";
+                                  }
+                                  else {
+                                    //mails[i].label = "받은편지함";
+                                  }
+                                },
+                                child: mails[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                                    : const Icon(Icons.star, color: Colors.grey),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           );
           var dismiss = Dismissible(
-              key: Key(mailWidgetStatic[index].toString()),
+              key: Key(mails[index].toString()),
               direction: DismissDirection.horizontal,
               onDismissed: (direction) {
                 if(direction == DismissDirection.startToEnd) {
                   //왼쪽으로 슬라이드
-                  setState(() {
-
-                  });
+                  swipeDelete(index);
                 }
                 else if(direction == DismissDirection.endToStart) {
-
+                  swipeDelete(index);
                 }
               }, child: ink);
 
@@ -234,5 +219,24 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
         });
 
     return listview;
+  }
+
+  void swipeDelete(index) {//Navigator를 사용하여 해결하였지만 화면 전환으로 인한 깜빡임이 생긴다
+    //다른 방법으로 수정이 필요하다
+    setItem(index);
+    Navigator.pop(context);
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MailSceneWriteStateful(),)
+    );
+  }
+
+  void setItem(index) {
+    setState(() {
+      //삭제 수행
+      mails.removeAt(index);
+      mailsColor.removeAt(index);
+      getListViewNotWidget();
+    });
   }
 }

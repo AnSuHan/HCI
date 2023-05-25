@@ -14,6 +14,8 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
   static var from = 0;  //0 : MailScene, 1 : MailSceneWrite
   var data;
   var isRead;
+  var mailList = [];
+  var listExpanded = [];
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +28,91 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
       case 0:
         isStar = MailScene.mails[MailScene.inMailNum].isStar;
         data = MailScene.getMail();
+        mailList = gatherMails();
         isRead = MailScene.mails[MailScene.inMailNum].isRead;
         break;
       case 1:
         isStar = MailSceneWrite.mails[MailSceneWrite.inMailNum].isStar;
         data = MailSceneWrite.getMail();
+        mailList = gatherMails();
         debugPrint("after getMail");
         isRead = MailSceneWrite.mails[MailSceneWrite.inMailNum].isRead;
     }
     debugPrint("after switch");
+    for(var i = 0 ; i < mailList.length ; i++) {
+      listExpanded.add(true);
+    }
+
+    var listview = ListView.separated(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      itemCount: mailList.length,
+      itemBuilder: (BuildContext context, int index) {
+        //수신한 메일 출력
+        if(mailList[index][1] == "recv") {
+          return InkWell(
+            onTap: () {
+              setState(() {
+                listExpanded[index] = !listExpanded[index];
+              });
+            },
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const FlutterLogo(size: 50.0),
+                  title: Row(children: [
+                    Text("${mailList[index][0].title}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  ]),
+                  subtitle: Text("${mailList[index][0].time}"),
+                ),
+                Visibility(
+                    visible: listExpanded[index],
+                    child: Text(mailList[index][0].message)
+                ),
+                //for margin
+                const SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
+          );
+        }
+        //송신한 메일 출력
+        else {
+          return InkWell(
+            onTap: () {
+              setState(() {
+                listExpanded[index] = !listExpanded[index];
+              });
+            },
+            child: Column(
+              children: [
+                ListTile(
+                  //title의 위치 정렬 위해 사용
+                  leading: const Visibility(
+                    visible: false,
+                    child: FlutterLogo(size: 50.0,),
+                  ),
+                  trailing: const Icon(Icons.add_alert, size: 50.0),
+                  title: Text("${mailList[index][0].title}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  subtitle: Text("${mailList[index][0].time}"),
+                ),
+                Visibility(
+                    visible: listExpanded[index],
+                    child: Text(mailList[index][0].message)
+                ),
+                //for margin
+                const SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
+          );
+        }
+      }, separatorBuilder: (BuildContext context, int index)=> const Divider(
+            color: Colors.grey,
+            thickness: 1.0,
+          ),
+    );
 
     return MaterialApp(
         title: 'Flutter Demo',
@@ -150,67 +228,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
             ],
 
           ),
-          body: Column(
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: textWidth,
-                    child: Column(
-                      children: [
-                        Text(data.title, style: const TextStyle(fontSize: 30)),
-                        Text(data.label),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: screenWidth - textWidth,
-                    child: StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isStar = !isStar;
-                              MailScene.changes.isStar = isStar;
-                              MailScene.mails[MailScene.inMailNum].isStar = isStar;
-                              if(MailScene.mails[MailScene.inMailNum].isStar) {
-                                MailScene.mails[MailScene.inMailNum].label = "별표편지함";
-                              }
-                              else {
-                                MailScene.mails[MailScene.inMailNum].label = "받은편지함";
-                              }
-                            });
-                          },
-                          child: isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
-                              : const Icon(Icons.star, color: Colors.grey),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              //보낸사람의 정보
-              ListTile(
-                  leading: const FlutterLogo(size: 50.0),
-                  title: Row(children: [
-                    Text("${data.sender} ", maxLines: 1, overflow: TextOverflow.ellipsis),
-                    Text(data.time),
-                  ]),
-                  subtitle: Row(
-                    children: const [
-                      Text("receiver:"),
-                      Text("name")
-                    ],
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [Icon(Icons.arrow_back_sharp),
-                          Icon(Icons.menu)],
-                  )
-              ),
-              Text(data.message),
-            ],
-          ),
+          body: listview,
           bottomSheet: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -410,5 +428,32 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
             );
           });
         });
+  }
+
+  List gatherMails() {
+    var recv = MailScene.mails;
+    var send = MailSceneWrite.mails;
+    var filter = [];
+
+    var target = data.sender;
+    var i;
+
+    //받은 메일 수집
+    for(i = 0 ; i < recv.length ; i++) {
+      if(recv[i].sender == target) {
+        filter.add([recv[i], "recv"]);
+      }
+    }
+    //보낸 메일 수집
+    for(i = 0 ; i < send.length ; i++) {
+      if (send[i].sender == target) {
+        filter.add([send[i], "send"]);
+      }
+    }
+
+    //시간 순서대로 정렬렬
+    filter.sort((a, b) => a[0].time.compareTo(b[0].time));
+
+    return filter;
   }
 }

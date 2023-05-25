@@ -15,22 +15,22 @@ import 'searchbar.dart';
 class MailScene extends State<MailSceneStateful> with RouteAware {
   static var mails = [Mail("AAA@gmail.com",
       "A-mail Title",
-      "MessageMessageMessageMessageMessageMessageMessageMessage", "21:00", false, "받은편지함", true, false),
+      "MessageMessageMessageMessageMessageMessageMessageMessage", "230404_21:00", false, "받은편지함", true, false),
     Mail("BBB@gmail.com",
         "B-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "10:30", false, "받은편지함", false, true),
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230404_10:30", false, "받은편지함", false, true),
     Mail("CCC@gmail.com",
         "C-mail Title",
-        "starMessagestarMessagestarMessagestarMessagestarMessage", "12:50", true, "별표편지함", false, false),
+        "starMessagestarMessagestarMessagestarMessagestarMessage", "230403_12:50", true, "별표편지함", false, false),
     Mail("AAA@gmail.com",
         "A-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "21:00", false, "받은편지함", true, false),
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230402_21:00", false, "받은편지함", true, false),
     Mail("BBB@gmail.com",
         "B-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "10:30", false, "받은편지함", false, true),
+        "MessageMessageMessageMessageMessageMessageMessageMessage", "230402_10:30", false, "받은편지함", false, true),
     Mail("CCC@gmail.com",
         "C-mail Title",
-        "starMessagestarMessagestarMessagestarMessagestarMessage", "12:50", true, "별표편지함", false, false)];
+        "starMessagestarMessagestarMessagestarMessagestarMessage", "230401_12:50", true, "별표편지함", false, false)];
 
   static var changes = Mail("", "", "", "", false, "", false, false);
   var nowLabel = "";
@@ -249,69 +249,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
             ),
           ),
           body: getListView(),
-
-          /*
-          bottomNavigationBar: SizedBox(
-            height: 100,
-            width: 200,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                /*
-                Visibility(
-                  //visible이 false이면 child가 동작하지 않음
-                  visible: true,
-                  child: FutureBuilder(
-                  future: getFutureData(),
-                  builder: (context, snapshot) {
-                    mails = snapshot.data!;
-                    debugPrint("exec FutureBuilder");
-                    return Text("");
-                  },),
-                ),
-                 */
-
-                InkWell(  //GestureDetector
-                  onTap: () {
-                  },
-                  child: const SizedBox(
-                    height: 200,
-                    width: 100,
-                    child: Icon(Icons.mail),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const ChatScene())
-                    );
-
-                    //Navigator.pop(context);
-                  },
-                  child: const SizedBox(
-                    height: 200,
-                    width: 100,
-                    child: Icon(Icons.messenger_outline),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    addMail(Mail("tempSender",
-                        "tempTitle",
-                        "tempMessage", "tempTime", false, "받은편지함", false));
-                    //changeLabel("별표편지함");
-                  },
-                  child: const SizedBox(
-                    height: 200,
-                    width: 100,
-                    child: Icon(Icons.person_3),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          */
         )
     );
   }
@@ -672,7 +609,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                         width: 100,
                         child: Column(
                           children: [
-                            Text(items[index].time),
+                            Text(items[index].time.split("_")[0]),
                             StatefulBuilder(
                               builder: (BuildContext context, StateSetter setState) {
                                 return GestureDetector(
@@ -706,81 +643,15 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
               key: Key(thisItem),
               direction: DismissDirection.horizontal,
               onDismissed: (direction) {
-                var ind = -1;
-                for(var i = 0 ; i < mails.length ; i++) {
-                  if(mails[i] == items[index]) {
-                    ind = i;
-                    break;
-                  }
-                }
-                debugPrint("ind : $ind");
-                if(ind != -1) {
-                  removableIndex.add(ind);
-                }
-
-
-                /*
-                Future.delayed(Duration.zero, () {
-                  setState(() {
-                    if(direction == DismissDirection.startToEnd) {
-                      var ind = -1;
-                      for(var i = 0 ; i < mails.length ; i++) {
-                        if(mails[i] == items[index]) {
-                          ind = i;
-                          break;
-                        }
-                      }
-                      //mails.remove(items[index]);
-                      if(ind != -1) {
-                        mails.removeAt(ind);
-                        mailsColor.removeAt(ind);
-                      }
-
-                      //items.removeAt(index);
-                    }
-                    else if(direction == DismissDirection.endToStart) {
-                      //mails.remove(items[index]);
-                      //items.removeAt(index);
-                    }
-
-                  });
-                });
-                 */
-
-                /*
                 if(direction == DismissDirection.startToEnd) {
                   //왼쪽으로 슬라이드
-                  setState(() {
-                    //삭제 이벤트 세팅
-                    //items.removeAt(index);
-                    //items.removeWhere((element) => element.message == mails[index].message && element.sender == mails[index].sender);
-                    //items.removeWhere((element) => element == mails[index]);
-                  });
+                  swipeDelete(index);
                 }
                 else if(direction == DismissDirection.endToStart) {
                   //오른쪽으로 슬라이드
-                  setState(() {
-                    //삭제 이벤트 세팅
-                    //조건이 하나면 동작 함
-                    //setState 외부에 작성하면, 화면이 재시작 되었을 때 오류 발생
-                    //items.removeWhere((element) => element.message == mails[index].message);
-                    //items.removeWhere((element) => element.message == items[index].message);
-
-
-
-                    //inMailNum = index; deleteMail();
-                    //items.removeWhere((element) => element.message + element.sender == mails[index].message + mails[index].sender);
-                    //items.removeAt(index);
-                    //items.removeWhere((element) => compareObject(element, mails[index]));
-                    //items.removeWhere((element) => element == mails[index]);
-                    //items.removeWhere((element) => compareObject(element, mails[index]));
-                    //items.removeWhere((element) => (element.message.compareTo(mails[index].message) == 0 && element.title.compareTo(mails[index].title) == 0));
-                    //items.removeWhere((element) => element.toJson() == mails[index].toJson());
-                    //mails.remove(mails[index]);
-                    //mails.remove(items[index]);
-                  });
+                  swipeDelete(index);
                 }
-                 */
+
 
                 /*
                 //화면 하단에 메시지 출력
@@ -821,6 +692,29 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     });
 
     return listView;
+  }
+
+  void swipeDelete(index) {
+    var ind = -1;
+    for(var i = 0 ; i < mails.length ; i++) {
+      if(mails[i] == items[index]) {
+        ind = i;
+        break;
+      }
+    }
+    debugPrint("ind : $ind");
+    if(ind != -1) {
+      removableIndex.add(ind);
+    }
+
+    //Navigator를 사용하여 해결하였지만 화면 전환으로 인한 깜빡임이 생긴다
+    //다른 방법으로 수정이 필요하다
+    setItem();
+    Navigator.pop(context);
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MailSceneStateful(),)
+    );
   }
 
   void setItem() {
