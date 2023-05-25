@@ -11,7 +11,7 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
   static var inMailNum = -1;
 
   static var mails = [Mail("BBB@gmail.com",
-        "B-mail Title",
+        "dadada",
         "MessageMessageMessageMessageMessageMessageMessageMessage", "230403_23:50", false, "받은편지함", true, true),
     Mail("AAA@gmail.com",
         "A-mail Title",
