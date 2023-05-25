@@ -58,7 +58,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
             child: Column(
               children: [
                 ListTile(
-                  leading: const FlutterLogo(size: 50.0),
+                  leading: getSenderImage(),
                   title: Row(children: [
                     Text("${mailList[index][0].title}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
                   ]),
@@ -455,5 +455,28 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
     filter.sort((a, b) => a[0].time.compareTo(b[0].time));
 
     return filter;
+  }
+
+  Widget getSenderImage() {
+    var path = "assets/blue/Android/blue.png";
+
+    switch(MailScene.mails[MailScene.inMailNum].sender) {
+      case "AAA@gmail.com":
+        path = "assets/contact/blue.png";
+        break;
+      case "BBB@gmail.com":
+        path = "assets/contact/green.png";
+        break;
+      case "CCC@gmail.com":
+        path = "assets/contact/purple.png";
+        break;
+      case "DDD@gmail.com":
+        path = "assets/contact/red.png";
+        break;
+      default:
+        path = "assets/blue/Android/blue.png";
+    }
+
+    return Image.asset(path, width: 50, height: 50,);
   }
 }
