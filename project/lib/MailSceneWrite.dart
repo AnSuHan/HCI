@@ -26,6 +26,7 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
 
   static var mailWidgetStatic = [];
   static var mailWidgetColorStatic = [];
+  var removableIndex = [];
   var listView;
 
   @override
@@ -221,12 +222,10 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
               onDismissed: (direction) {
                 if(direction == DismissDirection.startToEnd) {
                   //왼쪽으로 슬라이드
-                  setState(() {
-
-                  });
+                  swipeDelete(index);
                 }
                 else if(direction == DismissDirection.endToStart) {
-
+                  swipeDelete(index);
                 }
               }, child: ink);
 
@@ -234,5 +233,45 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
         });
 
     return listview;
+  }
+
+  void swipeDelete(index) {
+    var ind = -1;
+    for(var i = 0 ; i < mails.length ; i++) {
+      if(mails[i] == mailWidgetStatic[index]) {
+        ind = i;
+        break;
+      }
+    }
+    debugPrint("ind : $ind");
+    if(ind != -1) {
+      removableIndex.add(ind);
+    }
+
+    //Navigator를 사용하여 해결하였지만 화면 전환으로 인한 깜빡임이 생긴다
+    //다른 방법으로 수정이 필요하다
+    setItem();
+    Navigator.pop(context);
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MailSceneWriteStateful(),)
+    );
+  }
+
+  void setItem() {
+    setState(() {
+          //삭제 먼저 수행
+          if(removableIndex != []) {
+        for(var i = removableIndex.length - 1 ; i >= 0 ; i--) {
+          mails.removeAt(removableIndex[i]);
+          mailsColor.removeAt(removableIndex[i]);
+        }
+      }
+      removableIndex = [];
+      getListView();
+
+      debugPrint("in setItem : mails len : ${mails.length}");
+      debugPrint("in setItem : color len : ${mailsColor.length}");
+    });
   }
 }

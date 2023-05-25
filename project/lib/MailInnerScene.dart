@@ -49,49 +49,63 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
       itemBuilder: (BuildContext context, int index) {
         //수신한 메일 출력
         if(mailList[index][1] == "recv") {
-          return Column(
-            children: [
-              ListTile(
-                leading: const FlutterLogo(size: 50.0),
-                title: Row(children: [
-                  Text("${mailList[index][0].title}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
-                ]),
-                subtitle: Text("${mailList[index][0].time}"),
-              ),
-              Visibility(
-                  visible: listExpanded[index],
-                  child: Text(mailList[index][0].message)
-              ),
-              //for margin
-              const SizedBox(
-                height: 20,
-              )
-            ],
+          return InkWell(
+            onTap: () {
+              setState(() {
+                listExpanded[index] = !listExpanded[index];
+              });
+            },
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const FlutterLogo(size: 50.0),
+                  title: Row(children: [
+                    Text("${mailList[index][0].title}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  ]),
+                  subtitle: Text("${mailList[index][0].time}"),
+                ),
+                Visibility(
+                    visible: listExpanded[index],
+                    child: Text(mailList[index][0].message)
+                ),
+                //for margin
+                const SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
           );
         }
         //송신한 메일 출력
         else {
-          return Column(
-            children: [
-              ListTile(
-                //title의 위치 정렬 위해 사용
-                leading: const Visibility(
-                  visible: false,
-                  child: FlutterLogo(size: 50.0,),
+          return InkWell(
+            onTap: () {
+              setState(() {
+                listExpanded[index] = !listExpanded[index];
+              });
+            },
+            child: Column(
+              children: [
+                ListTile(
+                  //title의 위치 정렬 위해 사용
+                  leading: const Visibility(
+                    visible: false,
+                    child: FlutterLogo(size: 50.0,),
+                  ),
+                  trailing: const Icon(Icons.add_alert, size: 50.0),
+                  title: Text("${mailList[index][0].title}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  subtitle: Text("${mailList[index][0].time}"),
                 ),
-                trailing: const Icon(Icons.add_alert, size: 50.0),
-                title: Text("${mailList[index][0].title}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
-                subtitle: Text("${mailList[index][0].time}"),
-              ),
-              Visibility(
-                  visible: listExpanded[index],
-                  child: Text(mailList[index][0].message)
-              ),
-              //for margin
-              const SizedBox(
-                height: 20,
-              )
-            ],
+                Visibility(
+                    visible: listExpanded[index],
+                    child: Text(mailList[index][0].message)
+                ),
+                //for margin
+                const SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
           );
         }
       }, separatorBuilder: (BuildContext context, int index)=> const Divider(
@@ -215,70 +229,6 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
 
           ),
           body: listview,
-
-          /*
-          Column(
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: textWidth,
-                    child: Column(
-                      children: [
-                        Text(data.title, style: const TextStyle(fontSize: 30)),
-                        Text(data.label),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: screenWidth - textWidth,
-                    child: StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isStar = !isStar;
-                              MailScene.changes.isStar = isStar;
-                              MailScene.mails[MailScene.inMailNum].isStar = isStar;
-                              if(MailScene.mails[MailScene.inMailNum].isStar) {
-                                MailScene.mails[MailScene.inMailNum].label = "별표편지함";
-                              }
-                              else {
-                                MailScene.mails[MailScene.inMailNum].label = "받은편지함";
-                              }
-                            });
-                          },
-                          child: isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
-                              : const Icon(Icons.star, color: Colors.grey),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              //보낸사람의 정보
-              ListTile(
-                  leading: const FlutterLogo(size: 50.0),
-                  title: Row(children: [
-                    Text("${data.sender} ", maxLines: 1, overflow: TextOverflow.ellipsis),
-                    Text(data.time),
-                  ]),
-                  subtitle: Row(
-                    children: const [
-                      Text("receiver:"),
-                      Text("name")
-                    ],
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [Icon(Icons.arrow_back_sharp),
-                          Icon(Icons.menu)],
-                  )
-              ),
-              Text(data.message),
-            ],
-          ),
-          */
           bottomSheet: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
