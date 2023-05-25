@@ -537,16 +537,16 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
     }
 
     switch(sOption) {
-      case "AAA@gmail.com":
+      case "글로벌테크":
         path = "assets/contact/blue.png";
         break;
-      case "김영희":
+      case "아이린패션":
         path = "assets/contact/green.png";
         break;
-      case "CCC@gmail.com":
+      case "동아모터스":
         path = "assets/contact/purple.png";
         break;
-      case "DDD@gmail.com":
+      case "에코그린에너지":
         path = "assets/contact/red.png";
         break;
       default:

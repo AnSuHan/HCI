@@ -14,22 +14,22 @@ import 'searchbar.dart';
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
 class MailScene extends State<MailSceneStateful> with RouteAware {
   static var mails = [
-    Mail("AAA@gmail.com",
+    Mail("글로벌테크",
         "RE: 제품 A의 추가 판매 전략 논의 요청",
         "안녕하세요,\n저희 지원팀에서는 문의하신 제품에 대한 기술적인 지원을 제공하기 위해 이메일을 보내드립니다. 문의하신 내용에 대한 답변과 도움을 드리고자 합니다.\n문의하신 제품: 제품 X\n문의하신 내용에 대한 답변:\n기술적인 문제: 문제의 해결을 위해 기술 지원팀이 조치를 취하고 있습니다. 추가적인 정보를 제공해주시면 보다 정확한 답변을 드릴 수 있습니다.\n기능 사용법: 제품 X의 기능에 대한 자세한 설명과 사용법을 안내해드릴 수 있습니다. 필요하신 부분이 있으면 구체적으로 알려주시기 바랍니다.\n도움이 필요하거나 추가적인 질문이 있으시면 언제든지 문의해주세요. 최대한 신속하게 도움을 드리겠습니다.\n감사합니다.\n지원팀\nCompany Inc.", "230404_21:00", false, "받은편지함", true, false),
-    Mail("BBB@gmail.com",
+    Mail("아이린패션",
         "RE: RE: 문의하신 제품에 대한 기술 지원 안내",
         "안녕하세요,\n빠른 회신에 감사드립니다. 문의하신 제품 X에 대한 기술 지원을 제공해드리겠습니다.\n기술적인 문제: [상세한 문제 내용]에 대해 즉시 조치를 취할 수 있도록 기술 지원팀이 액션을 취하고 있습니다. 문제 해결을 위해 필요한 추가 정보가 있는지 알려주시면 보다 정확한 도움을 드릴 수 있습니다.\n기능 사용법: 제품 X의 [특정 기능]에 대한 자세한 설명과 사용법을 안내해드리겠습니다. [기능 활용 방법]을 따라 진행하시면 해당 기능을 원활하게 활용하실 수 있습니다.\n도움이 필요한 경우 언제든지 문의해주세요. 최대한 신속하고 정확한 지원을 제공하겠습니다.\n감사합니다.\n지원팀\nCompany Inc.", "230404_10:30", false, "받은편지함", false, true),
-    Mail("CCC@gmail.com",
+    Mail("동아모터스",
         "RE: RE: 신제품 출시 기념 할인 이벤트 아이디어 회의 요청",
         "안녕하세요,\n회신을 받아서 감사드립니다. 회의 일정으로 6월 5일 (토요일) 오후 3시를 확인했습니다. 온라인 비디오 회의를 통해 아이디어를 공유하고 토론할 수 있도록 준비하겠습니다.\n추가로 회의 전에 필요한 준비물이나 주의사항이 있다면 미리 알려주시기 바랍니다.\n감사합니다.\n마케팅 팀\nCompany Inc.", "230403_12:50", true, "별표편지함", false, false),
-    Mail("AAA@gmail.com",
+    Mail("글로벌테크",
         "제품 A의 추가 판매 전략 논의 요청",
         "안녕하세요,\n저희 마케팅 팀에서는 최근 제품 A의 판매량을 높이기 위한 추가 전략을 고려하고 있습니다. 이에 대해 판매팀과 함께 논의하고자 이메일을 보내드립니다.\n제안 사항:\n가격 조정: 현재 제품 A의 가격이 경쟁사에 비해 높게 책정되어 있습니다. 가격 조정 여부와 조정 방향에 대해 의견을 나누고자 합니다.\n마케팅 캠페인: 제품 A를 대중에 알리기 위한 새로운 마케팅 캠페인을 기획하고 있습니다. 어떤 유형의 캠페인을 실행해볼지 아이디어를 공유해주세요.\n회의 일정 조율을 위해 가능한 날짜와 시간을 알려주시면 감사하겠습니다. 빠른 조율이 필요한 만큼 신속한 회신을 부탁드립니다.도움이 필요하거나 다른 의견이 있으시면 언제든지 연락주세요.\n감사합니다.\n\nMarketing Team\nCompany Inc.", "230402_21:00", false, "받은편지함", true, false),
-    Mail("BBB@gmail.com",
+    Mail("아이린패션",
         "문의하신 제품에 대한 기술 지원 안내",
         "안녕하세요 박지원님,\n 김영희라고 합니다. UI 디자이너로서 귀사에서 일하고 싶어서 이메일을 보내게 되었습니다. 제 경력과 기술이 UI 디자인 역할에 적합하다고 생각합니다.", "230402_10:30", false, "받은편지함", false, true),
-    Mail("CCC@gmail.com",
+    Mail("동아모터스",
         "신제품 출시 기념 할인 이벤트 아이디어 회의 요청",
         "안녕하세요,\n마케팅 팀의 여러분께 문의드립니다. 저희가 신제품 출시 기념으로 할인 이벤트를 진행하고자 하는데, 아이디어를 논의하고자 이메일을 보내드립니다.\n각자가 생각하는 할인 이벤트 아이디어를 공유하고, 가장 효과적이고 흥미로운 아이디어를 찾아내기 위해 회의를 개최하고자 합니다.\n가능한 회의 일정은 다음과 같습니다:\n날짜: 6월 5일 (토요일)\n시간: 오후 3시\n장소: 온라인 비디오 회의\n회의에 참석 가능한 시간을 알려주시면 최종 일정을 조율하도록 하겠습니다.\n다른 의견이 있거나 추가적인 아이디어를 공유하고 싶은 경우, 이메일로 알려주세요.\n감사합니다.\n마케팅 팀\nCompany Inc.", "230401_12:50", true, "별표편지함", false, false)];
 
@@ -55,10 +55,10 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   static var isConcentrate = false;
 
   Map<String, String> senderImageMap = {
-    'AAA@gmail.com': 'assets/contact/blue.png',
-    'BBB@gmail.com': 'assets/contact/green.png',
-    'CCC@gmail.com': 'assets/contact/purple.png',
-    'DDD@gmail.com': 'assets/contact/red.png',
+    '글로벌테크': 'assets/contact/blue.png',
+    '아이린패션': 'assets/contact/green.png',
+    '동아모터스': 'assets/contact/purple.png',
+    '에코그린에너지': 'assets/contact/red.png',
 
     // Add more mappings for each sender/email and image asset
   };
