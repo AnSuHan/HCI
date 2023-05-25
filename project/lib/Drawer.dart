@@ -266,15 +266,23 @@ class MyDrawer extends StatelessWidget {
         SizedBox(
           height: 100,
           child: SizedBox(
-            child: Container(
-              padding: const EdgeInsets.all(20), // Text 위젯에 대해 padding을 지정합니다.
-              child: const Text(
-                'Gmail',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 20,
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Image.asset("assets/images/gmail.png"),
                 ),
-              ),
+                Container(
+                  padding: const EdgeInsets.all(20), // Text 위젯에 대해 padding을 지정합니다.
+                  child: const Text(
+                    'Gmail',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ]
             ),
           ),
         ),

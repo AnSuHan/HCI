@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/MailInnerSceneStateful.dart';
+import 'package:project/searchbar.dart';
 
 import 'ChatScene.dart';
 import 'Mail.dart';
@@ -8,6 +9,7 @@ import 'MailScene.dart';
 import 'MailSceneWrite.dart';
 
 class MailInnerScene extends State<MailInnerSceneStateful> {
+
   bool isMenuOpen = false;
   var mailReceiveLabel = true;
   var mailStarLabel = false;
@@ -35,8 +37,13 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
         isStar = MailSceneWrite.mails[MailSceneWrite.inMailNum].isStar;
         data = MailSceneWrite.getMail();
         mailList = gatherMails();
-        debugPrint("after getMail");
         isRead = MailSceneWrite.mails[MailSceneWrite.inMailNum].isRead;
+        break;
+      case 2:
+        MailScene.inMailNum = 0;
+        data = HomePage.getClickEmail();
+        mailList = gatherMails();
+        isRead = false;
     }
     debugPrint("after switch");
     for(var i = 0 ; i < mailList.length ; i++) {
@@ -47,36 +54,64 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       itemCount: mailList.length,
       itemBuilder: (BuildContext context, int index) {
-        //수신한 메일 출력
-        if(mailList[index][1] == "recv") {
+        // 수신한 메일 출력
+        if (mailList[index][1] == "recv") {
           return InkWell(
             onTap: () {
               setState(() {
                 listExpanded[index] = !listExpanded[index];
               });
             },
-            child: Column(
-              children: [
-                ListTile(
-                  leading: const FlutterLogo(size: 50.0),
-                  title: Row(children: [
-                    Text("${mailList[index][0].title}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
-                  ]),
-                  subtitle: Text("${mailList[index][0].time}"),
-                ),
-                Visibility(
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.fromLTRB(0, 0, 50, 0),
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              mailList[index][0].title,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              mailList[index][0].time,
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Visibility(
                     visible: listExpanded[index],
-                    child: Text(mailList[index][0].message)
-                ),
-                //for margin
-                const SizedBox(
-                  height: 20,
-                )
-              ],
+                    child: Text(
+                      mailList[index][0].message,
+                      softWrap: true,
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }
-        //송신한 메일 출력
+        // 송신한 메일 출력
         else {
           return InkWell(
             onTap: () {
@@ -84,45 +119,86 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 listExpanded[index] = !listExpanded[index];
               });
             },
-            child: Column(
-              children: [
-                ListTile(
-                  //title의 위치 정렬 위해 사용
-                  leading: const Visibility(
-                    visible: false,
-                    child: FlutterLogo(size: 50.0,),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+              decoration: BoxDecoration(
+                color: Colors.green.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                mailList[index][0].title,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                mailList[index][0].time,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  trailing: const Icon(Icons.add_alert, size: 50.0),
-                  title: Text("${mailList[index][0].title}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
-                  subtitle: Text("${mailList[index][0].time}"),
-                ),
-                Visibility(
+                  const SizedBox(height: 5),
+                  Visibility(
                     visible: listExpanded[index],
-                    child: Text(mailList[index][0].message)
-                ),
-                //for margin
-                const SizedBox(
-                  height: 20,
-                )
-              ],
+                    child: Text(
+                      mailList[index][0].message,
+                      softWrap: true,
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }
-      }, separatorBuilder: (BuildContext context, int index)=> const Divider(
-            color: Colors.grey,
-            thickness: 1.0,
-          ),
+      },
+      separatorBuilder: (BuildContext context, int index) => const Divider(
+        color: Colors.grey,
+        thickness: 1.0,
+      ),
     );
+
 
     return MaterialApp(
         title: 'Flutter Demo',
         home: Scaffold(
-          appBar: AppBar( title: IconButton(onPressed: () {
+          appBar: AppBar( leading: IconButton(onPressed: () {
                 //MailScene에서 메일을 선택할 때 from을 세팅하는데 세팅이 되지 않아
                 //나갈 때 0으로 세팅
                 from = 0;
                 Navigator.pop(context);
             }, icon: const Icon(Icons.backspace)),
+            title: Row(
+              children: [
+                getSenderImage(),
+                const SizedBox(
+                  width: 20,
+                ),
+                Text(data.sender)
+              ],
+            ),
             actions: [
               IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
               IconButton(onPressed: () {
@@ -455,5 +531,36 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
     filter.sort((a, b) => a[0].time.compareTo(b[0].time));
 
     return filter;
+  }
+
+  Widget getSenderImage() {
+    var path = "assets/blue/Android/blue.png";
+    var sOption = MailScene.mails[MailScene.inMailNum].sender;
+
+    if(from == 0) {
+      sOption = MailScene.mails[MailScene.inMailNum].sender;
+    }
+    else if(from == 1) {
+      sOption = MailSceneWrite.mails[MailSceneWrite.inMailNum].sender;
+    }
+
+    switch(sOption) {
+      case "글로벌테크":
+        path = "assets/contact/blue.png";
+        break;
+      case "아이린패션":
+        path = "assets/contact/green.png";
+        break;
+      case "동아모터스":
+        path = "assets/contact/purple.png";
+        break;
+      case "에코그린에너지":
+        path = "assets/contact/red.png";
+        break;
+      default:
+        path = "assets/blue/Android/blue.png";
+    }
+
+    return Image.asset(path, width: 50, height: 50,);
   }
 }

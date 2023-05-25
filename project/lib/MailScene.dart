@@ -13,24 +13,25 @@ import 'searchbar.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
 class MailScene extends State<MailSceneStateful> with RouteAware {
-  static var mails = [Mail("AAA@gmail.com",
-      "A-mail Title",
-      "MessageMessageMessageMessageMessageMessageMessageMessage", "230404_21:00", false, "받은편지함", true, false),
-    Mail("BBB@gmail.com",
-        "B-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "230404_10:30", false, "받은편지함", false, true),
-    Mail("CCC@gmail.com",
-        "C-mail Title",
-        "starMessagestarMessagestarMessagestarMessagestarMessage", "230403_12:50", true, "별표편지함", false, false),
-    Mail("AAA@gmail.com",
-        "A-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "230402_21:00", false, "받은편지함", true, false),
-    Mail("BBB@gmail.com",
-        "B-mail Title",
-        "MessageMessageMessageMessageMessageMessageMessageMessage", "230402_10:30", false, "받은편지함", false, true),
-    Mail("CCC@gmail.com",
-        "C-mail Title",
-        "starMessagestarMessagestarMessagestarMessagestarMessage", "230401_12:50", true, "별표편지함", false, false)];
+  static var mails = [
+    Mail("글로벌테크",
+        "RE: 제품 A의 추가 판매 전략 논의 요청",
+        "안녕하세요,\n저희 지원팀에서는 문의하신 제품에 대한 기술적인 지원을 제공하기 위해 이메일을 보내드립니다. 문의하신 내용에 대한 답변과 도움을 드리고자 합니다.\n문의하신 제품: 제품 X\n문의하신 내용에 대한 답변:\n기술적인 문제: 문제의 해결을 위해 기술 지원팀이 조치를 취하고 있습니다. 추가적인 정보를 제공해주시면 보다 정확한 답변을 드릴 수 있습니다.\n기능 사용법: 제품 X의 기능에 대한 자세한 설명과 사용법을 안내해드릴 수 있습니다. 필요하신 부분이 있으면 구체적으로 알려주시기 바랍니다.\n도움이 필요하거나 추가적인 질문이 있으시면 언제든지 문의해주세요. 최대한 신속하게 도움을 드리겠습니다.\n감사합니다.\n지원팀\nCompany Inc.", "230404_21:00", false, "받은편지함", true, false),
+    Mail("아이린패션",
+        "RE: RE: 문의하신 제품에 대한 기술 지원 안내",
+        "안녕하세요,\n빠른 회신에 감사드립니다. 문의하신 제품 X에 대한 기술 지원을 제공해드리겠습니다.\n기술적인 문제: [상세한 문제 내용]에 대해 즉시 조치를 취할 수 있도록 기술 지원팀이 액션을 취하고 있습니다. 문제 해결을 위해 필요한 추가 정보가 있는지 알려주시면 보다 정확한 도움을 드릴 수 있습니다.\n기능 사용법: 제품 X의 [특정 기능]에 대한 자세한 설명과 사용법을 안내해드리겠습니다. [기능 활용 방법]을 따라 진행하시면 해당 기능을 원활하게 활용하실 수 있습니다.\n도움이 필요한 경우 언제든지 문의해주세요. 최대한 신속하고 정확한 지원을 제공하겠습니다.\n감사합니다.\n지원팀\nCompany Inc.", "230404_10:30", false, "받은편지함", false, true),
+    Mail("동아모터스",
+        "RE: RE: 신제품 출시 기념 할인 이벤트 아이디어 회의 요청",
+        "안녕하세요,\n회신을 받아서 감사드립니다. 회의 일정으로 6월 5일 (토요일) 오후 3시를 확인했습니다. 온라인 비디오 회의를 통해 아이디어를 공유하고 토론할 수 있도록 준비하겠습니다.\n추가로 회의 전에 필요한 준비물이나 주의사항이 있다면 미리 알려주시기 바랍니다.\n감사합니다.\n마케팅 팀\nCompany Inc.", "230403_12:50", true, "별표편지함", false, false),
+    Mail("글로벌테크",
+        "제품 A의 추가 판매 전략 논의 요청",
+        "안녕하세요,\n저희 마케팅 팀에서는 최근 제품 A의 판매량을 높이기 위한 추가 전략을 고려하고 있습니다. 이에 대해 판매팀과 함께 논의하고자 이메일을 보내드립니다.\n제안 사항:\n가격 조정: 현재 제품 A의 가격이 경쟁사에 비해 높게 책정되어 있습니다. 가격 조정 여부와 조정 방향에 대해 의견을 나누고자 합니다.\n마케팅 캠페인: 제품 A를 대중에 알리기 위한 새로운 마케팅 캠페인을 기획하고 있습니다. 어떤 유형의 캠페인을 실행해볼지 아이디어를 공유해주세요.\n회의 일정 조율을 위해 가능한 날짜와 시간을 알려주시면 감사하겠습니다. 빠른 조율이 필요한 만큼 신속한 회신을 부탁드립니다.도움이 필요하거나 다른 의견이 있으시면 언제든지 연락주세요.\n감사합니다.\n\nMarketing Team\nCompany Inc.", "230402_21:00", false, "받은편지함", true, false),
+    Mail("아이린패션",
+        "문의하신 제품에 대한 기술 지원 안내",
+        "안녕하세요 박지원님,\n 김영희라고 합니다. UI 디자이너로서 귀사에서 일하고 싶어서 이메일을 보내게 되었습니다. 제 경력과 기술이 UI 디자인 역할에 적합하다고 생각합니다.", "230402_10:30", false, "받은편지함", false, true),
+    Mail("동아모터스",
+        "신제품 출시 기념 할인 이벤트 아이디어 회의 요청",
+        "안녕하세요,\n마케팅 팀의 여러분께 문의드립니다. 저희가 신제품 출시 기념으로 할인 이벤트를 진행하고자 하는데, 아이디어를 논의하고자 이메일을 보내드립니다.\n각자가 생각하는 할인 이벤트 아이디어를 공유하고, 가장 효과적이고 흥미로운 아이디어를 찾아내기 위해 회의를 개최하고자 합니다.\n가능한 회의 일정은 다음과 같습니다:\n날짜: 6월 5일 (토요일)\n시간: 오후 3시\n장소: 온라인 비디오 회의\n회의에 참석 가능한 시간을 알려주시면 최종 일정을 조율하도록 하겠습니다.\n다른 의견이 있거나 추가적인 아이디어를 공유하고 싶은 경우, 이메일로 알려주세요.\n감사합니다.\n마케팅 팀\nCompany Inc.", "230401_12:50", true, "별표편지함", false, false)];
 
   static var changes = Mail("", "", "", "", false, "", false, false);
   var nowLabel = "";
@@ -52,6 +53,15 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   var removableIndex = [];
   var concentrateItems = [];
   static var isConcentrate = false;
+
+  Map<String, String> senderImageMap = {
+    '글로벌테크': 'assets/contact/blue.png',
+    '아이린패션': 'assets/contact/green.png',
+    '동아모터스': 'assets/contact/purple.png',
+    '에코그린에너지': 'assets/contact/red.png',
+
+    // Add more mappings for each sender/email and image asset
+  };
 
   // This widget is the root of your application.
   @override
@@ -86,12 +96,28 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     listview = getListView();
 
 
-    var appbar = !isSelect ? AppBar(title: Row(
-      children: [
-        Text("메일"),
-        Text((nowLabel == "") ? "" : " : "),
-        Text(nowLabel)
-      ],
+    var appbar = !isSelect ? AppBar(title: InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage())
+        );
+      },
+      child: SizedBox(
+        width: 1000,
+        height: 50,
+        child: Row(
+          children: [
+            Text("메일", style: TextStyle(color: Colors.black),),
+            Text((nowLabel == "") ? "" : " : "),
+            Text(nowLabel)
+          ],
+        ),
+      ),
+    ),
+    backgroundColor: Colors.white,
+    iconTheme: const IconThemeData(
+      color: Colors.black,
     ),
     actions: [
       IconButton(
@@ -100,8 +126,9 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
           context,
           MaterialPageRoute(builder: (context) => const HomePage())
         );
-      },icon: Icon(Icons.add),
-    )],)  //Text('메일 : $nowLabel')
+      },icon: Icon(Icons.add, color: Colors.black,),
+    )]
+      ,)  //Text('메일 : $nowLabel')
         : AppBar(title: IconButton(onPressed: () {
                           setState(() {
                             isSelect = false;
@@ -109,8 +136,9 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                               mailsColor[i] = Colors.white;
                             }
                           });
-                        }, icon: const Icon(Icons.arrow_back_sharp),),
-            actions: [
+                        }, icon: const Icon(Icons.arrow_back_sharp, color: Colors.black,),),
+            backgroundColor: Colors.white,
+          actions: [
               IconButton(onPressed: () {
                 if(isConcentrate) {
                   //다시 버튼을 누르면 모아보기 종료
@@ -171,7 +199,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 });
 
 
-              }, icon: const Icon(Icons.account_balance_wallet)),
+              }, icon: const Icon(Icons.account_balance_wallet, color: Colors.black,)),
               IconButton(onPressed: () {
                 //원래는 보관이지만 전체 선택으로 변경 (네이버 메일 앱 참조)
                 setState(() {
@@ -187,7 +215,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                     }
                   }
                 });
-              }, icon: const Icon(Icons.checklist)),
+              }, icon: const Icon(Icons.checklist, color: Colors.black,)),
               IconButton(onPressed: () {
                 //삭제
                 setState(() {
@@ -201,7 +229,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                   inMailNum = -1;
                   isSelect = false;
                 });
-              }, icon: const Icon(Icons.delete)),
+              }, icon: const Icon(Icons.delete, color: Colors.black,)),
               IconButton(onPressed: () {
                 //읽지 않음 상태
                 var selected = [];
@@ -215,10 +243,10 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 for(i = 0 ; i < selected.length ; i++) {
                   mails[i].isRead = (mails[i].isRead) ? false : true;
                 }
-              }, icon: const Icon(Icons.mail)),
+              }, icon: const Icon(Icons.mail, color: Colors.black,)),
               IconButton(onPressed: () {
 
-              }, icon: const Icon(Icons.menu_open)),
+              }, icon: const Icon(Icons.menu_open, color: Colors.black,)),
             ],
           );
 
@@ -238,9 +266,9 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 );
               },
               child: Stack(
-                children: const [
-                  Icon(Icons.abc),
-                  Positioned(
+                children: [
+                  Image.asset("assets/images/pencil2.png"),
+                  const Positioned(
                     left: 24,
                     child: Text("편지쓰기"),
                   ),
@@ -448,7 +476,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                   color: !isSelect ? (!concentrateItems[index].isRead ? mailsColor[index] = Colors.white : mailsColor[index] = Colors.black12) : mailsColor[index],
                   child: ListTile(
                       leading: Image.asset(
-                        'assets/images/file.png',
+                        senderImageMap[concentrateItems[index].sender] ?? 'assets/images/file-tzt.png',
                         width: 50.0,
                       ),
                       title: Text(concentrateItems[index].sender),
@@ -485,7 +513,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                             width: 100,
                             child: Column(
                               children: [
-                                Text(concentrateItems[index].time),
+                                Text(concentrateItems[index].time.split("_")[0]),
                                 StatefulBuilder(
                                   builder: (BuildContext context, StateSetter setState) {
                                     return GestureDetector(
@@ -538,13 +566,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
 
       return listView;
     } //concentrateItems의 마지막
-
-    Map<String, String> senderImageMap = {
-      'AAA@gmail.com': 'assets/blue/Android/blue.png',
-      'BBB@gmail.com': 'assets/images/file.png',
-      'CCC@gmail.com': 'assets/images/file.png',
-      // Add more mappings for each sender/email and image asset
-    };
 
     //setItem();
     setState(() {
