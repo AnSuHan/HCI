@@ -46,7 +46,10 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
       children: [
         Text("메일"),
       ],
-    ))  //Text('메일 : $nowLabel')
+    ), backgroundColor: Colors.white,
+      iconTheme: const IconThemeData(
+        color: Colors.black,
+      ),)  //Text('메일 : $nowLabel')
         : AppBar(title: IconButton(onPressed: () {
       setState(() {
         isSelect = false;
@@ -55,6 +58,10 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
         }
       });
     }, icon: const Icon(Icons.arrow_back_sharp),),
+      backgroundColor: Colors.white,
+      iconTheme: const IconThemeData(
+        color: Colors.black,
+      ),
       actions: [
         IconButton(onPressed: () {
           //원래는 보관이지만 전체 선택으로 변경 (네이버 메일 앱 참조)
@@ -141,6 +148,7 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
     '아이린패션': 'assets/contact/green.png',
     '동아모터스': 'assets/contact/purple.png',
     '에코그린에너지': 'assets/contact/red.png',
+    'John' : 'assets/contact/brown.png',
 
     // Add more mappings for each sender/email and image asset
   };
@@ -182,7 +190,7 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
               color: isSelect ? mailsColor[index] : (!mails[index].isReceiverOpen ? Colors.white : Colors.black12),
               child: ListTile(
                 leading: Image.asset(
-                  senderImageMap[mails[index].sender] ?? 'assets/images/file-tzt.png',
+                  senderImageMap[mails[index].sender] ?? 'assets/contact/blue.png',
                   width: 50.0,
                 ),
                 title: Text(mails[index].sender),

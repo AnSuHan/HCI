@@ -86,6 +86,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     '아이린패션': 'assets/contact/green.png',
     '동아모터스': 'assets/contact/purple.png',
     '에코그린에너지': 'assets/contact/red.png',
+    'John' : 'assets/contact/brown.png',
 
     // Add more mappings for each sender/email and image asset
   };
@@ -778,7 +779,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 color: !isSelect ? (!items[index].isRead ? Colors.white : Colors.black12) : mailsColor[index],
                 child: ListTile(
                     leading: Image.asset(
-                      senderImageMap[items[index].sender] ?? 'assets/contact/brown.png',
+                      senderImageMap[items[index].sender] ?? 'assets/contact/Not_Important2.png',
                       width: 50.0,
                     ),
                   title: Text(items[index].sender),

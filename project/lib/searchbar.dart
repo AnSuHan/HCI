@@ -193,8 +193,11 @@ class _HomePageState extends State<HomePage> {
       case "에코그린에너지":
         path = "assets/contact/red.png";
         break;
+      case "John":
+        path = "assets/contact/brown.png";
+        break;
       default:
-        path = "assets/blue/Android/blue.png";
+        path = "assets/contact/Not_Important2.png";
     }
 
     return Image.asset(path, width: 50, height: 50,);
