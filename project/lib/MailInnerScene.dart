@@ -7,6 +7,7 @@ import 'ChatScene.dart';
 import 'Mail.dart';
 import 'MailScene.dart';
 import 'MailSceneWrite.dart';
+import 'SettingBasic.dart';
 
 class MailInnerScene extends State<MailInnerSceneStateful> {
 
@@ -179,7 +180,53 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
         thickness: 1.0,
       ),
     );
-
+    var originBody =  Column(
+      children: [
+        Row(
+          children: [
+            SizedBox(
+              width: textWidth,
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                    child: Text(data.title, style: const TextStyle(fontSize: 30)),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: screenWidth - textWidth,
+              child: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isStar = !isStar;
+                        //MailScene.changes.isStar = isStar;
+                        MailScene.mails[MailScene.inMailNum].isStar = isStar;
+                        if(MailScene.mails[MailScene.inMailNum].isStar) {
+                          MailScene.mails[MailScene.inMailNum].label = "별표편지함";
+                        }
+                        else {
+                          MailScene.mails[MailScene.inMailNum].label = "받은편지함";
+                        }
+                      });
+                    },
+                    child: isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                        : const Icon(Icons.star, color: Colors.grey),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        Container(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+          child: Text(data.message),
+        ),
+      ],
+    );
 
     return MaterialApp(
         title: 'Flutter Demo',
@@ -312,7 +359,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
             ],
 
           ),
-          body: listview,
+          body: selectBody(originBody, listview),
           bottomSheet: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -570,5 +617,11 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
     }
 
     return Image.asset(path, width: 50, height: 50,);
+  }
+
+  Widget selectBody(mono, multi) {
+    var setMulti = SettingBasic.getSettingValue("동일한 사용자 메일 한 번에 보기") as bool;
+
+    return setMulti ? multi : mono;
   }
 }

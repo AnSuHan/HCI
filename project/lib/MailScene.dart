@@ -287,8 +287,9 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
           drawer: !isSelect ? MyDrawer(onItemSelected: onDrawerItemSelected) : null,
           floatingActionButton: SizedBox(
             width: 200,
-            height: 50,
+            height: 70,
             child: FloatingActionButton(
+              backgroundColor: Colors.grey,
               onPressed: () {
                 Navigator.push(
                     context,
@@ -297,11 +298,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
               },
               child: Stack(
                 children: [
-                  Image.asset("assets/images/pencil2.png"),
-                  const Positioned(
-                    left: 24,
-                    child: Text("편지쓰기"),
-                  ),
+                  Image.asset("assets/images/pencil_new.png"),
                 ],
               ),
             ),
@@ -472,7 +469,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 onTap: () {
                   if(!isSelect) {
                     debugPrint("mailScene$index");
-                    inMailNum = index;
+                    inMailNum = getRealIndex(concentrateItems[index]);
                     setState(() {
                       isSelect = false;
                     });
@@ -781,7 +778,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 color: !isSelect ? (!items[index].isRead ? Colors.white : Colors.black12) : mailsColor[index],
                 child: ListTile(
                     leading: Image.asset(
-                      senderImageMap[items[index].sender] ?? 'assets/images/file-tzt.png',
+                      senderImageMap[items[index].sender] ?? 'assets/contact/brown.png',
                       width: 50.0,
                     ),
                   title: Text(items[index].sender),
