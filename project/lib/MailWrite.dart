@@ -20,12 +20,20 @@ class MailWrite extends State<MailWriteStateful> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar( title: Row(
-          children: [IconButton(onPressed: () { Navigator.pop(context); }, icon: const Icon(Icons.arrow_left)),
-            Text("편지쓰기")],
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Row(
+          children: [IconButton(onPressed: () { Navigator.pop(context); }, icon: const Icon(Icons.backspace, color: Colors.grey,)),
+            Text(
+              "편지쓰기",
+              style: TextStyle(
+                color: Colors.black, // Set the desired color here
+              ),
+            )
+          ],
         ),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.file_present_outlined)),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.file_present_outlined, color: Colors.grey,)),
             IconButton(onPressed: () {
               var newobj = Mail(MYACCOUNT, parsingData(_titleController.toString()),
                   parsingData(_messageController.toString()), "230406_11:00", false, "보낸편지함", false, false);
@@ -33,7 +41,7 @@ class MailWrite extends State<MailWriteStateful> {
               MailSceneWrite.mails.insert(0, newobj);
 
               Navigator.pop(context, newobj);
-            }, icon: const Icon(Icons.send_outlined)),
+            }, icon: const Icon(Icons.send_outlined, color: Colors.grey,)),
             IconButton(onPressed: () {
               //gpt
               final RenderBox overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
@@ -103,7 +111,7 @@ class MailWrite extends State<MailWriteStateful> {
               setState(() {
                 isMenuOpen = !isMenuOpen;
               });
-            }, icon: const Icon(Icons.menu_open))
+            }, icon: const Icon(Icons.menu_open, color: Colors.grey,))
           ],
         ),
         body: ListView(
@@ -111,7 +119,7 @@ class MailWrite extends State<MailWriteStateful> {
             const ListTile(
               leading: Text("보낸사람"),
               title: Text("temp@gmail.com"),
-              trailing: Icon(Icons.arrow_drop_down),
+              trailing: Icon(Icons.arrow_drop_down, color: Colors.grey,),
             ),
             ListTile(
               leading: Text("받는사람"),

@@ -46,6 +46,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white, // Set AppBar's background color to white
         elevation: 0, // Remove AppBar's shadow
+        iconTheme: IconThemeData(
+          color: Colors.grey,
+        ),
         title: TextField(
           onChanged: searchEmails,
           autofocus: true, // Automatically focus on TextField
@@ -190,8 +193,11 @@ class _HomePageState extends State<HomePage> {
       case "에코그린에너지":
         path = "assets/contact/red.png";
         break;
+      case "John":
+        path = "assets/contact/brown.png";
+        break;
       default:
-        path = "assets/blue/Android/blue.png";
+        path = "assets/contact/Not_Important2.png";
     }
 
     return Image.asset(path, width: 50, height: 50,);

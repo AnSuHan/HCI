@@ -12,38 +12,56 @@ class Setting extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("설정", style: TextStyle(color: Colors.black),),
-          leading: IconButton(onPressed: () {
-            Navigator.pop(context);
-          }, icon: const Icon(Icons.arrow_back_sharp, color: Colors.black)),
+          title: const Text(
+            "설정",
+            style: TextStyle(color: Colors.black),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_sharp, color: Colors.black),
+          ),
           actions: [
-            IconButton(onPressed: () {
-
-            }, icon: const Icon(Icons.menu, color: Colors.black)),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.menu, color: Colors.black),
+            ),
           ],
           backgroundColor: Colors.white,
+          elevation: 0, // Remove app bar shadow
         ),
         body: ListView.builder(
-            padding: const EdgeInsets.all(5),
-            itemCount: options.length,
-            itemBuilder: (context, index) {
+          padding: const EdgeInsets.all(5),
+          itemCount: options.length,
+          itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
                 selectIndex = index;
-                if(index != options.length - 1) {
-                  //기본설정
+                if (index != options.length - 1) {
+                  // 기본설정
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SettingBasicStateful())
+                    MaterialPageRoute(
+                      builder: (context) => const SettingBasicStateful(),
+                    ),
                   );
-                }
-                else if(index == options.length - 1) {
-                  //계정추가
+                } else if (index == options.length - 1) {
+                  // 계정추가
                 }
               },
-              child: Text(options[index], style: const TextStyle(fontSize: 30),),
+              child: ListTile(
+                title: Text(
+                  options[index],
+                  style: TextStyle(fontSize: 16),
+                ),
+                trailing: index != options.length - 1
+                    ? const Icon(Icons.keyboard_arrow_right)
+                    : null,
+              ),
             );
-        })
+          },
+        ),
       ),
     );
   }

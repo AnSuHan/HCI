@@ -67,6 +67,8 @@ flutter:
     - assets/contact/
     - assets/images/gmail.png
     - assets/images/mailWriteIcon.png
+    - assets/images/pencil_new.png
+    - assets/contact/brown.png
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

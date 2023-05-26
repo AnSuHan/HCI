@@ -7,6 +7,7 @@ import 'ChatScene.dart';
 import 'Mail.dart';
 import 'MailScene.dart';
 import 'MailSceneWrite.dart';
+import 'SettingBasic.dart';
 
 class MailInnerScene extends State<MailInnerSceneStateful> {
 
@@ -179,7 +180,53 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
         thickness: 1.0,
       ),
     );
-
+    var originBody =  Column(
+      children: [
+        Row(
+          children: [
+            SizedBox(
+              width: textWidth,
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                    child: Text(data.title, style: const TextStyle(fontSize: 30)),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: screenWidth - textWidth,
+              child: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isStar = !isStar;
+                        //MailScene.changes.isStar = isStar;
+                        MailScene.mails[MailScene.inMailNum].isStar = isStar;
+                        if(MailScene.mails[MailScene.inMailNum].isStar) {
+                          MailScene.mails[MailScene.inMailNum].label = "별표편지함";
+                        }
+                        else {
+                          MailScene.mails[MailScene.inMailNum].label = "받은편지함";
+                        }
+                      });
+                    },
+                    child: isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                        : const Icon(Icons.star, color: Colors.grey),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        Container(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+          child: Text(data.message),
+        ),
+      ],
+    );
 
     return MaterialApp(
         title: 'Flutter Demo',
@@ -189,28 +236,25 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 //나갈 때 0으로 세팅
                 from = 0;
                 Navigator.pop(context);
-            }, icon: const Icon(Icons.backspace)),
+
+            }, icon: const Icon(Icons.backspace, color: Colors.grey,)),
+            backgroundColor: Colors.white,
             title: Row(
               children: [
                 getSenderImage(),
                 const SizedBox(
                   width: 20,
                 ),
-                Text(data.sender)
+                Text(
+                  data.sender,
+                  style: TextStyle(
+                    color: Colors.black, // Set the desired color here
+                  ),
+                )
+
               ],
             ),
             actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
-              IconButton(onPressed: () {
-                switch(from) {
-                  case 0:
-                    MailScene.deleteMail();
-                    break;
-                  case 1:
-                    MailSceneWrite.deleteMail();
-                }
-                Navigator.pop(context);
-              }, icon: const Icon(Icons.cancel)),
               IconButton(onPressed: () {
                 //읽지 않음 또는 읽음 상태로 변경
                 switch(from) {
@@ -226,7 +270,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                       MailSceneWrite.mails[MailSceneWrite.inMailNum].isRead = isRead;
                     });
                 }
-              }, icon: isRead ? const Icon(Icons.mail_outline) : const Icon(Icons.mail)),
+              }, icon: isRead ? const Icon(Icons.mail_outline , color: Colors.grey,) : const Icon(Icons.mail, color: Colors.grey,)),
               IconButton(onPressed: () {
                 //gpt
                 final RenderBox overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
@@ -304,7 +348,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
             ],
 
           ),
-          body: listview,
+          body: selectBody(originBody, listview),
           bottomSheet: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -357,50 +401,6 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 ),
               ),
             ],
-          ),
-          bottomNavigationBar: SizedBox(
-            height: 100,
-            width: 200,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(  //GestureDetector
-                  onTap: () {
-                    Navigator.pop;
-                  },
-                  child: const SizedBox(
-                    height: 200,
-                    width: 100,
-                    child: Icon(Icons.mail),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const ChatScene())
-                    );
-
-                    //Navigator.pop(context);
-                  },
-                  child: const SizedBox(
-                    height: 200,
-                    width: 100,
-                    child: Icon(Icons.messenger_outline),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                  },
-                  child: const SizedBox(
-                    height: 200,
-                    width: 100,
-                    child: Icon(Icons.person_3),
-                  ),
-                ),
-
-              ],
-            ),
           ),
         )
     );
@@ -557,10 +557,19 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
       case "에코그린에너지":
         path = "assets/contact/red.png";
         break;
+      case "John":
+        path = "assets/contact/brown.png";
+        break;
       default:
-        path = "assets/blue/Android/blue.png";
+        path = "assets/contact/Not_Important2.png";
     }
 
     return Image.asset(path, width: 50, height: 50,);
+  }
+
+  Widget selectBody(mono, multi) {
+    var setMulti = SettingBasic.getSettingValue("동일한 사용자 메일 한 번에 보기") as bool;
+
+    return setMulti ? multi : mono;
   }
 }

@@ -14,6 +14,7 @@ class SettingBasic extends State<SettingBasicStateful> {
   ["TITLE", "작업 확인"],
   ["삭제하기 전에 확인하기", true], ["보관처리하기 전에 확인하기", true], ["보내기 전에 확인하기", true]];
   static var itemsMail = [["TITLE", "계정"], ["Google 계정 관리", ""],
+    ["TITLE", "개인설정"], ["중요한 사용자 메일만 읽기", false], ["동일한 사용자 메일 한 번에 보기", true], ["스팸메일 자동 삭제", false], ["휴지통 자동 비우기", false], ["사용자 차단", ""], ["오래된 메일 자동 삭제", ""],
   ["TITLE", "받은편지함"], ["받은편지함 유형", "기본 받은편지함"], ["받은편지함 카테고리", "기본, 프로모션, 소셜"],
   ["TITLE", "알림"], ["이메일 알림", "모두"], ["받은편지함 알림", "한 번만 알림"],
     ["라벨 관리", ""], ["채팅 알림", true], ["채팅 알림 일시중지", ""], ["알림 소리", ""], ["알림 관리", ""],
@@ -28,7 +29,7 @@ class SettingBasic extends State<SettingBasicStateful> {
   ["TITLE", "중요한 메일 올리기"], ["답장 및 후속 조치", ""], ["TITLE", "받은편지함 도움말"], ["받은편지함 도움말 설정", ""],
   ["TITLE", "데이터 사용"], ["Gmail 동기화", true], ["메일 동기화 일 수", "30일"], ["첨부파일 다운로드", true, "Wi-Fi를 통해 최근 메일의 첨부파일을 자동으로 다운로드"],
     ["이미지", "항상 외부 이미지 표시"], ["동적 이메일 사용 설정", true, "가능한 경우 동적 이메일 콘텐츠를 표시합니다."],
-  ["TITLE", "개인설정"], ["중요한 사용자 메일만 읽기", true], ["스팸메일 자동 삭제", false], ["휴지통 자동 비우기", false], ["사용자 차단", ""], ["오래된 메일 자동 삭제", ""]];
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +100,6 @@ class SettingBasic extends State<SettingBasicStateful> {
                 onChanged: (value) {
                   setState(() {
                     items[index][1] = !(items[index][1] as bool);
-                    value = items[index][1] is bool;
                   });
                 },
               );
@@ -144,5 +144,25 @@ class SettingBasic extends State<SettingBasicStateful> {
     }
 
     return true;
+  }
+
+  static Object? getSettingValue(optName) {
+    Object? rtValue;
+    var i;
+
+    for(i = 0 ; i < itemsBasic.length ; i++) {
+      if(itemsBasic[i][0] == optName) {
+        rtValue = itemsBasic[i][1];
+      }
+    }
+    if(rtValue == null) {
+      for(i = 0 ; i < itemsMail.length ; i++) {
+        if(itemsMail[i][0] == optName) {
+          rtValue = itemsMail[i][1];
+        }
+      }
+    }
+
+    return rtValue;
   }
 }
