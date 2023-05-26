@@ -614,7 +614,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 onTap: () {
                   if(!isSelect) {
                     debugPrint("mailScene$index");
-                    inMailNum = index;
+                    inMailNum = getRealIndex(impMail[index]);
                     setState(() {
                       isSelect = false;
                     });
@@ -626,12 +626,12 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                   }
                   else {
                     setState(() {
-                      if(mailsColor[index] == Colors.red) {
+                      if(mailsColor[getRealIndex(impMail[index])] == Colors.red) {
                         //이미 선택된 경우 해제
-                        mailsColor[index] = Colors.white;
+                        mailsColor[getRealIndex(impMail[index])] = Colors.white;
                       }
                       else {
-                        mailsColor[index] = Colors.red;
+                        mailsColor[getRealIndex(impMail[index])] = Colors.red;
                       }
                     });
                   }
@@ -639,14 +639,14 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
                 onLongPress: () {
                   setState(() {
-                    mailsColor[index] = Colors.red;
+                    mailsColor[getRealIndex(impMail[index])] = Colors.red;
                     inMailNum = index;
                     isSelect = true;
                   });
                 },
                 child: Container(
                   //읽었을 때 Container의 색상을 변경
-                  color: !isSelect ? (!items[index].isRead ? Colors.white : Colors.black12) : mailsColor[index],
+                  color: !isSelect ? (!items[getRealIndex(impMail[index])].isRead ? Colors.white : Colors.black12) : mailsColor[getRealIndex(impMail[index])],
                   child: ListTile(
                       leading: Image.asset(
                         senderImageMap[impMail[index].sender] ?? 'assets/images/file-tzt.png',
@@ -943,5 +943,18 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
       debugPrint("in setItem : mails len : ${mails.length}");
       debugPrint("in setItem : color len : ${mailsColor.length}");
     });
+  }
+
+  int getRealIndex(colObj) {
+    var index = -1;
+
+    for(var i = 0 ; i < mails.length ; i++) {
+      if(mails[i] == colObj) {
+        index = i;
+        break;
+      }
+    }
+
+    return index;
   }
 }
