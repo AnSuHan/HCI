@@ -100,7 +100,6 @@ class SettingBasic extends State<SettingBasicStateful> {
                 onChanged: (value) {
                   setState(() {
                     items[index][1] = !(items[index][1] as bool);
-                    value = items[index][1] is bool;
                   });
                 },
               );
@@ -145,5 +144,25 @@ class SettingBasic extends State<SettingBasicStateful> {
     }
 
     return true;
+  }
+
+  static Object? getSettingValue(optName) {
+    Object? rtValue;
+    var i;
+
+    for(i = 0 ; i < itemsBasic.length ; i++) {
+      if(itemsBasic[i][0] == optName) {
+        rtValue = itemsBasic[i][1];
+      }
+    }
+    if(rtValue == null) {
+      for(i = 0 ; i < itemsMail.length ; i++) {
+        if(itemsMail[i][0] == optName) {
+          rtValue = itemsMail[i][1];
+        }
+      }
+    }
+
+    return rtValue;
   }
 }
