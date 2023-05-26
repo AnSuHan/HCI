@@ -46,6 +46,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white, // Set AppBar's background color to white
         elevation: 0, // Remove AppBar's shadow
+        iconTheme: IconThemeData(
+          color: Colors.grey,
+        ),
         title: TextField(
           onChanged: searchEmails,
           autofocus: true, // Automatically focus on TextField

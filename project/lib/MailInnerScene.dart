@@ -189,18 +189,26 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 //나갈 때 0으로 세팅
                 from = 0;
                 Navigator.pop(context);
-            }, icon: const Icon(Icons.backspace)),
+
+            }, icon: const Icon(Icons.backspace, color: Colors.grey,)),
+            backgroundColor: Colors.white,
             title: Row(
               children: [
                 getSenderImage(),
                 const SizedBox(
                   width: 20,
                 ),
-                Text(data.sender)
+                Text(
+                  data.sender,
+                  style: TextStyle(
+                    color: Colors.black, // Set the desired color here
+                  ),
+                )
+
               ],
             ),
             actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.add_box, color: Colors.grey,)),
               IconButton(onPressed: () {
                 switch(from) {
                   case 0:
@@ -210,7 +218,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                     MailSceneWrite.deleteMail();
                 }
                 Navigator.pop(context);
-              }, icon: const Icon(Icons.cancel)),
+              }, icon: const Icon(Icons.cancel, color: Colors.grey,)),
               IconButton(onPressed: () {
                 //읽지 않음 또는 읽음 상태로 변경
                 switch(from) {
@@ -226,7 +234,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                       MailSceneWrite.mails[MailSceneWrite.inMailNum].isRead = isRead;
                     });
                 }
-              }, icon: isRead ? const Icon(Icons.mail_outline) : const Icon(Icons.mail)),
+              }, icon: isRead ? const Icon(Icons.mail_outline , color: Colors.grey,) : const Icon(Icons.mail, color: Colors.grey,)),
               IconButton(onPressed: () {
                 //gpt
                 final RenderBox overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
