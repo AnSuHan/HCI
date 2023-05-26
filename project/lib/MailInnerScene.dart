@@ -566,7 +566,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
         path = "assets/contact/red.png";
         break;
       default:
-        path = "assets/blue/Android/blue.png";
+        path = "assets/images/file-tzt.png";
     }
 
     return Image.asset(path, width: 50, height: 50,);
