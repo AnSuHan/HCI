@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/MailSceneStateful.dart';
 
 import 'MailScene.dart';
 import 'MailSceneWriteStateful.dart';
@@ -319,21 +320,6 @@ class MyDrawer extends StatelessWidget {
           color: Colors.grey,
         ),
 
-        ListTile(
-            leading: const Icon(Icons.gif_box),
-            title: const Text('전체 받은편지함', style: TextStyle(fontSize: 20)),
-            onTap: () {
-              debugPrint("drawer 전체 받은편지함");
-              MailScene.isConcentrate = false;
-              Navigator.pop(context);
-              onItemSelected("");
-            }
-        ),
-        Container(
-          height: 1,
-          color: Colors.grey,
-        ),
-
         const Text("모든 라벨"),
         ListTile(
             leading: const Icon(Icons.star_outline),
@@ -368,6 +354,7 @@ class MyDrawer extends StatelessWidget {
             title: const Text('전체 받은편지함', style: TextStyle(fontSize: 20)),
             onTap: () {
               debugPrint("drawer 전체 받은편지함");
+              MailScene.isConcentrate = false;
               Navigator.pop(context);
               onItemSelected("");
             }

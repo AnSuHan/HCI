@@ -255,17 +255,6 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
               ],
             ),
             actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.add_box, color: Colors.grey,)),
-              IconButton(onPressed: () {
-                switch(from) {
-                  case 0:
-                    MailScene.deleteMail();
-                    break;
-                  case 1:
-                    MailSceneWrite.deleteMail();
-                }
-                Navigator.pop(context);
-              }, icon: const Icon(Icons.cancel, color: Colors.grey,)),
               IconButton(onPressed: () {
                 //읽지 않음 또는 읽음 상태로 변경
                 switch(from) {
@@ -412,50 +401,6 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 ),
               ),
             ],
-          ),
-          bottomNavigationBar: SizedBox(
-            height: 100,
-            width: 200,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(  //GestureDetector
-                  onTap: () {
-                    Navigator.pop;
-                  },
-                  child: const SizedBox(
-                    height: 200,
-                    width: 100,
-                    child: Icon(Icons.mail),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const ChatScene())
-                    );
-
-                    //Navigator.pop(context);
-                  },
-                  child: const SizedBox(
-                    height: 200,
-                    width: 100,
-                    child: Icon(Icons.messenger_outline),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                  },
-                  child: const SizedBox(
-                    height: 200,
-                    width: 100,
-                    child: Icon(Icons.person_3),
-                  ),
-                ),
-
-              ],
-            ),
           ),
         )
     );

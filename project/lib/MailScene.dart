@@ -504,7 +504,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                   color: !isSelect ? (!concentrateItems[index].isRead ? mailsColor[index] = Colors.white : mailsColor[index] = Colors.black12) : mailsColor[index],
                   child: ListTile(
                       leading: Image.asset(
-                        senderImageMap[concentrateItems[index].sender] ?? 'assets/images/file-tzt.png',
+                        senderImageMap[concentrateItems[index].sender] ?? 'assets/contact/Not_Important2.png',
                         width: 50.0,
                       ),
                       title: Text(concentrateItems[index].sender),
