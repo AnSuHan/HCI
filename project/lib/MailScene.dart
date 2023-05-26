@@ -9,11 +9,15 @@ import 'Drawer.dart';
 import 'Mail.dart';
 import 'MailInnerScene.dart';
 import 'MailSceneStateful.dart';
+import 'SettingBasic.dart';
 import 'searchbar.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
 class MailScene extends State<MailSceneStateful> with RouteAware {
   static var mails = [
+    Mail("현대자동차",
+      "현대자동차 신차 출시 이벤트! 특별 혜택을 놓치지 마세요!",
+      "안녕하세요,\n현대자동차에서 새로운 모델을 출시하였습니다! 이번에 출시된 신차는 탁월한 디자인과 최신 기술로 가득 차 있어, 여러분의 운전 경험을 한층 업그레이드할 것입니다.\n        특별한 이벤트로 신차 구매 시 특별 혜택을 드리고 있습니다. 구매 고객에게는 추가 액세서리 세트와 무료 정비 서비스 등 다양한 혜택을 제공해 드립니다. 또한, 한정 수량의 선착순 예약 구매자에게는 특별한 기프트 카드도 드립니다!\n이 기회를 놓치지 마세요. 지금 현대자동차의 신차 출시 이벤트에 참여하여, 최신 기술과 스타일을 가진 차량을 만나보세요. 아래 링크를 클릭하여 상세 정보를 확인해주세요.\n링크: [현대자동차 신차 출시 이벤트 상세 정보]\n문의 사항이 있으시면 언제든지 저희에게 연락 주세요. 고객센터 직원들이 친절하게 답변해 드리겠습니다.\n감사합니다.\n현대자동차 영업팀 드림", "230405_14:30", false, "받은편지함", false, true),
     Mail("글로벌테크",
         "RE: 제품 A의 추가 판매 전략 논의 요청",
         "안녕하세요,\n저희 지원팀에서는 문의하신 제품에 대한 기술적인 지원을 제공하기 위해 이메일을 보내드립니다. 문의하신 내용에 대한 답변과 도움을 드리고자 합니다.\n문의하신 제품: 제품 X\n문의하신 내용에 대한 답변:\n기술적인 문제: 문제의 해결을 위해 기술 지원팀이 조치를 취하고 있습니다. 추가적인 정보를 제공해주시면 보다 정확한 답변을 드릴 수 있습니다.\n기능 사용법: 제품 X의 기능에 대한 자세한 설명과 사용법을 안내해드릴 수 있습니다. 필요하신 부분이 있으면 구체적으로 알려주시기 바랍니다.\n도움이 필요하거나 추가적인 질문이 있으시면 언제든지 문의해주세요. 최대한 신속하게 도움을 드리겠습니다.\n감사합니다.\n지원팀\nCompany Inc.", "230404_21:00", false, "받은편지함", true, true),
@@ -29,6 +33,9 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     Mail("아이린패션",
         "문의하신 제품에 대한 기술 지원 안내",
         "안녕하세요 박지원님,\n 김영희라고 합니다. UI 디자이너로서 귀사에서 일하고 싶어서 이메일을 보내게 되었습니다. 제 경력과 기술이 UI 디자인 역할에 적합하다고 생각합니다.", "230402_10:30", false, "받은편지함", false, false),
+    Mail("ABC 매장",
+      "세일 특가! 최대 50% 할인된 가을 쇼핑 행사 안내",
+      "안녕하세요,\n가을이 찾아왔습니다! 새로운 시즌을 맞아 저희 매장에서는 특별한 가을 쇼핑 행사를 개최합니다. 다양한 제품들이 최대 50%까지 할인된 가격으로 만나실 수 있습니다.\n여러분을 위해 준비한 특별 혜택 중 일부를 소개해드리겠습니다. 첫째, 가을 아우터 컬렉션에서는 모든 아우터 제품이 30% 할인된 가격으로 판매됩니다. 둘째, 시즌 한정 품목으로 제공되는 브랜드 신발은 최대 50% 할인된 가격으로 만나보실 수 있습니다. 셋째, 가을 패션 액세서리는 2개 구매 시 1개 더 추가로 제공되어 드립니다.\n더 많은 혜택과 할인을 받으실 수 있습니다. 저희 매장을 방문하셔서 가을 신상품과 다양한 특가 상품을 만나보세요. 아래 링크를 클릭하여 상세 정보를 확인해주세요.\n링크: [가을 쇼핑 행사 상세 정보]\n이 기회를 놓치지 마세요. 한정된 기간 동안만 진행되는 이벤트이니 서둘러 방문해주세요. 문의 사항이 있으시면 언제든지 저희에게 연락 주세요. 고객센터 직원들이 친절하게 답변해 드리겠습니다.\n감사합니다.\nABC 매장 영업팀 드림", "230402_11:20", false, "받은편지함", true, true),
     Mail("동아모터스",
         "신제품 출시 기념 할인 이벤트 아이디어 회의 요청",
         "안녕하세요,\n마케팅 팀의 여러분께 문의드립니다. 저희가 신제품 출시 기념으로 할인 이벤트를 진행하고자 하는데, 아이디어를 논의하고자 이메일을 보내드립니다.\n각자가 생각하는 할인 이벤트 아이디어를 공유하고, 가장 효과적이고 흥미로운 아이디어를 찾아내기 위해 회의를 개최하고자 합니다.\n가능한 회의 일정은 다음과 같습니다:\n날짜: 6월 5일 (토요일)\n시간: 오후 3시\n장소: 온라인 비디오 회의\n회의에 참석 가능한 시간을 알려주시면 최종 일정을 조율하도록 하겠습니다.\n다른 의견이 있거나 추가적인 아이디어를 공유하고 싶은 경우, 이메일로 알려주세요.\n감사합니다.\n마케팅 팀\nCompany Inc.", "230401_12:50", true, "별표편지함", false, false)];
@@ -62,11 +69,16 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     // Add more mappings for each sender/email and image asset
   };
 
+  var isImportant;  //세팅 - 중요한 사용자 메일만 읽기의 활성화 여부
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     debugPrint("build mail class");
     debugPrint("MailWrite : ${MailWrite.getInput()}");
+
+    isImportant = SettingBasic.getSettingValue("중요한 사용자 메일만 읽기");
+    debugPrint("isImportant : $isImportant");
 
     //setting Colors
     if(mailsColor.isEmpty) {
@@ -563,6 +575,146 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
 
       return listView;
     } //concentrateItems의 마지막
+    else if(isImportant) {  //중요한 사용자의 메일만 모아서 보기
+      var impListFilter = ["글로벌테크", "아이린패션", "동아모터스"];
+      var impMail = [];
+
+      for(var i = 0 ; i < mails.length ; i++) {
+        if(impListFilter.contains(mails[i].sender)) {
+          impMail.add(mails[i]);
+        }
+      }
+      debugPrint("impMail : ${impMail.length}");
+
+      listView = ListView.builder(
+          itemCount: impMail.length,
+          itemBuilder: (context, index) {
+            var ink = InkWell(
+                onTap: () {
+                  if(!isSelect) {
+                    debugPrint("mailScene$index");
+                    inMailNum = index;
+                    setState(() {
+                      isSelect = false;
+                    });
+                    mails[inMailNum].isRead = true;
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
+                    );
+                  }
+                  else {
+                    setState(() {
+                      if(mailsColor[index] == Colors.red) {
+                        //이미 선택된 경우 해제
+                        mailsColor[index] = Colors.white;
+                      }
+                      else {
+                        mailsColor[index] = Colors.red;
+                      }
+                    });
+                  }
+                },
+                //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
+                onLongPress: () {
+                  setState(() {
+                    mailsColor[index] = Colors.red;
+                    inMailNum = index;
+                    isSelect = true;
+                  });
+                },
+                child: Container(
+                  //읽었을 때 Container의 색상을 변경
+                  color: !isSelect ? (!items[index].isRead ? Colors.white : Colors.black12) : mailsColor[index],
+                  child: ListTile(
+                      leading: Image.asset(
+                        senderImageMap[impMail[index].sender] ?? 'assets/images/file-tzt.png',
+                        width: 50.0,
+                      ),
+                      title: Text(impMail[index].sender),
+                      subtitle: SizedBox(
+                        height: 50,
+                        width: 500,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 1000,
+                              child: Text(
+                                impMail[index].title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 1000,
+                              child: Text(
+                                impMail[index].message.substring(0, 10),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          //읽음 상태에 따른 아이콘 변경
+                          (impMail[index].isRead) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
+                          SizedBox(
+                            width: 100,
+                            child: Column(
+                              children: [
+                                Text(impMail[index].time.split("_")[0]),
+                                StatefulBuilder(
+                                  builder: (BuildContext context, StateSetter setState) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          impMail[index].isStar = !impMail[index].isStar;
+                                        });
+                                        debugPrint("item-index : ${impMail[index].toJson()}");
+                                        if(impMail[index].isStar) {
+                                          impMail[index].label = "별표편지함";
+                                        }
+                                        else {
+                                          impMail[index].label = "받은편지함";
+                                        }
+                                      },
+                                      child: impMail[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                                          : const Icon(Icons.star, color: Colors.grey),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                  ),
+                )
+            );
+            final thisItem = items[index].toString();
+            var dismiss = Dismissible(
+                key: Key(thisItem),
+                direction: DismissDirection.horizontal,
+                onDismissed: (direction) {
+                  if(direction == DismissDirection.startToEnd) {
+                    //왼쪽으로 슬라이드
+                    swipeDelete(index);
+                  }
+                  else if(direction == DismissDirection.endToStart) {
+                    //오른쪽으로 슬라이드
+                    swipeDelete(index);
+                  }
+                },
+                child: ink);
+
+            return dismiss;
+          });
+      return listView;
+    }
 
     //setItem();
     setState(() {
