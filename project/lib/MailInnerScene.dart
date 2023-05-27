@@ -245,12 +245,16 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 const SizedBox(
                   width: 20,
                 ),
-                Text(
-                  data.sender,
-                  style: TextStyle(
-                    color: Colors.black, // Set the desired color here
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Text(
+                    data.sender,
+                    style: TextStyle(
+                      color: Colors.black, // Set the desired color here
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                )
+                ),
 
               ],
             ),
@@ -344,7 +348,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 setState(() {
                   isMenuOpen = !isMenuOpen;
                 });
-              }, icon: const Icon(Icons.menu_open))
+              }, icon: const Icon(Icons.menu_open, color: Colors.grey,))
             ],
 
           ),

@@ -286,21 +286,24 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         home: Scaffold(
           appBar: appbar,
           drawer: !isSelect ? MyDrawer(onItemSelected: onDrawerItemSelected) : null,
-          floatingActionButton: SizedBox(
-            width: 200,
-            height: 70,
-            child: FloatingActionButton(
-              backgroundColor: Colors.grey,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MailWriteStateful())
-                );
-              },
-              child: Stack(
-                children: [
-                  Image.asset("assets/images/pencil_new.png"),
-                ],
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.only(left: 290.0),
+            child: SizedBox(
+              width: 200,
+              height: 70,
+              child: FloatingActionButton(
+                backgroundColor: Colors.grey,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MailWriteStateful())
+                  );
+                },
+                child: Stack(
+                  children: [
+                    Image.asset("assets/images/pencil_new.png"),
+                  ],
+                ),
               ),
             ),
           ),
