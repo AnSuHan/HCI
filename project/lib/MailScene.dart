@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/JsonParsing.dart';
 import 'package:project/MailInnerSceneStateful.dart';
-import 'package:project/MailWrite.dart';
 import 'package:project/MailWriteStateful.dart';
 
 import 'Drawer.dart';
@@ -23,7 +22,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
       "안녕하세요,\n전자제품을 찾고 계신 여러분께 흥미로운 소식을 전해드립니다! 저희 온라인 스토어에서는 최신 전자제품들을 최대 70% 할인된 가격으로 만나보실 수 있습니다.\n현대 사회에서 전자제품은 우리의 일상에서 필수적인 아이템이 되었습니다. 최신 스마트폰, 노트북, 태블릿, 스마트워치 등 다양한 제품들을 다양한 브랜드에서 준비하였습니다. 또한, 가전제품부터 주방용품까지 다양한 전자제품들을 저렴한 가격에 만나보실 수 있습니다.\n특별 특가로 제공되는 할인은 한정 기간 동안만 유효하니 놓치지 마세요! 지금 바로 저희 온라인 스토어로 방문하여 다양한 전자제품들을 확인하고, 저렴한 가격에 구매하세요. 아래 링크를 클릭하시면 바로 쇼핑을 시작할 수 있습니다.\n링크: [전자제품 할인 특가 스토어 바로가기]\n더 많은 상품과 할인 혜택을 확인하려면 저희 웹사이트를 방문하거나 고객센터로 문의해 주세요. 항상 최상의 서비스로 여러분을 기다리고 있겠습니다.\n즐거운 쇼핑 되세요!\n스토어 팀 드림", "0407_12:52", false, "받은편지함", false, true),
     Mail("John",
       "프로젝트 회의 일정 조정에 관한 안내",
-      "안녕하세요 Emily님,\n저희 프로젝트 팀에서는 다음 주에 예정된 회의 일정을 조정하고자 합니다. 아래와 같이 제안드리고자 합니다.\n기존 회의 일정: 20년 6월 1일 (수요일) 오전 10시\n제안 회의 일정: 20년 6월 2일 (목요일) 오후 2시\n변경된 일정으로 회의를 진행하면 좀 더 원활한 커뮤니케이션과 효율적인 업무 진행이 가능할 것으로 예상됩니다. 만약 제안 일정에 어려움이 있다면 다른 시간을 제안해주시면 감사하겠습니다.\n또한, 회의 장소는 이전과 동일하게 회의실 3호를 사용하려고 합니다. 혹시 다른 장소로 변경이 필요하다면 사전에 알려주시기 바랍니다.\n회의 일정 조정에 대한 의견을 주시면 감사하겠습니다. 빠른 회신 부탁드립니다.\n감사합니다.\n--\nJohn Smith\n프로젝트 매니저\nABC Company\njohn@example.com", "0407_12:05", true, "받은편지함", true, true),
+      "안녕하세요 Emily님,\n저희 프로젝트 팀에서는 다음 주에 예정된 회의 일정을 조정하고자 합니다. 아래와 같이 제안드리고자 합니다.\n기존 회의 일정: 20년 6월 1일 (수요일) 오전 10시\n제안 회의 일정: 20년 6월 2일 (목요일) 오후 2시\n변경된 일정으로 회의를 진행하면 좀 더 원활한 커뮤니케이션과 효율적인 업무 진행이 가능할 것으로 예상됩니다. 만약 제안 일정에 어려움이 있다면 다른 시간을 제안해주시면 감사하겠습니다.\n또한, 회의 장소는 이전과 동일하게 회의실 3호를 사용하려고 합니다. 혹시 다른 장소로 변경이 필요하다면 사전에 알려주시기 바랍니다.\n회의 일정 조정에 대한 의견을 주시면 감사하겠습니다. 빠른 회신 부탁드립니다.\n감사합니다.\n--\nJohn Smith\n프로젝트 매니저\nABC Company\njohn@example.com", "0407_12:05", true, "별표편지함", true, true),
     Mail("신상 휴대폰",
       "신상 휴대폰 출시! 놓치지 마세요, 특별 혜택이 가득한 예약 판매 시작!",
       "안녕하세요,\n우리는 여러분에게 흥미로운 소식을 전해드립니다! 최신 휴대폰 모델의 신상 출시가 다가왔습니다. 이번 신제품은 뛰어난 성능과 혁신적인 기능을 갖추고 있어, 여러분의 모바일 경험을 한층 더 향상시켜 줄 것입니다.\n신제품 휴대폰을 더욱 특별하게 만들기 위해 예약 판매를 시작합니다. 예약 구매 시 특별 혜택이 가득합니다! 예약 구매 고객에게는 추가 액세서리 패키지와 확장 보증, 그리고 한정 수량의 선착순 예약자에게는 현금 할인도 제공됩니다!\n이 기회를 놓치지 마세요. 지금 바로 예약 판매에 참여하여 최신 휴대폰 모델을 가장 먼저 만나보세요. 아래 링크를 클릭하여 상세 정보를 확인하고 예약을 진행해주세요.\n링크: [신상 휴대폰 예약 판매 상세 정보]\n문의 사항이 있으시면 언제든지 저희에게 연락 주세요. 고객센터 직원들이 친절하게 답변해 드리겠습니다.\n감사합니다.\n휴대폰 판매 팀 드림", "0407_09:25", false, "받은편지함", false, true),
@@ -44,7 +43,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         "안녕하세요,\n빠른 회신에 감사드립니다. 문의하신 제품 X에 대한 기술 지원을 제공해드리겠습니다.\n기술적인 문제: [상세한 문제 내용]에 대해 즉시 조치를 취할 수 있도록 기술 지원팀이 액션을 취하고 있습니다. 문제 해결을 위해 필요한 추가 정보가 있는지 알려주시면 보다 정확한 도움을 드릴 수 있습니다.\n기능 사용법: 제품 X의 [특정 기능]에 대한 자세한 설명과 사용법을 안내해드리겠습니다. [기능 활용 방법]을 따라 진행하시면 해당 기능을 원활하게 활용하실 수 있습니다.\n도움이 필요한 경우 언제든지 문의해주세요. 최대한 신속하고 정확한 지원을 제공하겠습니다.\n감사합니다.\n지원팀\nCompany Inc.", "0404_10:30", false, "받은편지함", false, false),
     Mail("쇼핑몰 팀",
         "여름 특별 세일! 최대 50% 할인된 가격으로 쇼핑하세요!",
-        "안녕하세요,\n여름이 다가오고 있습니다! 이번 여름을 더욱 뜨겁게 만들어줄 특별 세일 소식을 전해드립니다. 저희 쇼핑몰에서는 다양한 상품들을 최대 50% 할인된 가격으로 만나보실 수 있습니다.\n여름 휴가를 앞두고 특별한 아이템을 찾고 계신가요? 저희 쇼핑몰에서는 비치웨어, 썬그라스, 비치백 등 여름 필수 아이템들을 다양하게 준비하였습니다. 또한, 최신 패션 트렌드를 반영한 의류, 액세서리, 신발 등 다양한 제품들을 저렴한 가격에 만나보실 수 있습니다.\n이번 특별 세일은 한정 기간 동안만 유효하니 놓치지 마세요! 지금 바로 저희 쇼핑몰로 방문하여 여름에 어울리는 다양한 상품들을 찾아보세요. 아래 링크를 클릭하시면 바로 쇼핑을 시작할 수 있습니다.\n링크: [여름 특별 세일 쇼핑몰 바로가기]\n더 많은 정보와 상품을 확인하려면 저희 웹사이트를 방문하거나 고객센터로 문의해 주세요. 항상 최상의 서비스로 여러분을 기다리고 있겠습니다.\n즐거운 여름 보내세요!\n쇼핑몰 팀 드림", "0404_09:30", false, "별표편지함", false, false),
+        "안녕하세요,\n여름이 다가오고 있습니다! 이번 여름을 더욱 뜨겁게 만들어줄 특별 세일 소식을 전해드립니다. 저희 쇼핑몰에서는 다양한 상품들을 최대 50% 할인된 가격으로 만나보실 수 있습니다.\n여름 휴가를 앞두고 특별한 아이템을 찾고 계신가요? 저희 쇼핑몰에서는 비치웨어, 썬그라스, 비치백 등 여름 필수 아이템들을 다양하게 준비하였습니다. 또한, 최신 패션 트렌드를 반영한 의류, 액세서리, 신발 등 다양한 제품들을 저렴한 가격에 만나보실 수 있습니다.\n이번 특별 세일은 한정 기간 동안만 유효하니 놓치지 마세요! 지금 바로 저희 쇼핑몰로 방문하여 여름에 어울리는 다양한 상품들을 찾아보세요. 아래 링크를 클릭하시면 바로 쇼핑을 시작할 수 있습니다.\n링크: [여름 특별 세일 쇼핑몰 바로가기]\n더 많은 정보와 상품을 확인하려면 저희 웹사이트를 방문하거나 고객센터로 문의해 주세요. 항상 최상의 서비스로 여러분을 기다리고 있겠습니다.\n즐거운 여름 보내세요!\n쇼핑몰 팀 드림", "0404_09:30", false, "받은편지함", false, false),
     Mail("동아모터스",
         "RE: RE: 신제품 출시 기념 할인 이벤트 아이디어 회의 요청",
         "안녕하세요,\n회신을 받아서 감사드립니다. 회의 일정으로 6월 5일 (토요일) 오후 3시를 확인했습니다. 온라인 비디오 회의를 통해 아이디어를 공유하고 토론할 수 있도록 준비하겠습니다.\n추가로 회의 전에 필요한 준비물이나 주의사항이 있다면 미리 알려주시기 바랍니다.\n감사합니다.\n마케팅 팀\nCompany Inc.", "0403_12:50", true, "별표편지함", false, false),
@@ -96,11 +95,9 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    debugPrint("build mail class");
-    debugPrint("MailWrite : ${MailWrite.getInput()}");
+    //debugPrint("build mail class");
 
     isImportant = SettingBasic.getSettingValue("중요한 사용자 메일만 읽기");
-    debugPrint("isImportant : $isImportant");
 
     //setting Colors
     if(mailsColor.isEmpty) {
@@ -115,7 +112,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     setState(() {
       //MailInnewrScene의 변경 내용 적용
       items = setLabel(nowLabel, mails);
-      debugPrint("len : ${items.length}");
     });
 
     listview = getListView();
@@ -134,8 +130,8 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         child: Row(
           children: [
             Text("메일", style: TextStyle(color: Colors.black),),
-            Text((nowLabel == "") ? "" : " : "),
-            Text(nowLabel)
+            Text((nowLabel == "") ? "" : " : ", style: TextStyle(color: Colors.black),),
+            Text(nowLabel, style: TextStyle(color: Colors.black),)
           ],
         ),
       ),
@@ -228,12 +224,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
               IconButton(onPressed: () {
                 //원래는 보관이지만 전체 선택으로 변경 (네이버 메일 앱 참조)
                 setState(() {
-                  debugPrint("col len : ${mailsColor.length}");
-                  debugPrint("col : ${mailsColor.contains(Colors.white)}");
-                  for(var i = 0 ; i < mailsColor.length ; i++) {
-                    debugPrint("col ${i} : ${mailsColor[i]}");
-                  }
-
                   if(mailsColor.contains(Colors.white)) {
                     //선택되지 않은 메일이 하나라도 있는 경우
                     for(int i = 0 ; i < mailsColor.length ; i++) {
@@ -251,10 +241,23 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 //삭제
                 setState(() {
                   //인덱스가 큰 것 부터 삭제
-                  for(int i = mails.length - 1 ; i >= 0 ; i--) {
+                  /*
+                  //전체 받은 메일함과 별표편지함에서 동일한 mailsColor배열 사용
+                  debugPrint("col len : ${mailsColor.length}");
+                  for(var i = 0 ; i < mailsColor.length ; i++) {
                     if(mailsColor[i] == Colors.red) {
-                      mails.removeAt(i);
-                      mailsColor.removeAt(i);
+                      debugPrint("red : $i");
+                    }
+                  }
+                   */
+
+                  for(int i = mailsColor.length - 1 ; i >= 0 ; i--) {
+                    //보이는 인덱스
+                    if(mailsColor[i] == Colors.red) {
+                      //실제 인덱스
+                      //debugPrint("iIndex ; ${i}, RIndex : ${getRealIndex(items[i])}");
+                      mails.removeAt(getRealIndex(items[i]));
+                      mailsColor.removeAt(getRealIndex(items[i]));
                     }
                   }
                   inMailNum = -1;
@@ -321,7 +324,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
 
     for(int i = 0 ; i < item.length ; i++) {
       if(item[i].label == targetLabel) {
-        debugPrint("add");
         all.add(item[i]);
       }
     }
@@ -330,9 +332,10 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   }
 
   void onDrawerItemSelected(String selected) {
-    debugPrint("onDrawerItemSelected : $nowLabel");
+    //debugPrint("onDrawerItemSelected : $nowLabel");
     setState(() {
       nowLabel = selected;
+      items = setLabel(nowLabel, mails);
     });
   }
 
@@ -464,6 +467,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
   ListView getListView() {
     var listView;
 
+    //한 명의 사용자만 출력
     if(isConcentrate) {
       //모아보기 실행하는 경우
       listView = ListView.builder(
@@ -472,7 +476,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
             var ink = InkWell(
                 onTap: () {
                   if(!isSelect) {
-                    debugPrint("mailScene$index");
+                    //debugPrint("mailScene$index");
                     inMailNum = getRealIndex(concentrateItems[index]);
                     setState(() {
                       isSelect = false;
@@ -552,7 +556,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                                         setState(() {
                                           concentrateItems[index].isStar = !concentrateItems[index].isStar;
                                         });
-                                        debugPrint("item-index : ${concentrateItems[index].toJson()}");
                                         if(concentrateItems[index].isStar) {
                                           concentrateItems[index].label = "별표편지함";
                                         }
@@ -585,7 +588,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                       break;
                     }
                   }
-                  debugPrint("ind : $ind");
                   if(ind != -1) {
                     removableIndex.add(ind);
                   }
@@ -597,6 +599,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
 
       return listView;
     } //concentrateItems의 마지막
+    //중요한 사용자들만 출력
     else if(isImportant) {  //중요한 사용자의 메일만 모아서 보기
       var impListFilter = ["글로벌테크", "아이린패션", "동아모터스"];
       var impMail = [];
@@ -606,7 +609,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
           impMail.add(mails[i]);
         }
       }
-      debugPrint("impMail : ${impMail.length}");
 
       listView = ListView.builder(
           itemCount: impMail.length,
@@ -614,7 +616,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
             var ink = InkWell(
                 onTap: () {
                   if(!isSelect) {
-                    debugPrint("mailScene$index");
+                    //debugPrint("mailScene$index");
                     inMailNum = getRealIndex(impMail[index]);
                     setState(() {
                       isSelect = false;
@@ -696,7 +698,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                                         setState(() {
                                           impMail[index].isStar = !impMail[index].isStar;
                                         });
-                                        debugPrint("item-index : ${impMail[index].toJson()}");
                                         if(impMail[index].isStar) {
                                           impMail[index].label = "별표편지함";
                                         }
@@ -737,141 +738,272 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
           });
       return listView;
     }
-
-    //setItem();
-    setState(() {
-      listView = ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          var ink = InkWell(
-              onTap: () {
-                if(!isSelect) {
-                  debugPrint("mailScene$index");
-                  inMailNum = index;
+    //라벨이 선택된 모든 경우 (별표, 다시알림 등)
+    else if(nowLabel != "") {
+      if(nowLabel == "별표편지함") {
+        listView = ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            var ink = InkWell(
+                onTap: () {
+                  if(!isSelect) {
+                    inMailNum = index;
+                    setState(() {
+                      isSelect = false;
+                    });
+                    mails[inMailNum].isRead = true;
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
+                    );
+                  }
+                  else {
+                    setState(() {
+                      if(mailsColor[index] == Colors.red) {
+                        //이미 선택된 경우 해제
+                        mailsColor[index] = Colors.white;
+                      }
+                      else {
+                        mailsColor[index] = Colors.red;
+                      }
+                    });
+                  }
+                },
+                //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
+                onLongPress: () {
                   setState(() {
-                    isSelect = false;
+                    mailsColor[index] = Colors.red;
+                    inMailNum = index;
+                    isSelect = true;
                   });
-                  mails[inMailNum].isRead = true;
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
-                  );
-                }
-                else {
-                  setState(() {
-                    if(mailsColor[index] == Colors.red) {
-                      //이미 선택된 경우 해제
-                      mailsColor[index] = Colors.white;
-                    }
-                    else {
-                      mailsColor[index] = Colors.red;
-                    }
-                  });
-                }
-              },
-              //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
-              onLongPress: () {
-                setState(() {
-                  mailsColor[index] = Colors.red;
-                  inMailNum = index;
-                  isSelect = true;
-                });
-              },
-              child: Container(
-                //읽었을 때 Container의 색상을 변경
-                color: !isSelect ? (!items[index].isRead ? Colors.white : Colors.black12) : mailsColor[index],
-                child: ListTile(
-                    leading: Image.asset(
-                      senderImageMap[items[index].sender] ?? 'assets/contact/Not_Important2.png',
-                      width: 50.0,
-                    ),
-                  title: Text(items[index].sender),
-                  subtitle: SizedBox(
-                    height: 50,
-                    width: 500,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 1000,
-                          child: Text(
-                            items[index].title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 1000,
-                          child: Text(
-                            items[index].message.substring(0, 10),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      //읽음 상태에 따른 아이콘 변경
-                      (items[index].isRead) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
-                      SizedBox(
-                        width: 100,
+                },
+                child: Container(
+                  //읽었을 때 Container의 색상을 변경
+                  color: !isSelect ? (!items[index].isRead ? Colors.white : Colors.black12) : mailsColor[index],
+                  child: ListTile(
+                      leading: Image.asset(
+                        senderImageMap[items[index].sender] ?? 'assets/contact/Not_Important2.png',
+                        width: 50.0,
+                      ),
+                      title: Text(items[index].sender),
+                      subtitle: SizedBox(
+                        height: 50,
+                        width: 500,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(items[index].time.split("_")[0]),
-                            StatefulBuilder(
-                              builder: (BuildContext context, StateSetter setState) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      items[index].isStar = !items[index].isStar;
-                                    });
-                                    debugPrint("item-index : ${items[index].toJson()}");
-                                    if(items[index].isStar) {
-                                      items[index].label = "별표편지함";
-                                    }
-                                    else {
-                                      items[index].label = "받은편지함";
-                                    }
-                                  },
-                                  child: items[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
-                                      : const Icon(Icons.star, color: Colors.grey),
-                                );
-                              },
+                            SizedBox(
+                              width: 1000,
+                              child: Text(
+                                items[index].title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 1000,
+                              child: Text(
+                                items[index].message.substring(0, 10),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  )
-                ),
-              )
-          );
-          final thisItem = items[index].toString();
-          var dismiss = Dismissible(
-              key: Key(thisItem),
-              direction: DismissDirection.horizontal,
-              onDismissed: (direction) {
-                if(direction == DismissDirection.startToEnd) {
-                  //왼쪽으로 슬라이드
-                  swipeDelete(index);
-                }
-                else if(direction == DismissDirection.endToStart) {
-                  //오른쪽으로 슬라이드
-                  swipeDelete(index);
-                }
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          //읽음 상태에 따른 아이콘 변경
+                          (items[index].isRead) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
+                          SizedBox(
+                            width: 100,
+                            child: Column(
+                              children: [
+                                Text(items[index].time.split("_")[0]),
+                                StatefulBuilder(
+                                  builder: (BuildContext context, StateSetter setState) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          items[index].isStar = !items[index].isStar;
+                                        });
+                                        if(items[index].isStar) {
+                                          items[index].label = "별표편지함";
+                                        }
+                                        else {
+                                          items[index].label = "받은편지함";
+                                        }
+                                      },
+                                      child: items[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                                          : const Icon(Icons.star, color: Colors.grey),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                  ),
+                )
+            );
+            final thisItem = items[index].toString();
+            var dismiss = Dismissible(
+                key: Key(thisItem),
+                direction: DismissDirection.horizontal,
+                onDismissed: (direction) {
+                  if(direction == DismissDirection.startToEnd) {
+                    //왼쪽으로 슬라이드
+                    swipeDelete(index);
+                  }
+                  else if(direction == DismissDirection.endToStart) {
+                    //오른쪽으로 슬라이드
+                    swipeDelete(index);
+                  }
+                },
+                child: ink);
+
+            return dismiss;
+          },
+        );
+      }
+    }
+    //라벨이 전혀 선택되지 않은 경우 (ex. 전체 메일)
+    else {
+      //setItem();
+      setState(() {
+        listView = ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            var ink = InkWell(
+                onTap: () {
+                  if(!isSelect) {
+                    //debugPrint("mailScene$index");
+                    inMailNum = index;
+                    setState(() {
+                      isSelect = false;
+                    });
+                    mails[inMailNum].isRead = true;
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
+                    );
+                  }
+                  else {
+                    setState(() {
+                      if(mailsColor[index] == Colors.red) {
+                        //이미 선택된 경우 해제
+                        mailsColor[index] = Colors.white;
+                      }
+                      else {
+                        mailsColor[index] = Colors.red;
+                      }
+                    });
+                  }
+                },
+                //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
+                onLongPress: () {
+                  setState(() {
+                    mailsColor[index] = Colors.red;
+                    inMailNum = index;
+                    isSelect = true;
+                  });
+                },
+                child: Container(
+                  //읽었을 때 Container의 색상을 변경
+                  color: !isSelect ? (!items[index].isRead ? Colors.white : Colors.black12) : mailsColor[index],
+                  child: ListTile(
+                      leading: Image.asset(
+                        senderImageMap[items[index].sender] ?? 'assets/contact/Not_Important2.png',
+                        width: 50.0,
+                      ),
+                      title: Text(items[index].sender),
+                      subtitle: SizedBox(
+                        height: 50,
+                        width: 500,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 1000,
+                              child: Text(
+                                items[index].title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 1000,
+                              child: Text(
+                                items[index].message.substring(0, 10),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          //읽음 상태에 따른 아이콘 변경
+                          (items[index].isRead) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
+                          SizedBox(
+                            width: 100,
+                            child: Column(
+                              children: [
+                                Text(items[index].time.split("_")[0]),
+                                StatefulBuilder(
+                                  builder: (BuildContext context, StateSetter setState) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          items[index].isStar = !items[index].isStar;
+                                        });
+                                        if(items[index].isStar) {
+                                          items[index].label = "별표편지함";
+                                        }
+                                        else {
+                                          items[index].label = "받은편지함";
+                                        }
+                                      },
+                                      child: items[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
+                                          : const Icon(Icons.star, color: Colors.grey),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                  ),
+                )
+            );
+            final thisItem = items[index].toString();
+            var dismiss = Dismissible(
+                key: Key(thisItem),
+                direction: DismissDirection.horizontal,
+                onDismissed: (direction) {
+                  if(direction == DismissDirection.startToEnd) {
+                    //왼쪽으로 슬라이드
+                    swipeDelete(index);
+                  }
+                  else if(direction == DismissDirection.endToStart) {
+                    //오른쪽으로 슬라이드
+                    swipeDelete(index);
+                  }
 
 
-                /*
+                  /*
                 //화면 하단에 메시지 출력
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('제거됨')),
                 );
                  */
-              },
-              /*
+                },
+                /*
               //스와이프 한 뒤 Dialog로 confirm 받음
               confirmDismiss: (direction) async {
                 return await showDialog(
@@ -895,12 +1027,14 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
                 );
               },
               */
-              child: ink);
+                child: ink);
 
-          return dismiss;
-        },
-      );
-    });
+            return dismiss;
+          },
+        );
+      });
+    }
+
 
     return listView;
   }
@@ -913,7 +1047,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
         break;
       }
     }
-    debugPrint("ind : $ind");
+    //debugPrint("ind : $ind");
     if(ind != -1) {
       removableIndex.add(ind);
     }
@@ -940,9 +1074,6 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
       removableIndex = [];
 
       items = setLabel(nowLabel, mails);
-
-      debugPrint("in setItem : mails len : ${mails.length}");
-      debugPrint("in setItem : color len : ${mailsColor.length}");
     });
   }
 

@@ -44,8 +44,8 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
     }
 
     var appbar = !isSelect ? AppBar(title: Row(
-      children: [
-        Text("메일"),
+      children: const [
+        Text("메일", style: TextStyle(color: Colors.black),),
       ],
     ), backgroundColor: Colors.white,
       iconTheme: const IconThemeData(
@@ -162,7 +162,7 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
         itemBuilder: (context, index) {
           var ink = InkWell(
             onTap: () {
-              debugPrint("click ${index}");
+              //debugPrint("click ${index}");
               if(!isSelect) {
                 MailInnerScene.from = 1;
                 inMailNum = index;
