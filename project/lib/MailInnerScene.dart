@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:project/MailInnerSceneStateful.dart';
 import 'package:project/searchbar.dart';
 
-import 'ChatScene.dart';
-import 'Mail.dart';
 import 'MailScene.dart';
 import 'MailSceneWrite.dart';
 import 'SettingBasic.dart';
@@ -25,7 +23,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
     var isStar;
     final screenWidth = MediaQuery.of(context).size.width;
     final textWidth = screenWidth * 0.8;
-    debugPrint("from value : $from");
+    //debugPrint("from value : $from");
 
     switch(from) {
       case 0:
@@ -46,7 +44,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
         mailList = gatherMails();
         isRead = false;
     }
-    debugPrint("after switch");
+
     for(var i = 0 ; i < mailList.length ; i++) {
       listExpanded.add(true);
     }
@@ -245,12 +243,16 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 const SizedBox(
                   width: 20,
                 ),
-                Text(
-                  data.sender,
-                  style: TextStyle(
-                    color: Colors.black, // Set the desired color here
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Text(
+                    data.sender,
+                    style: TextStyle(
+                      color: Colors.black, // Set the desired color here
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                )
+                ),
 
               ],
             ),
@@ -344,7 +346,7 @@ class MailInnerScene extends State<MailInnerSceneStateful> {
                 setState(() {
                   isMenuOpen = !isMenuOpen;
                 });
-              }, icon: const Icon(Icons.menu_open))
+              }, icon: const Icon(Icons.menu_open, color: Colors.grey,))
             ],
 
           ),

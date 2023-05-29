@@ -350,7 +350,7 @@ class MyDrawer extends StatelessWidget {
             }
         ),
         ListTile(
-            leading: const Icon(Icons.gif_box),
+            leading: const Icon(Icons.add_box),
             title: const Text('전체 받은편지함', style: TextStyle(fontSize: 20)),
             onTap: () {
               debugPrint("drawer 전체 받은편지함");

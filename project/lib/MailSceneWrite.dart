@@ -5,6 +5,7 @@ import 'Mail.dart';
 import 'MailInnerScene.dart';
 import 'MailInnerSceneStateful.dart';
 import 'MailSceneWriteStateful.dart';
+import 'MailWriteStateful.dart';
 
 class MailSceneWrite extends State<MailSceneWriteStateful>{
   var isSelect = false;
@@ -43,8 +44,8 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
     }
 
     var appbar = !isSelect ? AppBar(title: Row(
-      children: [
-        Text("메일"),
+      children: const [
+        Text("메일", style: TextStyle(color: Colors.black),),
       ],
     ), backgroundColor: Colors.white,
       iconTheme: const IconThemeData(
@@ -107,21 +108,24 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
         appBar: appbar,
         drawer: !isSelect ? MyDrawer(onItemSelected: onDrawerItemSelected) : null,
         body: getListViewNotWidget(),
-        floatingActionButton: SizedBox(
-          width: 200,
-          height: 50,
-          child: FloatingActionButton(
-            onPressed: () {
-              //addDynamic();
-            },
-            child: Stack(
-              children: const [
-                Icon(Icons.abc),
-                Positioned(
-                  left: 24,
-                  child: Text("편지쓰기"),
-                ),
-              ],
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(left: 290.0),
+          child: SizedBox(
+            width: 200,
+            height: 70,
+            child: FloatingActionButton(
+              backgroundColor: Colors.grey,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MailWriteStateful())
+                );
+              },
+              child: Stack(
+                children: [
+                  Image.asset("assets/images/pencil_new.png"),
+                ],
+              ),
             ),
           ),
         ),
@@ -158,7 +162,7 @@ class MailSceneWrite extends State<MailSceneWriteStateful>{
         itemBuilder: (context, index) {
           var ink = InkWell(
             onTap: () {
-              debugPrint("click ${index}");
+              //debugPrint("click ${index}");
               if(!isSelect) {
                 MailInnerScene.from = 1;
                 inMailNum = index;
