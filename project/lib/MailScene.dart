@@ -12,7 +12,7 @@ import 'SettingBasic.dart';
 import 'searchbar.dart';
 
 //https://velog.io/@dosilv/Flutter-StatelessWidget-StatefulWidget
-class MailScene extends State<MailSceneStateful> with RouteAware {
+class MailScene extends State<MailSceneStateful> {
   static var mails = [
     Mail("John",
       "프로젝트 회의 안건 및 준비물 안내",
@@ -347,123 +347,7 @@ class MailScene extends State<MailSceneStateful> with RouteAware {
     //@@this prevent "RangeError (index): Index out of range: no indices are valid: 0"
     inMailNum = -1;
   }
-  ListView getSendListView() {
-    debugPrint("sendMails : $sendMails");
 
-    var listView = ListView.builder(
-      itemCount: sendMails.length,
-      itemBuilder: (context, index) {
-        return InkWell(
-            onTap: () {
-              if(!isSelect) {
-                debugPrint("mailScene$index");
-                inMailNum = index;
-                setState(() {
-                  isSelect = false;
-                });
-                sendMails[inMailNum].isRead = true;
-                MailInnerScene.from = 0;
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MailInnerSceneStateful())
-                );
-              }
-              else {
-                setState(() {
-                  if(sendMailsColor[index] == Colors.red) {
-                    //이미 선택된 경우 해제
-                    sendMailsColor[index] = Colors.white;
-                  }
-                  else {
-                    sendMailsColor[index] = Colors.red;
-                  }
-                });
-              }
-            },
-            //선택 및 강조 (appBar의 back버튼을 클릭 시에만 isSelect를 false로 세팅)
-            onLongPress: () {
-              setState(() {
-                sendMailsColor[index] = Colors.red;
-                inMailNum = index;
-                isSelect = true;
-              });
-            },
-            child: Container(
-              color: !isSelect ? (!sendMails[index].isRead ? sendMailsColor[index] = Colors.white : sendMailsColor[index] = Colors.black12) : sendMailsColor[index],
-              child: ListTile(
-                  leading: Image.asset(
-                    'assets/images/file.png',
-                    width: 50.0,
-                    ),
-
-                  title: Text(sendMails[index].sender),
-                  subtitle: SizedBox(
-                    height: 50,
-                    width: 500,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 1000,
-                          child: Text(
-                            sendMails[index].title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 1000,
-                          child: Text(
-                            sendMails[index].message.substring(0, 10),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      (sendMails[index].isReceiverOpen) ? const Icon(Icons.mail_outline) : const Icon(Icons.mail),
-                      SizedBox(
-                        width: 100,
-                        child: Column(
-                          children: [
-                            Text(sendMails[index].time),
-                            StatefulBuilder(
-                              builder: (BuildContext context, StateSetter setState) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      sendMails[index].isStar = !sendMails[index].isStar;
-                                    });
-                                    debugPrint("item-index : ${sendMails[index].toJson()}");
-                                    /*
-                                    if(sendMails[index].isStar) {
-                                      sendMails[index].label = "별표편지함";
-                                    }
-                                    else {
-                                      sendMails[index].label = "받은편지함";
-                                    }
-                                     */
-                                  },
-                                  child: sendMails[index].isStar ? const Icon(Icons.star, color: Colors.yellowAccent)
-                                      : const Icon(Icons.star, color: Colors.grey),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  )
-              ),
-            )
-        );
-    });
-    return listView;
-  }
   ListView getListView() {
     var listView;
 

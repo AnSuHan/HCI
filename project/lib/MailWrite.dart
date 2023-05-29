@@ -36,7 +36,7 @@ class MailWrite extends State<MailWriteStateful> {
             IconButton(onPressed: () {}, icon: const Icon(Icons.file_present_outlined, color: Colors.grey,)),
             IconButton(onPressed: () {
               var newobj = Mail(MYACCOUNT, parsingData(_titleController.toString()),
-                  parsingData(_messageController.toString()), "230406_11:00", false, "보낸편지함", false, false);
+                  parsingData(_messageController.toString()), "0529_11:00", false, "보낸편지함", false, false);
 
               MailSceneWrite.mails.insert(0, newobj);
 
